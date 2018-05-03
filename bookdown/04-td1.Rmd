@@ -47,7 +47,7 @@ Quelle interprétation de ce résultat vous parait être importante pour l'analy
 On suppose désormais que les lois considérées sont centrées, c'est à dire d'espérance nulle. Nous supposons que les lois sont de variance finie égale à $\sigma^2$. Afin de démontrer le principe d'entropie maximale, nous considèrons la divergence de Kullback-Lieber définie par  
 
 $$
-D_{KL}( p \|  q ) = \int q(y) \log (q(y)/p(y)) dy \, .
+D_{KL}( p \|  q ) = \int p(y) \log \left( \frac{p(y)}{q(y)} \right) dy \, .
 $$
 
 Rappeler l'interprétation de cette grandeur en terme de perte d'information. \‘A l'aide du théorème de transfert, démontrer que 

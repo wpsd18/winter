@@ -182,10 +182,10 @@ $$
 Considérons $p(x) = N(x|0, \sigma^2)$. En notant que la variance de la loi normale est égale à $\sigma^2$, nous obtenons
 
 $$
-h(p) = 1 +  \log (\sqrt{ 2 \pi \sigma^2})
+h(p) = 1 +  \log (\sqrt{ 2 \pi \sigma^2}).
 $$
 
-ou bien
+En simplifiant, nous obtenons
 
 $$
 h(p) =  \frac12 \log ( 2 \pi e \sigma^2) . 
@@ -244,7 +244,7 @@ Dans un vecteur de dimension $D$, la densité de la loi de la coordonnée $x_1$ 
 
 
 $$
-p_{\sf x_1}(x_1) \equiv p(x_1) = \int p(x_1, {\bf x}_{-1}) d {\bf x}_{-1}
+p_{\sf x_1}(x_1) \equiv p(x_1) = \int p(x_1, {\bf x}_{-1}) d {\bf x}_{-1}.
 $$
 
 Pour le geyser "Old Faithful" la loi marginale de la durée d'éruption peut être décrite par l'histogramme suivant  
@@ -260,7 +260,7 @@ De même, il est possible de définir la loi marginale d'un sous-vecteur de tail
 
 
 $$
-p_{\sf x_{1:k}} ({\bf x}_{1:k}) \equiv p({\bf x}_{1:k}) = \int p({\bf x}_{1:k}, {\bf x}_{-1:k}) d {\bf x}_{-1:k}
+p_{\sf x_{1:k}} ({\bf x}_{1:k}) \equiv p({\bf x}_{1:k}) = \int p({\bf x}_{1:k}, {\bf x}_{-1:k}) d {\bf x}_{-1:k} \, .
 $$
 
 La densité de la loi conditionnelle de la variable $x_1$ sachant ${\bf x_{-1}}$ est obtenue de la manière suivante
@@ -276,24 +276,24 @@ p(x_1, \dots, x_k | x_{k+1}, \dots, x_D) = \frac{p(x_1,x_2, \dots, x_D )}{p(x_{k
 $$
 
 
-Les coordonnées du vecteur ${\bf x}$ sont indépendantes si et seulement si
+Les coordonnées du vecteur ${\bf x}$ sont indépendantes si et seulement si nous avons
 
 $$
 p(x_1, x_2, \dots, x_D ) = p_{\sf x_1} (x_1) \cdots p_{\sf x_D}(x_D) \equiv  p(x_1) \cdots p(x_D)  \, .
 $$
 
-### Espérance conditionnelle (revue plus loin dans le cours)
+### Espérance conditionnelle (sauter, voir plus loin)
 
 Soit $f(x_1, \dots, x_k)$ une fonction des $k$ premières coordonnées du vecteur ${\bf x}$. On définit l'espérance conditionnelle de $f(x_1, \dots, x_k)$ sachant $(x_{k+1}, \dots, x_D)$ 
 
 $$
-\mathbb{E}[f({\bf x}_{1:k})| x_{k+1}, \dots, x_D] = \int f({\bf x}_{1:k})  p({\bf x}_{1:k} | x_{k+1}, \dots, x_D) d{\bf x}_{1:k}
+\mathbb{E}[f({\bf x}_{1:k})| x_{k+1}, \dots, x_D] = \int f({\bf x}_{1:k})  p({\bf x}_{1:k} | x_{k+1}, \dots, x_D) d{\bf x}_{1:k} \, .
 $$
 
 Nous avons alors d'après le théorème de Fubini
 
 $$
-\mathbb{E}[f({\bf x}_{1:k})] =  \int \mathbb{E}[f({\bf x}_{1:k})|{\bf x}_{-1:k}] p({\bf x}_{-1:k}) d {\bf x}_{-1:k}
+\mathbb{E}[f({\bf x}_{1:k})] =  \int \mathbb{E}[f({\bf x}_{1:k})|{\bf x}_{-1:k}] p({\bf x}_{-1:k}) d {\bf x}_{-1:k} \, .
 $$
 
 
@@ -315,7 +315,7 @@ $$
 $$
 
 
-- La matrice de covariance est une matrice réelle symétrique. D'après le théorème spectral, elle admet des valeurs propres réelles. Il existe une matrice unitaire ${\bf U}$ (${\bf U}^{-1} = {\bf U}^{T}$) et une matrice diagonale $ {\bf \Lambda}$ telle que 
+- La matrice de covariance est une matrice réelle symétrique. D'après le théorème spectral, elle admet des valeurs propres réelles. Il existe une matrice unitaire ${\bf U}$ (${\bf U}^{-1} = {\bf U}^{T}$) et une matrice diagonale ${\bf \Lambda}$ telle que 
 
 $$
  \mathbb{cov}[{\bf x}]  = {\bf U} {\bf \Lambda} {\bf U}^{T} 
