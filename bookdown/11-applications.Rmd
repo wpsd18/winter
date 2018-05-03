@@ -1,0 +1,20 @@
+# Applications de l'apprentissage supervisé
+
+## autres méthodes
+
+### svm
+
+### random forest
+
+### boosting
+
+## non-supervisées
+
+### clustering 
+
+### PCA
+
+### factorisation matricielle
+
+
+### challenges en cours 

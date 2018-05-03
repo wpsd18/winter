@@ -1,0 +1,272 @@
+# Travaux dirigés 5 
+
+
+## Objectif de la séance
+
+L'objectif de cette séance de travaux dirigés est de comprendre la prédiction soft (optimalité du calcul des probabilités conditionnelles). On étudiera aussi l'effet de la régularisation sur les réseaux de neurones en la reliant à la minimisation de l'erreur.
+
+Dans un problème de classification à deux classes (0 et 1), on appelera prédiction douce (soft) l'action d'estimer ou d'approcher la probabilité pour qu'une donnée de l'ensemble test soit de la classe 1. Un prédicteur soft sera une fonction des caractéristiques telle que
+
+$$
+\hat{g}({\bf x}) \approx g({\bf x}) \equiv p(y = 1 | {\bf x}).
+$$
+
+
+Les modèles de prédiction comportent souvent des paramètres, notés (${\bf \theta}$). La phase d'apprentissage nous permet d'optimiser ces paramètres en considérant un ensemble d'observations. Le prédicteur soft sera alors une fonction où l'on a injecté le résultat de la phase d'apprentissage $\hat{\bf \theta}$  
+
+$$
+\hat{g}({\bf x}) \equiv g({\bf x}, \hat{\bf \theta}).
+$$
+
+
+## Exercice 1.  Erreur quadratique
+
+### Question 1 
+
+Dans un problème de classification binaire, on considère que l'on peut approcher les observations de classe 0 ou 1 par une fonction prenant ses valeurs dans l'intervalle fermé $[0,1]$ (pour laquelle des valeurs différentes de 0 ou 1 sont autorisées). On définit la perte quadratique de la façon suivante
+
+$$
+L(y , \phi({\bf x}))  = (y - \phi({\bf x}))^2  \, , \quad y = 0, 1. 
+$$
+
+Montrer que $E[L(y , \phi({\bf x}))| {\bf x} ] \geq p(y = 1| {\bf x})$ pour toute fonction $\phi({\bf x}) \in [0,1]$. *Indication* : Ajouter et retrancher l'espérance conditionnelle  $E[ y | {\bf x} ]$. 
+
+### Question 2. Optimalité du predicteur soft.
+
+En déduire l'optimalité du prédicteur $g({\bf x} ) = p(y = 1| {\bf x})$ au sens des moindres carrés  
+
+$$
+E[ (y - \phi({\bf x}))^2 ]  \geq E[ (y - g({\bf x})  )^2 ]   , \quad \forall \phi({\bf x}) \in [0,1]
+$$
+
+### Question 3
+
+On dispose d'un échantillon d'apprentissage et d'un échantillon de test. Quelles formules empiriques permettent de calculer les erreurs d'apprentissage et de prédiction ? 
+
+### Question 4
+
+Ecrire des instructions R permettant le calcul des erreurs pour un modèle dont on dispose d'une fonction _predict()_. 
+
+
+## Exercice 2. Perte entropique ou log-loss. 
+
+On définit la perte entropique ou log-loss de la façon suivante
+
+$$
+L(y , \phi({\bf x}))  = -  y \log \phi({\bf x}) - (1-y)\log(1 - \phi({\bf x}))  \, , \quad y = 0, 1. 
+$$
+
+### Question 1 
+
+Montrer que 
+
+$$
+E[ L(y , \phi({\bf x})) | {\bf x} ] = - p(y  = 1 | {\bf x} ) \log \phi({\bf x}) -
+p(y  = 0 | {\bf x} ) \log(1 - \phi({\bf x}))
+$$
+
+### Question 2 
+
+Sachant ${\bf x}$, on définit la loi de probabilité $q$ sur $\{ 0, 1\}$ telle que 
+$$
+q(1) =  \phi({\bf x}) = 1 - q(0).
+$$
+### Question 3 
+
+Montrer que 
+$$
+D_{KL}( p(y  = . | {\bf x} ) \| q ) =   E[ L(y , \phi({\bf x})) | {\bf x} ]  
+- h(p(y  = . | {\bf x} )) 
+$$
+où $h(p)$ est l'information de la loi $p$.
+
+### Question 4
+
+En déduire que le prédicteur soft $g({\bf x})$ est optimal au sens du critère d'entropie  
+
+$$
+E[ L(y , \phi({\bf x})) ] \geq E[ L(y , g({\bf x})) ] \,  , \quad \forall \phi({\bf x}) \in [0,1].
+$$
+
+### Question 5
+
+On dispose d'un échantillon d'apprentissage et d'un échantillon de test. Quelles formules permettent de calculer les erreurs d'apprentissage et de prédiction ? 
+
+### Question 6
+
+Ecrire des instructions permettant le calcul des erreurs en R pour un modèle dont on dispose de la fonction _predict()_. 
+
+
+
+
+#### Exercice 3.  Décomposition de l'erreur quadratique.
+
+### Question 1 
+
+Montrer que l'erreur quadratique se décompose de la manière suivante. 
+
+$$
+E[ (\hat{g}({\bf x})  - g({\bf x}))^2 ] = {\rm var}(\hat{g}({\bf x})) + (E[\hat{g}({\bf x}) - g({\bf x})])^2
+$$
+
+Interpréter les deux termes de l'expression de droite. 
+
+### Question 2. Réseaux neuronaux.
+
+### A revoir pb avec softmax
+
+Soit ${\bf x} \in \mathbb{R}^D$, une observation de dimension $D$. On appelle réseau de neurones à une couche cachée un prédicteur soft de la forme
+
+$$
+ g({\bf x}, \theta) = {\rm sigmoid}( {\bf w_1^T}  \, {\rm sigmoid}( {\bf w_0^T} {\bf x}  - {\bf b_0} )  - {\bf b_1}) \, .
+$$
+ 
+Les matrices ${\bf w_0^T}$ et ${\bf w_1^T}$ sont de dimensions respectives $D \times k$ et $k \times 1$. Les vecteurs ${\bf b_0}$ et ${\bf b_1}$ sont de dimensions respectives $k$ et $1$. La fonction _sigmoid()_ est appliquée à chaque coordonnée des vecteurs.
+
+Les coefficients $w$ sont appelés les *poids* (weights) et les coefficients $b$ sont appelés les *seuils* (bias).  Le paramètre $k$ est le nombre de neurones dans la couche cachée.  
+
+Le paramètre global $\theta$ correspond à 
+$$
+\theta = ({\bf w_0}, {\bf w_1}, {\bf b_0}, {\bf b_1}).
+$$
+Le paramètre global est donc de dimension $(D + 2)k + 1$. Ainsi, pour deux dimensions et 20 neurones nous aurons 81 paramètres. 
+
+La formule peut se généraliser à plusieurs couches. On parle alors de réseaux multi-couches. On qualifie les réseaux multi-couches de réseaux *profonds* à partir d'une douzaine de couches.     
+
+Les réseaux de neurones apprennent en minimisant le critère suivant 
+
+$$
+L(\theta) = \frac1n \sum_{i=1}^n L(y_i,  g({\bf x}_i, \theta) ) 
++ \lambda \| \theta \|_2^2 \, , \quad \lambda > 0.
+$$
+
+L'optimisation est réalisée par un algorithme numérique (gradient stochastique par exemple) agissant directement sur le paramètre $\theta$. Le paramètre $\lambda$ est un paramètre régularisateur, dont le rôle est de contrebalancer un complexité trop élevée du modèle ($k$ trop grand).
+
+En considérant des valeurs de $\lambda$ grandes, discuter la contribution de ce paramètre au biais d'erreur de prédiction.
+
+### Question 3
+
+Commenter les expériences suivantes où l'on fait varier les valeurs de $k$ et de $\lambda$
+
+```{r}
+source("./codes/TP3.r")
+  
+  x <- rhastib(200, 200, sigma2 = 0.1)
+
+####################################################################
+  x.coord <- seq(min(x$train[,1]), max(x$train[,1]), length = 100)
+  y.coord <- seq(min(x$train[,2]), max(x$train[,2]), length = 100)
+
+  matrice.test <- cbind(rep(x.coord, length = 100), 
+                        rep(y.coord, each = 100))
+####################################################################
+
+  mod_nnet <- nnet::nnet(x$train, 
+                        x$class.train == "orange", 
+                        size = 50,   #k
+                        decay = 0.0, #lambda
+                        maxit = 500,
+                        trace = FALSE,
+                        entropy = TRUE)
+
+# prediction sur toute la zone d'étude 
+  pred <- predict(mod_nnet, matrice.test)
+
+  image(x.coord, y.coord,  
+        matrix(pred > 0.5, nrow = 100), 
+        col = grey.colors(2), 
+        main = "size = 50 - decay = 0.0")
+
+  points(x$train, col = x$class.train)
+```
+
+```{r}
+  mod_nnet <- nnet::nnet(x$train, 
+                       x$class.train == "orange", 
+                       size = 1,   #k
+                       decay = 0.1, #lambda
+                       maxit = 500,
+                       trace = FALSE,
+                       entropy = TRUE)
+
+  # prediction sur toute la zone d'étude
+
+  pred <- predict(mod_nnet, matrice.test)
+
+  image(x.coord, y.coord,  
+        matrix(pred > 0.5, nrow = 100), 
+        col = grey.colors(2), main = "size = 1 - decay = 0.1")
+
+  points(x$train, col = x$class.train)
+```
+
+### Question 3.  Choix des paramètres $k$ et $\lambda$.
+
+Ecrire une boucle permettant de tester les prédictions de plusieurs modèles. Nous privilégierons un choix de $\lambda$ entre $0.8$ et $10^{-3}$ pour un nombre de neurones important (40).
+
+```{r}
+  logloss <- function(p, y){ - y * log(p) - (1-y)*log(1 - p) }
+  lambda <- 10^{-seq(0.1,3,length = 30)}
+
+  logloss_test <- NULL
+  for (l in lambda){
+  mod_nnet <- nnet::nnet(x$train, 
+                       x$class.train == "orange", 
+                       size = 40, 
+                       decay = l, 
+                       trace = FALSE,
+                       entropy = TRUE)
+  
+  logloss_test <- c(logloss_test,
+                    mean(logloss(predict(mod_nnet, x$test),  
+                                  (x$class.test == "orange")))
+                    )
+}
+
+plot(lambda, logloss_test, log = "x")
+```
+
+```{r}
+  lambda.cv <- lambda[which.min(logloss_test)]
+
+  mod_nnet <- nnet::nnet(x$train, 
+                       x$class.train == "orange", 
+                       size = 40,   #k
+                       decay = lambda.cv, #lambda optimisé
+                       maxit = 500,
+                       trace = FALSE,
+                       entropy = TRUE)
+```
+
+
+```{r}
+# prediction sur toutes la zone
+  pred <- predict(mod_nnet, matrice.test)
+
+  image(x.coord, y.coord,  
+      matrix(pred > 0.5, nrow = 100), 
+      col = grey.colors(2), main = "size = 40 - decay = 0.06")
+
+  points(x$train, col = x$class.train)
+```
+
+
+Lorsque l'on utilise le paramètre de régularisation optimal, un affichage interactif permettant de zoomer l'image nous montre les détails d'un paysage régulier.
+
+
+```{r}
+  image(x.coord, y.coord,  
+        matrix(pred, nrow = 100), 
+        col = terrain.colors(10), main = "Carte de probabilité")
+
+  points(x$train, col = x$class.train)
+```
+
+
+
+
+```{r, echo = FALSE}
+library(plotly)
+plot_ly(z = matrix(pred, nrow = 100), type = "contour")
+```
+

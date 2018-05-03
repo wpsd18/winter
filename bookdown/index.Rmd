@@ -1,0 +1,43 @@
+--- 
+title: "Introduction à la Science des Données"
+author: "Olivier François"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "Ce manuscrit contient un résumé du cours ISD et les énoncés des travaux dirigés."
+
+---
+
+# Préambule
+
+Ce document contient un résumé du cours d'Introduction à la Science des Données (ISD) et les énoncés des travaux dirigés. Il est accompagné de cinq séances de travaux pratiques notées, dont les énoncés et les formulaires de rendus sont disponibles sur l'intranet de l'école.
+
+## Organisation de l'enseignement
+
+### Cours magistral
+
+### Travaux dirigés
+
+### Travaux pratiques
+
+### Utilisation des documents
+
+## Evaluation 
+
+### Controle continu
+
+### Défis
+
+### Examen
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```

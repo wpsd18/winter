@@ -1,0 +1,22 @@
+# Langage R et interface Rstudio
+
+
+## Langage R
+
+### Principales classes d'objets
+
+### Utilisation de R
+
+### Manipulations vectorielles élémentaires
+
+### Fonctions de bases 
+
+### Bonnes pratiques
+
+## Rstudio
+
+### Projets 
+
+### Notebooks (Rmd)
+
+### Bonnes pratiques

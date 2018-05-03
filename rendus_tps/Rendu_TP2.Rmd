@@ -1,0 +1,41 @@
+---
+title: "Rendu Travaux Pratiques 2"
+output: html_notebook
+---
+
+** **
+
+#### Règles
+
+* 
+
+
+** **
+
+
+#### Exercice 1:  
+
+*  A partir de l'ensemble d'apprentissage, donner les fréquences des variables contenues dans chacune des 9 colonnes du tableau de données **tit_train**.  Arrondir les résultats à 2 décimales
+
+* Calculer la probabilité de survie d'un individu sachant sa classe à bord (colonnes 7 à 9 dans le tableau de données).
+
+#### Exercice 2: 
+
+* Calculer les probabilités de survie sachant les variables *gender* et *child*.
+
+* Calculer le nombre de prédictions correctes effectuées en considérant les fréquences de survies conditionnelles aux variables **gender** et **child**. Représenter les résultats sous forme de [matrice de confusion](https://fr.wikipedia.org/wiki/Matrice_de_confusion).
+
+* Calculer le nombre de prédictions correctes et l'erreur Logloss en considérant les fréquences de survies conditionnelles aux variables **gender**, **child**, **class3** (prédicteur fréquentiel).
+
+
+#### Exercice 4:
+
+
+* Pour l'ensemble de test, evaluer le prédicteur fréquentiel s'appuyant sur les caractérisques **gender**, **child**, **class3** (critère accuracy et logloss)
+
+* Pour l'ensemble de test, evaluer les predictions un prédicteur s'appuyant sur un modèle de réseau de neurones utilisant le profil complet d'un passager.
+
+* Magrittr: utiliser la syntaxe "pipe" pour la prediction précédente
+
+
+

@@ -1,0 +1,168 @@
+# Travaux dirigés - séance 1
+
+
+## Objectif de la séance
+
+
+
+L'objectif de cette séance de travaux dirigés est de relier les notions de variance et de covariance aux concepts d'information et d'information mutuelle vus en théorie de l'information. 
+
+Une idée centrale de nombreuses méthodes appliquées en science des données est que l'information se  résume dans la matrice de covariance des variables étudiées. Nous allons justifier cette idée sous l'hypothèse gaussienne, tout en démontrant l'optimalité informationnelle de la loi de Gauss.
+
+
+## Exercice 1. Théorie de l'information et loi normale 
+
+L'objectif de cet exercice est d'établir le résultat suivant, justifiant l'importance de la loi normale dans la nature. 
+
+**Principe d'entropie maximale** : La loi normale de densité $p(x) = N(x|0, \sigma^2)$ est la loi d'entropie maximale parmi toutes les lois de densité $q(x)$ dont l'espérance est nulle et dont la variance est égale à $\sigma^2$.
+
+
+### Question 1
+
+Considèrons une densité de probabilité définie sur l'ensemble des réels. On rappelle que l'information (ou entropie) de la densité de probabilité $p(x)$ est définie de la manière suivante
+
+$$
+h(p) = - \int p(x) \log p(x) dx . 
+$$
+Dans cette équation, la fonction $\log$ est usuellement définie en base 2 (mais d'autres définitions sont possibles). On suppose que $p(x)$ est la densité de la loi normale de moyenne $m$ et de variance $\sigma^2$. 
+
+$$
+p(x) = N(x | m , \sigma^2) \, , \quad x \in \mathbb{R}. 
+$$
+
+Montrer que 
+
+$$
+h(p) =  \frac12 \log ( 2 \pi e \sigma^2) . 
+$$
+_Indication_ : On utilisera à bon escient le théorème de transfert pour le logarithme d'une variable aléatoire $x$ de loi $N(m, \sigma^2)$.
+
+### Question 2
+
+Quelle interprétation de ce résultat vous parait être importante pour l'analyse d'une variable gaussienne de moyenne $m$ et de variance $\sigma^2$ ?  
+
+
+### Question 3
+
+On suppose désormais que les lois considérées sont centrées, c'est à dire d'espérance nulle. Nous supposons que les lois sont de variance finie égale à $\sigma^2$. Afin de démontrer le principe d'entropie maximale, nous considèrons la divergence de Kullback-Lieber définie par  
+
+$$
+D_{KL}( p \|  q ) = \int q(y) \log (q(y)/p(y)) dy \, .
+$$
+
+Rappeler l'interprétation de cette grandeur en terme de perte d'information. \‘A l'aide du théorème de transfert, démontrer que 
+
+$$
+D_{KL}( p \|  q ) = - h(q) - \mathbb{E}[\log p(y)] \, , 
+$$
+où $y$ est une variable aléatoire réelle de densité $q(y)$.
+
+### Question 4
+
+Par le calcul et en s'aidant de la question 1, en déduire que 
+$$
+D_{KL}( p \|  q ) = - h(q) + h(p) \, . 
+$$
+
+### Question 5
+
+Conclure par l'application d'un résultat de la théorie de l'information que, pour toute loi $q$ d'espérance nulle et de variance $\sigma^2$, nous avons
+$$
+ h(q) \leq h(N(0, \sigma^2)) \, . 
+$$
+
+
+
+### Question 6 (facultative)
+
+Généraliser le résultat précédent en dimension quelconque ($D > 1$) pour établir que la loi gaussienne $p = N(0, \Sigma)$ est la loi d'entropie maximale parmi toutes les lois $q$ dont l'espérance est nulle et dont la matrice de covariance est égale à $\Sigma$.
+
+_Indication_ : On utilisera le théorème spectral pour établir que 
+$$h(p) = \frac12 \log((2\pi e)^D |\Sigma|) $$
+où $|\Sigma|$ est le déterminant de la matrice $\Sigma$.
+
+
+
+## Exercice 2
+
+L'objectif de cet exercice est de montrer que l'_information mutuelle_, $I$, de deux variables réelles gaussiennes $x$ et $y$ est liée au coefficient de correlation de ces deux variables,
+
+$$
+\rho = \frac{{\rm cov}(x,y)}{\sigma^2_{\sf x} \sigma^2_{\sf y}} \, , 
+$$
+par la relation suivante 
+
+$$
+I = -\frac12 \log(1 - \rho^2) \,.
+$$
+
+
+
+### Question 1 
+
+Soit $x$ et $y$ deux variables aléatoires réelles de loi jointe $p(x,y)$ et de lois marginales $p_{\sf x}(x)$ et $p_{\sf y}(y)$. On appelle [information mutuelle](https://en.wikipedia.org/wiki/Mutual_information) la grandeur définie de la manière suivante
+
+$$
+I  =  \int p(x,y) 
+\log \left( \frac{p(x,y)}{p_{\sf x}(x)p_{\sf y}(y)}  \right)  dx dy. 
+$$
+
+Montrer que 
+
+$$
+I =  \mathbb{E}[ \log p(x,y) ] + h(p_{\sf x}) + h(p_{\sf y}) 
+$$
+où $p_{\sf x}$ et $p_{\sf y}$ désignent respectivement les lois marginales des variables $x$ et $y$.
+
+
+### Question 2
+
+On suppose que $(x,y)$ est un couple de variables aléatoires de loi $N(0, \Sigma)$ où $\Sigma$ est une matrice de covariance quelconque
+
+$$
+\Sigma = \left( \begin{array}{cc} \sigma^2_{\sf x} & c_{\sf xy} \\
+c_{\sf xy} & \sigma^2_{\sf y} \\
+\end{array} \right) .
+$$
+
+Sous quelle condition (inégalité) la matrice $\Sigma$ définit-elle une matrice de covariance ? Nommer cette inégalité si possible.
+
+### Question 3
+
+Identifier les lois marginales $p_{\sf x}$ et $p_{\sf y}$ et calculer leur entropie. 
+
+
+
+### Question 4
+
+Justifier que la matrice $\Sigma^{-1}$ peut s'écrire sous la forme 
+
+$$
+\Sigma^{-1} = {\bf U} {\bf \Lambda}^{-1} {\bf U}^T
+$$
+où ${\bf U}$ est une matrice carrée unitaire et ${\bf \Lambda}$ une matrice diagonale dont les termes sont strictement positifs (Rappel: ${\bf U}$ est une matrice unitaire si ${\bf U}{\bf U}^T={\bf I}$).
+
+### Question 5 
+
+On pose ${\bf x} = (x,y)^T$ et ${\bf z} = {\bf U}^T {\bf x}$. Démontrer que la matrice de covariance du vecteur ${\bf z} = {\bf U}^T {\bf x}$ est égale à ${\bf \Lambda}$. 
+
+### Question 6
+
+En déduire que
+$$
+\mathbb{E}[{\bf x}^T  \Sigma^{-1} {\bf x}] = 2 \, .
+$$
+
+_Note_ : Il est possible d'obtenir ce résultat directement, sans utiliser le théorème spectral (car on sait inverser une matrice $2\times 2$). L'interêt de la démonstration est sa généralisation en dimension $D$ (trouver le résultat). 
+
+### Question 7
+
+Démontrer que 
+$$
+I = -\frac12 \log(1 - \rho^2) \,.
+$$
+
+### Question 8
+
+Interprétation.
+

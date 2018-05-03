@@ -1,0 +1,41 @@
+---
+title: "Rendu Travaux Pratiques 3"
+output: html_notebook
+---
+
+** **
+
+#### Règles
+
+* 
+
+
+** **
+
+
+#### Exercice 1:  
+
+* **knn**: Pour $k = 1,\dots, 30$, calculer l'erreur de classification et l'erreur Logloss sur l'ensemble test. Représenter ces résultats sous forme de courbes (Accuracy/Logloss en fonction de k).
+
+*  Quel choix de $k$ vous parait le plus pertinent ?
+
+
+#### Exercice 2: 
+
+* **lda**: Calculer l'erreur de classification et l'erreur Logloss sur l'ensemble test. 
+
+#### Exercice 3: 
+
+* **nnet**: Pour decay$ = 0, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1$, calculer l'erreur de classification et l'erreur Logloss sur l'ensemble test. Représenter ces résultats sous forme de tableau (Accuracy/Logloss en fonction de k).
+
+
+#### Exercice 4: Défi "Wisconsin Breast Cancer Database" 
+
+* Reporter dans un tableau 2x7 (*knitr::kable*), puis dans deux diagrammes en barres, les valeurs des erreurs de classification et de logloss moyenne obtenues pour 100 découpages en ensembles trains/tests.  
+
+Note: Pour *k-nn* et *nnet* reporter les valeurs des paramètres de "régularisation" ($k$ et *decay*) conduisant aux meilleures performances ainsi que les erreurs correspondantes.
+
+* Quel choix de prédicteur vous parait être le meilleur ? 
+
+* On considère que le risque associé à une mauvaise prédiction *bénin* classé en *malin* (surdiagnostic) est moins important que pour la prédiction *malin* classé en *bénin*. Discuter le choix du prédicteur. 
+

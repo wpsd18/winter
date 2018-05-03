@@ -1,0 +1,35 @@
+---
+title: "Rendu Travaux Pratiques 5"
+output: html_notebook
+---
+
+** **
+
+#### Règles
+
+* 
+
+
+** **
+
+
+#### Exercice : Défi analyse d'opinion (IMDB)
+
+* \`A l'aide des outils vus dans les séances précédentes, tels que _keras_, _lda_, _nnet_, ou d'autres bibliothèques de programmes que vous pourriez trouver dans R, par exemple _xgboost_, _ranger_, _libsvm_, etc, ajuster des modèles d'apprentissage aux données contenues dans le TP : "x_imbd" et "y_imbd".
+
+* Dans un tableau, décrire les performances des méthodes choisies pour des échantillons d'apprentissage et de test que vous aurez créés vous-mêmes. Les performances seront mesurées par les erreurs de classification et d'entropie (logloss).
+
+* Sauver votre modèle dans un format compressé (RDS ou HDF5 pour keras). Remplacer "mylogin" par votre propre login ensimag. 
+
+```{r}
+# standard r packages: 
+  # saveRDS(model, file = "mylogin_model.RDS")
+
+#keras
+  # save_model_hdf5(object = model, filepath = "mylogin_model_keras.hdf5")
+```
+
+
+* Ecrire et appliquer une fonction appelée "prediction_finale" pouvant prendre par défaut en entrée une matrice appelé "x_ultime" de taille 5000 lignes et 2000 colonnes contenant des valeurs binaires et une matrice "y_ultime" de taille 5000 lignes et 2 colonnes contenant des valeurs binaires. Cette fonction devra prédire les classes contenues dans "y_ultime" à partir des données "x_ultime" en chargeant le modèle que vous aurez choisi pour le défi.
+
+*  Déposer votre modèle dans TEIDE. Joindre un script de lecture contenant la fonction prediction_finale() et la version htlm de ce compte rendu..

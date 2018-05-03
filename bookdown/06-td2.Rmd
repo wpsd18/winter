@@ -1,0 +1,184 @@
+# Travaux dirigés 2
+
+
+## Objectif de la séance
+
+L'objectif de cette séance de travaux dirigés est de comprendre concrètement l'utilité de la décomposition spectrale d'une structure de covariance pour un exemple de données multidimensionelles. Il s'agira aussi de pouvoir interpréter les axes de rotation.
+
+## Exercice 1. Un premier neurone artificiel.
+
+L'objectif de cet exercice est de montrer comment l'analyse spectrale de la matrice de covariance d'un ensemble de données permet prendre une décision concernant la provenance de ces données (classification binaire). Nous montrons que cette analyse conduit à une décision effectuée par un neurone artificiel, c'est à dire une fonction décrite de la manière suivante. 
+
+![Neurone artificiel (source wikipedia).](./figures/ArtificialNeuronModel.png)
+
+
+
+Nous utiliserons un jeu de données constitué de 699 échantillons de tissus provenant de tumeurs du sein, comportant neuf descripteurs et une classification binaire ("benign", "malignant").
+
+
+### Question 1
+
+Nous chargeons les données et éliminons 16 lignes où apparaissent des données manquantes.
+
+```{r}
+library('mlbench')
+data(BreastCancer)
+
+# eliminer les lignes avec des données manquantes
+boo.na <- ! apply(BreastCancer, 1, anyNA)
+
+# créer une matrice de données
+x <- data.matrix(BreastCancer[boo.na,-c(1,11)])
+type <- BreastCancer[boo.na,11]
+dim(x)
+```
+
+
+La matrice de données comporte 9 observations pour effectuées 683 femmes. Nous calculons de la matrice de covariance empirique de la manière suivante 
+
+```{r}
+Sigma <- cov(x)
+```
+
+Quelles sont les dimensions de la matrice de covariance ?
+
+### Question 2
+
+Ecrire la decomposition spectrale de la matrice $\Sigma$. Comment interpreter la rotation $U$ et les valeurs propres associées à chaque axe ?
+
+### Question 3
+
+Les valeurs propres de la matrice de covariance sont calculées de la manière suivante
+
+```{r}
+lambda <- eigen(Sigma)$values
+lambda
+```
+
+Quel(s) axe(s) porte(nt) le plus d'information ? Pourquoi ?
+
+
+### Question 4
+
+Calculer la projection de l'ensemble des caracteristiques observées pour une tumeur donnée sur les axes propres (Aide: ${\bf w} = {\bf U}^T{\bf (x-m)}$). Vérifier que la solution est donnée par le code suivant.
+
+
+```{r}
+U <- eigen(Sigma)$vectors
+
+m <- apply(x, 2, mean)
+
+projection <- (x - m) %*% U
+
+col <- c("grey","orange")
+
+plot(projection, 
+     pch = 19, 
+     col = col[1 + (type == "malignant")])
+
+ mean((projection[,1]<0) == (type == "malignant"))
+```
+
+_Note_: la fonction _scale(,scale = FALSE)_ centre les données. 
+
+
+
+
+### Question 5
+
+Proposer une méthode simple, s'appuyant sur la décomposition spectrale de la matrice $\sigma$, pour classer les types "malins" et "bénins".
+
+_Indication_: Tout d'abord, on calcule les moyennes ${\bf m}$ des neufs caractéristiques, puis on centre l'observation ${\bf x}$. Vérifier ensuite, que pour prendre la décision, on peut calculer le produit scalaire entre ${\bf x - m}$ et le premier axe de la rotation. Si la valeur est positive, le diagnostic sera bénin (1), sinon malin (0).
+
+$$
+{\rm diagnostic} = \left\{
+\begin{array}{lc}
+1 & {\rm si  }  \sum_{j=1}^9 u_j x_j > s_0 \\
+0 & {\rm si  } \sum_{j=1}^9 u_j x_j < s_0 \\
+\end{array}
+\right.
+$$
+où le seuil de décision $s_0$ est donné par l'équation 
+
+$$
+s_0 = \sum_{i=1}^9 u_j m_j.
+$$
+
+### Conclusion
+
+Nous avons ainsi construit un neurone logique pour lequel les paramètres, parfois appelés coefficients synaptiques, sont "appris" à partir des données par la décomposition spectrale de la matrice de covariance. Nous pouvons voir comment ce neurone diagnostique la patiente de caractéristiques $x.681$. 
+
+```{r}
+x.681 <- x[681,]
+
+m <- apply(log(x), 2, mean)
+
+u.type <- unique(type)
+
+x.681
+pred <- u.type[ 1 + ((log(x.681) - m) %*% U[,1] < 0) ]
+
+#La prédiction est 
+pred
+```
+
+
+
+## Exercice 2. A propos des matrices de covariance.
+
+L'objectif de cet exercice est de déterminer une condition pour que la matrice symétrique définie ci-dessous soit une matrice de covariance. 
+
+$$
+\Sigma = \left( \begin{array}{cccccc} \sigma^2_1 & 0 &. & .& 0 & c_1 \\
+0 & \sigma^2_2 &  & & 0 & c_2 \\
+. & &  & & . &  .\\
+. & &  & &  0 &  . \\
+0  & 0 & . & 0 & \sigma^2_K  & c_K \\
+c_1  & c_2 & .  & .& c_K  & \sigma^2_{K+1} \\
+\end{array} \right) .
+$$
+
+Pour cela, nous proposons un processus de construction d'un vecteur gaussien ${\bf x}$ de loi $N(0, \Sigma)$.
+
+### Question 1
+
+Rappeler la condition nécessaire et suffisante pour que la matrice $\Sigma)$ soit une matrice de covariance.
+
+### Question 2 : Cas particulier $K = 2$. 
+
+On choisit $x_1$ de loi $N(0, \sigma^2_1)$ et $x_2 = \beta_1 x_1 + \epsilon$ où $\beta_1$ est à determiner et $\epsilon$ est de loi normale $N(0, \sigma^2)$ (variance à déterminer), indépendante de $x_1$. Montrer que ${\bf x}$ est un vecteur gaussien.
+
+### Question 3 
+
+Déterminer la matrice de covariance de ${\bf x}$. En déduire que $\beta_1 = c_1/\sigma_1^2$ et que 
+$$
+\sigma^2 = \sigma_2^2 (1 - \rho^2) \, , 
+$$
+où $\rho^2 = c_1^2/(\sigma_1^2\sigma_2^2)$.
+
+### Question 4 
+
+Retrouver ainsi la condition (nécessaire) portant sur les valeurs propres de $\Sigma$.
+
+### Question 5 : Cas général.
+
+Dans le cas général, on construira la coordonnée $x_{K+1}$ comme combinaison linéaire des $K$ coordonnées précédentes
+$$
+x_{K+1} = \sum_{k=1}^K \beta_k x_k + \epsilon \, .
+$$
+
+Les variables $x_k$ et $\epsilon$ sont mutuellement indépendantes et de loi respectives $N(0, \sigma^2_k)$ et  $N(0, \sigma^2)$. Trouver les valeurs des coefficients $\beta_k$ pour obtenir la matrice de covariance cible.
+
+
+### Question 6
+
+On pose $\rho_k^2 = c_k^2/(\sigma_k^2\sigma_{K+1}^2)$. Montrer qu'une condition  suffisante pour que $\Sigma$ soit bien définie est 
+$$
+R^2 = \sum_{k=1}^K \rho_k^2 < 1 .
+$$
+
+_Commentaire_ : le coefficient $R^2$ s'appelle le _coefficient de corrélation multiple_. 
+
+
+
+

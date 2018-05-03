@@ -1,0 +1,41 @@
+#trucs de macs
+.DS_Store
+
+#R Data
+.Rproj.user
+.Rhistory
+.RData
+.Rapp.history
+.Ruserdata
+tds/.Rapp*
+
+#PDF
+# *.pdf
+cours/*.pdf
+tds/*.pdf
+
+#HTML
+*.htm
+*.html
+cours/*.htm
+cours/*.html
+rendus_tps/*.html
+rendus_tps/*.htm
+
+#bin
+rendus_tps/*.RDS
+rendus_tps/*.RData
+rendus_tps/*.hdf5
+
+#tps corrigés
+tps/*
+
+#tds
+tds/*
+
+#bookdown
+bookdown/.Rhistory
+bookdown/.RData
+bookdown/.DS_Store
+bookdown/.Rproj.user
+
