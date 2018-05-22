@@ -82,9 +82,9 @@ Nous verrons un peu plus loin un exemple de calcul d'espérance permettant de ca
 
 ###  Valeurs empiriques, loi des grands nombres
 
-Une loi de probabilité représente un modèle idéalisé de la répartition (ou distribution) d'une variable aléatoire. Ce modèle correspond la répartition des valeurs d'une variable dans une population de taille infiniment grande. 
+Une loi de probabilité représente un modèle idéalisé de la répartition (ou distribution) d'une variable aléatoire. Ce modèle correspond à la répartition des valeurs d'une variable dans une population de taille infiniment grande. 
 
-Dans les applications pratiques, il est impossible d'échantillonner l'ensemble de la population, et l'on ne dispose que d'un échantillon de taille fini, égale à $n$. Cet échantillon peut être vu comme $n$ tirages de la variable étudiée selon la loi de densité $p(x)$. Les tirages sont généralement indépendants. 
+Dans les applications pratiques, il est impossible d'échantillonner l'ensemble de la population, et l'on ne dispose que d'un échantillon de taille finie, égale à $n$. Cet échantillon peut être vu comme $n$ tirages de la variable étudiée selon la loi de densité $p(x)$. Les tirages sont généralement indépendants. 
 
 La loi des grands nombres, énoncée sous des hypothèses raisonnables (tirages indépendants et identiques, variance finie), permet d'approcher l'espérance de toute fonction de $x$, $f(x)$, par la moyenne des valeurs de tirages successifs, $f(x_i)$, $i = 1, \dots, n$
 
@@ -158,7 +158,7 @@ cat("variance =", var(x),"\n")
 ```
 Nous observons que les erreurs sont de l'ordre de $1/\sqrt{1000} = 0.03$.
 
-Calculons la probabilité que la variable se trouve entre 10 et 11. la valeur empirique est égale à 
+Calculons la probabilité que la variable se trouve entre 10 et 11 : la valeur empirique est égale à 
 ```{r}
 mean(x > 10 & x < 11)
 ```
@@ -209,7 +209,7 @@ $$
 p({\bf x} \in I) = \int_I p({\bf x}) d{\bf x} \, .
 $$
 
-Un exemple de densité de probabilité est représentée ci dessous en dimension $D=2$. Celle ci décrit les éruptions du geyser "Old Faithful" (vieux fidèle) dans le parc national du Yellowstone (USA). Les variables $(x_1,x_2)$ correspondent respectivement au temps d'attente entre deux éruptions et à la durée d'une éruption.   
+Un exemple de densité de probabilité est représentée ci-dessous en dimension $D=2$. Celle-ci décrit les éruptions du geyser "Old Faithful" (vieux fidèle) dans le parc national du Yellowstone (USA). Les variables $(x_1,x_2)$ correspondent respectivement au temps d'attente entre deux éruptions et à la durée d'une éruption.   
 
 
 ```{r echo = FALSE}
