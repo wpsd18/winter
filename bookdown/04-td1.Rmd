@@ -35,7 +35,7 @@ Montrer que
 $$
 h(p) =  \frac12 \log ( 2 \pi e \sigma^2) . 
 $$
-_Indication_ : On utilisera à bon escient le théorème de transfert pour le logarithme d'une variable aléatoire $x$ de loi $N(m, \sigma^2)$.
+_Indication_ : On utilisera à bon escient le théorème de transfert pour le logarithme de la variable aléatoire $p(x)$, où $x$ est de loi $p \equiv N(m, \sigma^2)$.
 
 ### Question 2
 
