@@ -7,7 +7,7 @@
 
 L'objectif de cette séance de travaux dirigés est de relier les notions de variance et de covariance aux concepts d'information et d'information mutuelle vus en théorie de l'information. 
 
-Une idée centrale de nombreuses méthodes appliquées en science des données est que l'information se  résume dans la matrice de covariance des variables étudiées. Nous allons justifier cette idée sous l'hypothèse gaussienne, tout en démontrant l'optimalité informationnelle de la loi de Gauss.
+Une idée centrale de nombreuses méthodes appliquées en science des données est que l'information est contenue dans la matrice de covariance des variables étudiées. Nous allons justifier cette idée sous l'hypothèse gaussienne, tout en démontrant que la loi de Gauss est la loi maximisant l'information disponible.
 
 
 ## Exercice 1. Théorie de l'information et loi normale 
@@ -19,23 +19,22 @@ L'objectif de cet exercice est d'établir le résultat suivant, justifiant l'imp
 
 ### Question 1
 
-Considèrons une densité de probabilité définie sur l'ensemble des réels. On rappelle que l'information (ou entropie) de la densité de probabilité $p(x)$ est définie de la manière suivante
+Considèrons une densité de probabilité, $p(x)$, définie sur l'ensemble des réels. On rappelle que l'information (ou [*entropie de Shannon*](https://en.wikipedia.org/wiki/Entropy_(information_theory))) de la densité de probabilité $p(x)$ est définie de la manière suivante
 
 $$
 h(p) = - \int p(x) \log p(x) dx . 
 $$
-Dans cette équation, la fonction $\log$ est usuellement définie en base 2 (mais d'autres définitions sont possibles). On suppose que $p(x)$ est la densité de la loi normale de moyenne $m$ et de variance $\sigma^2$. 
+Dans cette équation, la fonction $\log$ est usuellement définie en base 2, mais d'autres définitions sont possibles. On suppose que $p(x)$ est la densité de la loi normale de moyenne $m$ et de variance $\sigma^2$, 
 
 $$
 p(x) = N(x | m , \sigma^2) \, , \quad x \in \mathbb{R}. 
 $$
 
-Montrer que 
-
+Montrer que l'entropie de Shannon de la loi normale est donnée par la formule suivante
 $$
 h(p) =  \frac12 \log ( 2 \pi e \sigma^2) . 
 $$
-_Indication_ : On utilisera à bon escient le théorème de transfert pour le logarithme de la variable aléatoire $p(x)$, où $x$ est de loi $p \equiv N(m, \sigma^2)$.
+_Indication_ : On utilisera à bon escient le théorème de transfert pour la variable aléatoire $\log p(x)$ où $x$ est de loi $N(m, \sigma^2)$.
 
 ### Question 2
 
@@ -44,25 +43,30 @@ Quelle interprétation de ce résultat vous parait être importante pour l'analy
 
 ### Question 3
 
-On suppose désormais que les lois considérées sont centrées, c'est à dire d'espérance nulle. Nous supposons que les lois sont de variance finie égale à $\sigma^2$. Afin de démontrer le principe d'entropie maximale, nous considèrons la divergence de Kullback-Lieber définie par  
+On suppose désormais que les lois considérées sont centrées, c'est à dire d'espérance nulle. Nous supposons que les lois sont de variance finie égale à $\sigma^2$. Afin de démontrer le principe d'entropie maximale, nous considérons la [*divergence de Kullback-Leibler*](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence) définie par  
 
 $$
-D_{KL}( p \|  q ) = \int p(y) \log \left( \frac{p(y)}{q(y)} \right) dy \, .
+D_{KL}( q \|  p ) = \int q(y) \log \left( \frac{q(y)}{p(y)} \right) dy \, .
 $$
 
-Rappeler l'interprétation de cette grandeur en terme de perte d'information. \‘A l'aide du théorème de transfert, démontrer que 
+Rappeler l'interprétation de cette grandeur en terme de perte d'information. À l'aide du théorème de transfert, démontrer que 
 
 $$
-D_{KL}( p \|  q ) = - h(q) - \mathbb{E}[\log p(y)] \, , 
+D_{KL}( q \|  p ) = - h(q) - \mathbb{E}[\log p(y)] \, , 
 $$
 où $y$ est une variable aléatoire réelle de densité $q(y)$.
 
 ### Question 4
 
+Soit
+$$
+p(x) = N(x | 0 , \sigma^2) \, , \quad x \in \mathbb{R}. 
+$$ 
 Par le calcul et en s'aidant de la question 1, en déduire que 
 $$
-D_{KL}( p \|  q ) = - h(q) + h(p) \, . 
+D_{KL}( q \|  p ) = - h(q) + h(p) \, . 
 $$
+Pour cela, on se souviendra que la variance de la loi $q$ est égale à $\sigma^2$ par hypothèse.
 
 ### Question 5
 
@@ -85,7 +89,7 @@ où $|\Sigma|$ est le déterminant de la matrice $\Sigma$.
 
 ## Exercice 2
 
-L'objectif de cet exercice est de montrer que l'_information mutuelle_, $I$, de deux variables réelles gaussiennes $x$ et $y$ est liée au coefficient de correlation de ces deux variables,
+L'objectif de cet exercice est de montrer que l'[*information mutuelle*](https://en.wikipedia.org/wiki/Mutual_information), $I$, de deux variables réelles $x$ et $y$ formant un couple gaussien est liée au coefficient de correlation de ces deux variables,
 
 $$
 \rho = \frac{{\rm cov}(x,y)}{\sigma^2_{\sf x} \sigma^2_{\sf y}} \, , 
@@ -131,16 +135,16 @@ Sous quelle condition (inégalité) la matrice $\Sigma$ définit-elle une matric
 
 Identifier les lois marginales $p_{\sf x}$ et $p_{\sf y}$ et calculer leur entropie. 
 
-
+_Note_ : Admettre provisoirement que les lois maginales sont des lois normales. Cela sera vu dans le cours. Retenir ce résultat !  
 
 ### Question 4
 
-Justifier que la matrice $\Sigma^{-1}$ peut s'écrire sous la forme 
+En utilisant le théorème spectral, justifier que la matrice $\Sigma^{-1}$ peut s'écrire sous la forme 
 
 $$
 \Sigma^{-1} = {\bf U} {\bf \Lambda}^{-1} {\bf U}^T
 $$
-où ${\bf U}$ est une matrice carrée unitaire et ${\bf \Lambda}$ une matrice diagonale dont les termes sont strictement positifs (Rappel: ${\bf U}$ est une matrice unitaire si ${\bf U}{\bf U}^T={\bf I}$).
+où ${\bf U}$ est une matrice carrée unitaire et ${\bf \Lambda}$ une matrice diagonale dont les termes sont strictement positifs (Rappel : ${\bf U}$ est une matrice unitaire si ${\bf U}{\bf U}^T={\bf I}$).
 
 ### Question 5 
 
@@ -152,8 +156,20 @@ En déduire que
 $$
 \mathbb{E}[{\bf x}^T  \Sigma^{-1} {\bf x}] = 2 \, .
 $$
+_Note_ : Il est possible d'obtenir ce résultat directement, sans utiliser le théorème spectral, car on pourrait inverser une matrice $2\times 2$. L'interêt de la démonstration est de pouvoir être généralisée en dimension $D \geq 2$ (trouver le résultat). 
 
-_Note_ : Il est possible d'obtenir ce résultat directement, sans utiliser le théorème spectral (car on sait inverser une matrice $2\times 2$). L'interêt de la démonstration est sa généralisation en dimension $D$ (trouver le résultat). 
+
+_Indication_ : Pour la démonstration, on pourra remarquer que 
+$$ 
+{\bf z}^T  \Lambda^{-1} {\bf z} = \sum_{j=1}^D \frac1{\lambda_j} z_j^2 \, ,
+$$
+ou mieux encore que
+$$ 
+{\bf z}^T  \Lambda^{-1} {\bf z} = {\rm Tr}(\Lambda^{-1} {\bf z} {\bf z}^T ).
+$$
+
+
+
 
 ### Question 7
 
