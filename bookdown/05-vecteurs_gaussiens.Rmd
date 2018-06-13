@@ -2,7 +2,9 @@
 
 ## Objectifs 
 
-Définition des vecteurs gaussiens et énoncé des propriétés de base. Comprendre que l'information est résumée par la matrice de covariance. Visualiser l'information portée par les axes principaux de cette matrice dans un problème à deux classes. 
+ * Définition des vecteurs gaussiens et énoncé des propriétés de base. 
+ * Comprendre que l'information est résumée dans la matrice de covariance. 
+ * Visualiser l'information portée par les vecteurs propres (axes principaux) de cette matrice dans un problème à deux classes. Neurone logique. 
 
 
 ## Définition des lois gaussiennes
@@ -16,20 +18,24 @@ $$
 
 ## Propriétés
 
-### Espérance et matrice de covariance. Lois marginales.  
+### Espérance et matrice de covariance.   
 
 L'espérance de la loi $N({\bf m},{\bf C})$  est égale à ${\bf m}$ et la matrice de covariance est égale à ${\bf C}$
 
 $$
 \mathbb{E}[{\bf x}] = {\bf m} \, , \quad {\rm cov}[{\bf x}] = {\bf C}. 
 $$
+Nous admettons provisoirement ce résultat. Une démonstration sera donnée plus loin. 
 
-Les lois marginales des coordonnées du vecteur ${\bf x} = (x_1, \dots, x_D)^T$ sont les lois normales 
+### Lois marginales. 
+
+Les lois marginales des coordonnées du vecteur ${\bf x} = (x_1, \dots, x_D)^T$ sont les lois normales de moyenne $m_j$ et de variance $c_{jj}$
 
 $$
 p_{\sf x_j}(x_j) = N(x_j | m_j, \sigma^2_j = c_{jj}) \, , \quad x_j \in \mathbb{R},
 $$
-où $c_{jj}$ représent le$j$\eme  terme  diagonal de la matrice ${\bf C}$.
+
+où $c_{jj}$ représente le $j$ème  terme  diagonal de la matrice ${\bf C}$.
 
 
 Par exemple, la densité de la loi $N({\bf m = 0},{\bf C})$ de moyenne nulle et de matrice de covariance 
@@ -40,53 +46,53 @@ $$
 est donnée par 
 
 $$
-p(x_1, x_2) = \exp(- x_1^2 - x_1 x_2 - x_2^2/2) / 2\pi \, ,
+p(x_1, x_2) = \frac1{2\pi} \exp(- x_1^2 - x_1 x_2 - x_2^2/2)  \, , \quad (x_1, x_2) \in \mathbb{R}^2.
 $$
-et les lois marginales des variables $x_1$ et $x_2$ sont respectivement les lois $N(0,2)$ et $N(0,1)$.
+Les lois marginales des variables $x_1$ et $x_2$ sont respectivement les lois normales $N(0,2)$ et $N(0,1)$.
 
 ### Caractérisation spectrale
 
-Supposon la moyenne nulle. Une définition équivalente de la loi normale est la suivante. 
+Dans cette section, nous proposons une définition de la loi Gaussienne s'appuyant directement sur la matrice de covariance. Nous considérons tout d'abord des vecteurs d'espérance nulle. Une définition de la loi normale équivalente à la définition donnée précédemment est la suivante (admis). 
 
-On dira qu'un vecteur ${\bf x}$ de $\mathbb{R}^D$ suit une loi normale de moyenne nulle s'il existe une matrice unitaire ${\bf U}$ (${\bf U}{\bf U}^T={\bf I}$) de dimension $D\times D$ telle que les coordonnées $z_j$ du vecteur 
+**Définition.** On dira qu'un vecteur ${\bf x}$ de $\mathbb{R}^D$ suit une loi normale de moyenne nulle s'il existe $D$ scalaires strictement positifs, $(\lambda_j)$, $j = 1, \dots, D$, et une matrice unitaire ${\bf U}$ de dimension $D\times D$ tels que les coordonnées $z_j$ du vecteur 
 
 $$
 {\bf z} = {\bf U}^T {\bf x}
 $$
-sont indépendantes et de loi normale $N(0, \lambda_j)$, pour tout $j = 1, \dots, D$. 
+sont indépendantes et de loi normale $N(0, \lambda_j)$, pour tout $j = 1, \dots, D$. Une matrice unitaire est telle que ${\bf U}{\bf U}^T={\bf I}$. 
 
 
-Dans cette défintion, nous avons supposé que la moyenne est nulle, mais ce n'est pas restrictif. En effet, pour décentrer le vecteur ${\bf x}$, il suffit d'ajouter au vecteur aléatoire ${\bf x}$ un vecteur constant, ${\bf m}$, non nul. On obtiendra par définition un vecteur gaussien de moyenne ${\bf m}$.     
-
-
-Une conséquence immédiate de la définition précédente est que les variances, $\lambda_j$, correspondent aux valeurs propres de la matrice de covariance du vecteur ${\bf x}$ et que la matrice ${\bf U}$ correspond aux vecteurs propres de cette matrice. 
-
-Pour prouver ce résultat, notons ${\bf \Lambda}$ la matrice diagonale dont les termes correspondent aux valeurs $(\lambda_j)$. Nous avons 
+Notons ${\bf \Lambda}$ la matrice diagonale dont les termes correspondent aux valeurs $(\lambda_j)$. Par indépendance des coordonnées de ${\bf z}$, nous avons 
 
 $$
-{\bf cov[z]} = {\bf U}^T {\bf cov[x]} {\bf U} = {\bf \Lambda}.
+{\bf \Lambda} = {\bf cov[z]} = {\bf U}^T {\bf cov[x]} {\bf U} .
 $$
 
-Ceci implique que la matrice de covariance du vecteur ${\bf x}$ est caractérisée par l'équation suivante
+Cela implique que la matrice de covariance du vecteur ${\bf x}$ est donnée par l'équation suivante
 
 $$
 {\bf C} = {\bf cov[x]}  = {\bf U} {\bf \Lambda} {\bf U}^T \, . 
 $$
 
-Ainsi nous avons 
+Une conséquence immédiate de la définition précédente est que les variances, $\lambda_j$, correspondent aux valeurs propres de la matrice de covariance du vecteur ${\bf x}$ et que la matrice ${\bf U}$ correspond aux vecteurs propres de cette matrice. Pour prouver ce résultat, notons que nous avons 
 
 $$
- {\bf C} {\bf U}  = {\bf \Lambda} {\bf U} \, ,
+ {\bf C} {\bf U}  = {\bf \Lambda} {\bf U} \, .
 $$
-et les vecteurs colonnes de la matrice {\bf U} sont bien les vecteurs propres de la matrice ${\bf C}$ associés aux valeurs propres $(\lambda_j)$. 
+Cette equation signifie que les vecteurs colonnes de la matrice ${\bf U}$ sont bien les vecteurs propres de la matrice ${\bf C}$ associés aux valeurs propres $(\lambda_j)$. 
+
+Dans cette définition, nous avons supposé la moyenne nulle (vecteur centré), mais ce n'est pas restrictif. En effet, pour décentrer le vecteur aléatoire ${\bf x}$, il suffit de lui ajouter un vecteur constant, ${\bf m}$, non nul. On obtiendra un vecteur gaussien de moyenne ${\bf m}$.     
 
 
 ### Linéarité et indépendance 
 
-La définition précédente permet de déduire quelques propriétés évidentes mais très importantes des vecteurs gaussiens (exercices).
+La définition précédente permet de déduire quelques propriétés très importantes des vecteurs gaussiens. Les démonstration sont laissées en exercices (la première propriété se démontre directement, elle est admise).
+
+* La somme de deux variables aléatoires de lois normales $N(m_1,\sigma_1^2)$ et $N(m_2,\sigma_2^2)$ **indépendantes** est une variable aléatoire de loi normale $N(m_1+m_2,\sigma_1^2+\sigma_2^2)$  (admis).   
 
 * Toute _combinaison linéaire_ des coordonnées d'un vecteur gaussien suit _une loi normale_.
 
+* En particulier, les lois marginales d'un vecteur gaussien sont des lois normales. 
 
 * Soit ${\bf x} \in \mathbb{R}^D$ un vecteur gaussien  de loi $N({\bf m}, {\bf C})$. Pour toute application linéaire ${\bf A}$ de rang $K \leq D$, le vecteur ${\bf Ax}$ est gaussien de moyenne ${\bf Am}$ et de matrice de covariance ${\bf ACA}^T$.
 
@@ -95,13 +101,13 @@ La définition précédente permet de déduire quelques propriétés évidentes 
 
 ### Lignes de niveau de la densité 
 
-Les lignes de niveaux de la densité de la loi $N({\bf m = 0}, {\bf C})$ sont les courbes d'équation
+Les lignes de niveaux de la densité de la loi $N({\bf m = 0}, {\bf C})$ sont des ellipses d'équation
 $$
 {\bf x}^T {\bf C}^{-1} {\bf x} = c^2 \,. 
 $$
-Dans cette équation, nous pouvons considérer que $c^2$ est un nombre positif car les valeurs propres de la matrice ${\bf C}$ sont nécessairement positives. 
+Dans cette équation, nous pouvons considérer que $c^2$ est un nombre positif car les valeurs propres de la matrice ${\bf C}$ sont strictement positives. 
 
-Nous avons
+Pour démontrer ce résultat, nous observons que 
 $$
  {\bf x}^T {\bf C}^{-1} {\bf x} = ({\bf x}^T {\bf U}) \, {\bf \Lambda }^{-1}  \, ({\bf U}^T{\bf x}) = {\bf z}^T {\bf \Lambda}^{-1} {\bf z} \, .
 $$
@@ -111,17 +117,14 @@ $$
 \sum_{j=1}^D \frac{z_j^2}{\lambda_j} = c^2 .
 $$
 
-Lorsqu'elles sont exprimées dans les coordonnées transformées, ${\bf z}$, déduites des coordonnées initiales par la rotation ${\bf U}^T$, les lignes de niveau d'une densité gaussienne correspondent à des ellipses.  
+Lorsqu'elles sont exprimées dans les coordonnées transformées, ${\bf z}$, déduites des coordonnées initiales par la rotation ${\bf U}^T$, les lignes de niveau d'une densité gaussienne correspondent à des ellipses dont les axes sont parallèles aux vecteurs de base. Les axes des ellipses ne dépendent pas de la valeur $c$ et sont appelés les _axes principaux_ de la matrice de covariance. Ils sont parallèles aux vecteurs propres de cette matrice. 
 
-Les axes des ellipses ne dépendent pas de la valeur $c$ et sont appelés les _axes principaux_ de la matrice de covariance. Ils correspondent aux vecteurs propres de cette matrice. En général les axes principaux sont ordonnés. Le premier axe principal correspond à la plus grande valeur propre de ${\bf C}$ tandis que le dernier correspond à la plus petite valeur propre.  
-
-
-Par exemple, la densité de la loi $N({\bf m = (1,1)},{\bf C})$ de matrice de covariance 
+En général les axes principaux sont ordonnés. Le premier axe principal correspond à la plus grande valeur propre de ${\bf C}$ tandis que le dernier correspond à la plus petite valeur propre.  Par exemple, la densité de la loi $N({\bf m = (1,1)},{\bf C})$ de matrice de covariance 
 
 $$
 {\bf C} = \left(\begin{array}{cc}  2 & 1 \\ 1 & 1  \end{array}\right) \, ,
 $$
-peut être décrite par la fonction de densité dont les lignes de niveau sont montrées ci-dessous.  Les points représentent un échantillon de $n = 200$ tirages de cette loi. 
+est décrite par la densité dont les lignes de niveau elliptiques et l'orientation des axes sont montrés ci-dessous.  Les points représentent un échantillon de $n = 200$ tirages de cette loi. 
 
 
 ```{r, echo = FALSE}
@@ -159,15 +162,17 @@ La même densité peut se représenter sous forme topographique de la manière s
 
 ## Simulation : composantes principales d'un mélange gaussien
 
-Simuler un vecteur gaussien peut se faire de manière très simple en R, par exemple, en utlisant la fonction _rmvnorm()_ de la bibliothèque _mvtnorm_. Dans de nombreux problèmes d'apprentissage supervisé, les lois gaussiennes sont utilisées comme modèles probabilistes pour la distribution des variables au sein des catégories à apprendre. 
+Simuler un vecteur gaussien peut se faire de manière très simple en R, par exemple, en utlisant la fonction _rmvnorm()_ de la bibliothèque _mvtnorm_. Dans de nombreux problèmes d'apprentissage supervisé, les lois gaussiennes sont utilisées comme modèles probabilistes des variables au sein des catégories à apprendre. 
 
-Plaçons nous en dimension $D=2$. Considérons un modèle à deux classes décrites par la variable aléatoire $y = 0,1$ et supposons que les classes sont équiprobables $p(y = 0) = p(y = 1)$. Supposons qu'au sein de la classe 0, le vecteur {\bf x} se distribue selon la loi $N({\bf m}_0, {\bf I})$ où ${\bf m_0}=(3,0)$, tandis qu'au sein de la classe 1, ce vecteur se distribue selon la loi $N({\bf m}_1, {\bf I})$ où ${\bf m_1}=(0,3)$. Un tel modèle est appelé _mélange_. La loi du vecteur ${\bf x}$ est donnée par la formule suivante
+Plaçons nous en dimension $D=2$. Considérons un modèle à deux classes décrit par une variable aléatoire binaire $y = 0,1$ et supposons que les classes sont équiprobables $p(y = 0) = p(y = 1)$. Cela revient à supposer qu'elles sont d'effectifs voisins.
+
+Supposons qu'au sein de la classe 0, le vecteur ${\bf x}$ admet pour loi  $N({\bf m}_0, {\bf I})$ où ${\bf m_0}=(3,0)$, tandis qu'au sein de la classe 1, ce vecteur admet pour loi $N({\bf m}_1, {\bf I})$ où ${\bf m_1}=(0,3)$. Un tel modèle est appelé _modèle de mélange_. La loi du vecteur ${\bf x}$ est donnée par la formule suivante
 
 $$
 p({\bf x})  = \frac12 N({\bf x}| {\bf m}_0, { \bf I}) + \frac12 N({\bf x}| {\bf m}_1, { \bf I}), \quad {\bf x} \in \mathbb{R}^2.
 $$
 
-Une simulation permet de visualiser 200 vecteurs générés par ce modèle
+Une simulation permet de visualiser 200 vecteurs générés par le mélange
 
 ```{r}
   # Simulation
@@ -180,11 +185,11 @@ Une simulation permet de visualiser 200 vecteurs générés par ce modèle
   x <- rbind(x_0, x_1)
     
   col <- c(rep("blue", n_blue), rep("orange", n - n_blue))
-  plot(x, col = col, pch = 19, cex = .7)
+  plot(x, col = col, pch = 19, cex = 1)
   
 ```
 
-On devine que les deux classes peuvent être séparées par une droite. Calculons la matrice de covariance et représentons les projections des vecteurs ${\bf U}^T {\bf x}_i$ sur les axes principaux.
+Dans cette simulation, la classe 0 est représentée en bleu, tandis que la classe 1 est représentée en orange. Le graphique permet d'envisager de séparer les deux classes par une droite. Calculons la matrice de covariance empirique et représentons les projections des $n$ couples (${\bf x}_i$) sur les axes principaux (ces projections sont données par ${\bf U}^T {\bf x}_i$).
 
 ```{r}
 library(magrittr)
