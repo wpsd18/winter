@@ -3,17 +3,22 @@
 
 ## Objectif de la séance
 
-L'objectif de cette séance de travaux dirigés est de comprendre concrètement l'utilité de la décomposition spectrale d'une structure de covariance pour un exemple de données multidimensionelles. Il s'agira aussi de pouvoir interpréter les axes de rotation.
+L'objectif de cette séance de travaux dirigés est de comprendre concrètement l'utilité de la décomposition spectrale d'une matrice de covariance dans un exemple de données multidimensionelles réelles. Il s'agit aussi d'interpréter les axes principaux de cette matrice.
 
 ## Exercice 1. Un premier neurone artificiel.
 
-L'objectif de cet exercice est de montrer comment l'analyse spectrale de la matrice de covariance d'un ensemble de données permet prendre une décision concernant la provenance de ces données (classification binaire). Nous montrons que cette analyse conduit à une décision effectuée par un neurone artificiel, c'est à dire une fonction décrite de la manière suivante. 
+L'objectif de cet exercice est de montrer comment l'analyse spectrale de la matrice de covariance d'un ensemble de données permet de prendre une décision concernant la provenance de ces données (classification binaire). Nous montrons que cette analyse conduit à une décision effectuée par un neurone artificiel, c'est à dire une fonction décrite de la manière suivante 
+
+$$
+\forall {\bf x} \in \mathbb{R}^D, \quad g({\bf x}) = \varphi( \sum_{j = 1}^D w_{j} x_j - \theta) = \varphi( {\bf w}^T {\bf x} - \theta) \, ,
+$$
+où $\varphi(t)$ est une fonction de décision. Les fonctions de décision les plus courantes sont la fonction sigmoide ($\varphi(t) = 1/(1 + e^{-t})$) et la fonction de Heavyside ($\varphi(t) = 1_{\mathbb{R}_+}(t)$). 
 
 ![Neurone artificiel (source wikipedia).](./figures/ArtificialNeuronModel.png)
 
 
 
-Nous utiliserons un jeu de données constitué de 699 échantillons de tissus provenant de tumeurs du sein, comportant neuf descripteurs et une classification binaire ("benign", "malignant").
+Nous utiliserons un jeu de données constitué de 699 échantillons de tissus provenant de tumeurs du sein, comportant neuf descripteurs des tumeurs et une classification binaire ("benign", "malignant"). Les descripteurs seront détaillés plus précisement lors d'une séance de travaux pratiques. 
 
 
 ### Question 1
@@ -34,7 +39,7 @@ dim(x)
 ```
 
 
-La matrice de données comporte 9 observations pour effectuées 683 femmes. Nous calculons de la matrice de covariance empirique de la manière suivante 
+La matrice de données comporte neuf mesures effectuées sur 683 femmes. Nous calculons de la matrice de covariance empirique de ces mesures de la manière suivante 
 
 ```{r}
 Sigma <- cov(x)
@@ -44,7 +49,7 @@ Quelles sont les dimensions de la matrice de covariance ?
 
 ### Question 2
 
-Ecrire la decomposition spectrale de la matrice $\Sigma$. Comment interpreter la rotation $U$ et les valeurs propres associées à chaque axe ?
+Ecrire la décomposition spectrale de la matrice $\Sigma$. Comment interpreter la rotation $U$ et les valeurs propres associées à chaque axe ? (Raisonner comme si le vecteur de mesures était gaussien.)
 
 ### Question 3
 
@@ -53,6 +58,7 @@ Les valeurs propres de la matrice de covariance sont calculées de la manière s
 ```{r}
 lambda <- eigen(Sigma)$values
 lambda
+cumsum(lambda) # somme cumulée des valeurs propres
 ```
 
 Quel(s) axe(s) porte(nt) le plus d'information ? Pourquoi ?
@@ -60,7 +66,7 @@ Quel(s) axe(s) porte(nt) le plus d'information ? Pourquoi ?
 
 ### Question 4
 
-Calculer la projection de l'ensemble des caracteristiques observées pour une tumeur donnée sur les axes propres (Aide: ${\bf w} = {\bf U}^T{\bf (x-m)}$). Vérifier que la solution est donnée par le code suivant.
+Après avoir centré les mesures observées, on souhaite calculer les projections de ces mesures sur les axes propres. Vérifier que la solution donnée par le code suivant est correcte et interpréter le résultat du code.
 
 
 ```{r}
@@ -88,7 +94,7 @@ _Note_: la fonction _scale(,scale = FALSE)_ centre les données.
 
 Proposer une méthode simple, s'appuyant sur la décomposition spectrale de la matrice $\sigma$, pour classer les types "malins" et "bénins".
 
-_Indication_: Tout d'abord, on calcule les moyennes ${\bf m}$ des neufs caractéristiques, puis on centre l'observation ${\bf x}$. Vérifier ensuite, que pour prendre la décision, on peut calculer le produit scalaire entre ${\bf x - m}$ et le premier axe de la rotation. Si la valeur est positive, le diagnostic sera bénin (1), sinon malin (0).
+_Indication_: Tout d'abord, on calcule les moyennes ${\bf m}$ des mesures observées, puis on centre l'observation ${\bf x}$. Vérifier ensuite, que pour prendre la décision, on peut calculer le produit scalaire entre ${\bf x - m}$ et le premier axe de la rotation. Si la valeur est positive, le diagnostic sera bénin (1), sinon malin (0).
 
 $$
 {\rm diagnostic} = \left\{
@@ -142,15 +148,24 @@ Pour cela, nous proposons un processus de construction d'un vecteur gaussien ${\
 
 ### Question 1
 
-Rappeler la condition nécessaire et suffisante pour que la matrice $\Sigma)$ soit une matrice de covariance.
+Rappeler une condition nécessaire et suffisante pour que la matrice $\Sigma$ soit une matrice de covariance.
 
 ### Question 2 : Cas particulier $K = 2$. 
 
-On choisit $x_1$ de loi $N(0, \sigma^2_1)$ et $x_2 = \beta_1 x_1 + \epsilon$ où $\beta_1$ est à determiner et $\epsilon$ est de loi normale $N(0, \sigma^2)$ (variance à déterminer), indépendante de $x_1$. Montrer que ${\bf x}$ est un vecteur gaussien.
+On considère une variable aléatoire $x_1$ de loi $N(0, \sigma^2_1)$. On pose ensuite  
+$$
+x_2 = \beta_1 x_1 + \epsilon
+$$
+où $\beta_1$ est un scalaire et $\epsilon$ est une variable aléatoire de loi normale $N(0, \sigma^2)$, indépendante de $x_1$. Montrer que ${\bf x}$ est un vecteur gaussien. 
+Déterminer la matrice de covariance de ${\bf x} = (x_1, x_2)^T$.
 
 ### Question 3 
+ En déduire que les conditions pour que  le vecteur ${\bf x}$ ait pour loi $N(0, \Sigma)$ sont 
+$$
+\beta_1 = c_1/\sigma_1^2
+$$ 
+et 
 
-Déterminer la matrice de covariance de ${\bf x}$. En déduire que $\beta_1 = c_1/\sigma_1^2$ et que 
 $$
 \sigma^2 = \sigma_2^2 (1 - \rho^2) \, , 
 $$
@@ -158,21 +173,21 @@ où $\rho^2 = c_1^2/(\sigma_1^2\sigma_2^2)$.
 
 ### Question 4 
 
-Retrouver ainsi la condition (nécessaire) portant sur les valeurs propres de $\Sigma$.
+Retrouver ainsi la condition (nécessaire) pour que $\Sigma$ soit une matrice de covariance.
 
 ### Question 5 : Cas général.
 
-Dans le cas général, on construira la coordonnée $x_{K+1}$ comme combinaison linéaire des $K$ coordonnées précédentes
+Dans le cas général, on suppose que les variables $x_k$ sont mutuellement indépendantes et de loi respectives $N(0, \sigma^2_k)$ pour $k  = 1, \dots, K$. On construit la coordonnée $x_{K+1}$ comme combinaison linéaire des $K$ coordonnées précédentes, plus un bruit, de la manière suivante
 $$
 x_{K+1} = \sum_{k=1}^K \beta_k x_k + \epsilon \, .
 $$
 
-Les variables $x_k$ et $\epsilon$ sont mutuellement indépendantes et de loi respectives $N(0, \sigma^2_k)$ et  $N(0, \sigma^2)$. Trouver les valeurs des coefficients $\beta_k$ pour obtenir la matrice de covariance cible.
+où $\epsilon$ est indépendante des $x_k$ et de loi $N(0, \sigma^2)$. Trouver les valeurs des coefficients $\beta_k$ et $\sigma^2$ permettant de définir un vecteur gaussien de matrice de covariance $\Sigma$.
 
 
 ### Question 6
 
-On pose $\rho_k^2 = c_k^2/(\sigma_k^2\sigma_{K+1}^2)$. Montrer qu'une condition  suffisante pour que $\Sigma$ soit bien définie est 
+On pose $\rho_k^2 = c_k^2/(\sigma_k^2\sigma_{K+1}^2)$. Montrer qu'une condition suffisante pour que $\Sigma$ soit bien définie est 
 $$
 R^2 = \sum_{k=1}^K \rho_k^2 < 1 .
 $$
