@@ -103,7 +103,7 @@ $$
 Cette approximation permet de remplacer les valeurs théoriques des espérances par des valeurs empiriques, faciles à calculer en général. En supposant les tirages indépendants et de même loi, il est possible évaluer l'erreur d'approximation effectuée en moyenne. Cette erreur, élevée au carré, correspond à la variance de la variable aléatoire $\frac1n \sum_{i=1}^n f(x_i)$ (plus la variance est petite, meilleure est l'approximation)
 
 $$
-\mathbb{E} [(\sum_{i=1}^n f(x_i)/n - \mathbb{E} [f(x)])^2] = {\rm var} [\sum_{i=1}^n f(x_i)/n] = \frac1n {\rm var}[f(x)] \to 0 \, .
+\mathbb{E} \left[(\sum_{i=1}^n f(x_i)/n - \mathbb{E} [f(x)])^2 \right] = {\rm var} [\sum_{i=1}^n f(x_i)/n] = \frac1n {\rm var}[f(x)] \to 0 \, .
 $$
 
 Dans la suite de ce cours et notamment dans les algorithmes d'apprentissage automatique, les tailles d'échantillon seront élevées. Notons que cela peut demander des efforts d'échantillonnage ou d'annotation des observations par des humains très conséquents. 
