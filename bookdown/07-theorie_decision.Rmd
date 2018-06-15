@@ -2,155 +2,167 @@
 
 ## Introduction et objectifs (à compléter)
 
-Deux critères _accuracy_ et _logloss_, discussion de l'optimalité des classifieurs.
+* Formule de Bayes 
+* Erreur de classification moyenne (_accuracy_)
+* Perte d'information (_logloss_)
+* Classifieur probabiliste optimal 
 
-## Quelques notions probabilistes (à compléter)
+## Quelques notions probabilistes supplémentaires
+
+La notion d'espérance conditionnelle, les formules de con 
 
 ### Espérance conditionnelle
 
-On considère un couple de variable aléatoire $({\bf x},y)$, associant par exemple un vecteur de caractéristiques multidimensionnelles, ${\bf x}$, et une variable discrète, $y$, représentant la classe de ce vecteur (d'autres combinaisons sont possibles). Nous nous intéressons à l'espérance d'une variable aléatoire $z$ définie comme fonction du couple précédent
+On considère un couple vecteur-variable aléatoires, $({\bf x},y)$, associant un vecteur de mesures multidimensionnelles, ${\bf x}$, et une variable discrète, $y$, représentant une catégorie pour ce vecteur ($y \in \{1,\dots,K\}$). Nous nous intéressons au calcul de l'espérance d'une variable aléatoire à valeurs réelles $z$ définie comme fonction du couple précédent
 
 $$
-z = f(y,{\bf x}) \, .
-$$
-L'espérance conditionnelle de $z$ sachant ${\bf x}$ se calcule en générale de la manière suivante
-$$
-\mathbb{E}[z | {\bf x} ]  = \int z p(z | {\bf x}) dz = \int f(y,{\bf x}) p( y| {\bf x}) dy .
+z = f({\bf x}, y) \, .
 $$
 
-Lorsque la variable $y$ est discrète et prend ses valeurs parmi $K$ modalités, nous obtenons
+**Définition.** L'*espérance conditionnelle* de $z$ sachant ${\bf x}$ se calcule en toute généralité de la manière suivante
+$$
+\mathbb{E}[z | {\bf x} ]  = \int z p(z | {\bf x}) dz = \int f({\bf x},y) p( y| {\bf x}) dy \, .
+$$
+
+Lorsque la variable $y$ est discrète et prend ses valeurs parmi $K$ modalités, l'intégrale peut être remplacée par une somme
 
 $$
-\mathbb{E}[z | {\bf x} ]  = \sum_{k = 1}^K f(k,{\bf x}) p( y = k| {\bf x}) \, .
+\mathbb{E}[z | {\bf x} ]  = \sum_{k = 1}^K f({\bf x},k) p( y = k| {\bf x}) \, .
 $$
-Pour obtenir l'espérance de $z$, il suffit de sommer sur toute les valeurs possibles de ${\bf x}$
+
+**Formule de conditionnement.** Pour obtenir l'espérance de $z$, il suffit de sommer sur toutes les valeurs possibles de ${\bf x}$
 
 $$
 \mathbb{E}[z]  =  \int  \mathbb{E}[z | {\bf x} ] p({\bf x}) d {\bf x} .
 $$
 
+Pour comprendre la logique de cette formule, on pourra retenir l'exemple suivant. Supposons qu'un cours  comporte deux groupes, ayant respectivement 12 et 28 inscrits. À l'examen, la moyenne du premier groupe est égale à 12 et la moyenne du second groupe est égale à 14. On se demande alors quelle est la moyenne globale des inscrits. Une mauvaise réponse (13) consiste à faire la moyenne des deux notes. La bonne réponse est égale à $12 \times 12/40 + 13 \times 28/40 = 13.4$.
+
 ### Formule de Bayes
 
-Sous les mêmes conditions que dans la section précédente, supposons que $y$ est discrète. La formule de Bayes permet de calculer la probabilité conditionnelle $p(y = k|{\bf x})$  à partir des lois conditionnelles du vecteur ${\bf x}$ : 
+Sous les mêmes conditions que dans la section précédente, supposons que $y$ est une variable discrète prenant $K$ valeurs. La *formule de Bayes* permet de calculer la probabilité conditionnelle $p(y = \ell|{\bf x})$  à partir de la loi conditionnelle du vecteur ${\bf x}$ sachant la valeur  $y = \ell$. La formule s'écrit de la manière suivante 
 
 $$
-p(y = \ell|{\bf x}) = \frac{p({\bf x} | y = \ell ) p(y = \ell)}{\sum_{k = 1}^K p({\bf x} | y = k ) p(y = k) } \, , \quad k = 1, \dots, K.
+p(y = \ell|{\bf x}) = \frac{p({\bf x} | y = \ell ) p(y = \ell)}{p({\bf x})} = \frac{p({\bf x} | y = \ell ) p(y = \ell)}{\sum_{k = 1}^K p({\bf x} | y = k ) p(y = k) } \, , \quad \ell = 1, \dots, K.
 $$
 
 
-## Fonctions d'évaluation (loss function)
+## Fonctions d'évaluation de classification
 
-### Classification dure ou probabiliste
+### Classification dure ou probabiliste (douce)
 
-Les fonctions d'évaluation, aussi appelées _fonctions de perte_ (loss function), permettent de mesurer la pertinence des classements effectués par les machines. Ces fonctions sont essentielles pour définir les algorithmes d'apprentissage automatique et pour évaluer les performances des "machines" apprennantes. Les algorithmes d'apprentissage sont essentiellement des algorithmes de minimisation d'une fonction de perte. Dans les logiciels modernes, les fonctions _accuracy_ et _logloss_ sont les plus souvent utilisées. 
+Les fonctions d'évaluation de classification, aussi appelées _fonctions de perte_ (loss function), permettent de mesurer la pertinence des classements effectués par des méthodes automatiques (appelées *machines*). Les fonctions d'évaluation sont essentielles pour définir les algorithmes d'apprentissage automatique et pour évaluer les performances des "machines" apprennantes. Dans ce cours, les algorithmes d'apprentissage supervisés sont essentiellement des algorithmes de minimisation d'une fonction de perte. Il existe de nombreuses fonctions de perte. Dans les algorithmes classiques, les fonctions les plus souvent utilisées sont les fonctions _accuracy_ et _logloss_ dont nous verrons les définitions un peu plus loin. 
 
 
-On distingue deux types d'objectifs, évaluer une classification dure (_hard classifier_, machine dure) ou douce (_soft classifier_, machine molle). 
+En apprentissage supervisé, on distingue deux types d'évaluation selon que l'on s'intéresse à une classification *dure* (_hard classifier_) ou *probabiliste* (_soft classifier_). 
 
-On parle de classification dure lorsque l'on réalise une machine (en fait, une fonction) classant un vecteur de caractérisques observées ${\bf x}$ dans l'une des $K$ classes possibles
+On parle de *classification dure* lorsque l'on construit une fonction (ou "machine") classant un vecteur de mesures observées ${\bf x}$ dans l'une des $K$ classes possibles
 
 $$
  { \bf x }  \mapsto c({ \bf x })  \in \{ 1, \dots, K\} \, .
 $$
+Une fonction de perte est une fonction $L(c,y)$ mesurant l'erreur commise lorsque la machine remplace la vraie valeur $y$ par $c$. 
 
-On parle de classification probabiliste (ou molle) lorsque l'on réalise une machine (en fait, une fonction) calculant les probabilités de chacune des $K$ classes possibles
+On parle de *classification probabiliste* (ou douce) lorsque l'on construit une fonction calculant les probabilités de chacune des $K$ classes possibles
 
 
 $$
  { \bf x }  \mapsto q({ \bf x }) = (q_1({ \bf x }), \dots, q_K({ \bf x }))   \in [0,1]^K \, , \quad {\rm t.q.} \quad \sum_{k = 1} q_k({ \bf x }) = 1 \, .
 $$
 
-Une fonction de perte est une fonction $L(y, c)$ mesurant l'erreur commise  par la machine en approchant $y$ par $c$. Lorsque le classifieur est probabiliste, une fonction de perte est une fonction $L(y, q)$ mesurant la perte d'information induite par l'approximation de la loi de $y$ par $q$.  
+
+Lorsque le classifieur est probabiliste, il est courant de convertir la valeur $y$ comprise entre 1 et $K$ en un vecteur unitaire de longueur $K$, dont les coordonnées sont toutes nulles sauf celle qui la $y$-ème. Cette dernière est égale à 1. Une fonction de perte est alors une fonction $L(q, y)$ mesurant l'erreur (ou la perte d'information) induite par l'approximation du vecteur unitaire par $q$.  
 
 
 ### Erreur de classification (01-loss)
 
-La plus simple des fonctions d'évaluation est l'erreur de classification commise en moyenne par une d'une machine dure. Nous verrons que la machine dure optimale pour cette erreur s'appuie directement sur une machine probabiliste. Les machines (ou modèle) d'apprentissage considérées par la suite seront donc des machines probabilistes.
+La plus simple des fonctions d'évaluation compte les erreurs de classification commises par une machine dure. Nous verrons que la machine dure minimisant cette erreur s'appuie directement sur une machine probabiliste. Les machines considérées par la suite seront donc des machines probabilistes.
 
 L'erreur de classification d'une machine dure $c({\bf x})$ est définie par
 
 $$
- L(y, c({\bf x})) = \left\{  \begin{array}{l} 1  & {\rm si~} c({\bf x}) \neq y, \\ 
+ L(c({\bf x}), y) = \left\{  \begin{array}{l} 1  & {\rm si~} c({\bf x}) \neq y, \\ 
 0  & {\rm sinon.}
 \end{array} \right. 
 $$
 
-L'erreur moyenne de classification d'une machine dure définie par $c({\bf x})$ est égale à
+L'*erreur moyenne de classification* d'une machine dure définie par $c({\bf x})$ est égale à
 
 
 $$
-E = \mathbb{E} [ L(y, c({\bf x})) ]  \approx \frac1n \sum_{i = 1}^n L(y_i, c({\bf x}_i))  \, .
+E = \mathbb{E} [ L(c({\bf x}),y) ]  \approx \frac1n \sum_{i = 1}^n \mathbb{1}_{c({\bf x}_i) \neq y_i} \, .
 $$
 
-Dans les logiciels d'apprentissage, l'erreur moyenne de classification est appelé _accuracy_.
+Cette erreur est très simple à calculer. Dans l'échantillon considéré $({\bf x}_i, y_i)$, on compte le nombre de fois que la classe apprise ne coïncide pas avec la valeur observée. On divise ensuite le résultat par la taille de l'échantillon $n$. Dans les logiciels d'apprentissage, l'erreur moyenne de classification est souvent appelée _accuracy_.
 
 ### Matrice de confusion
 
-Il est courant de s'intéresser plus précisement aux erreurs de classification. Pour cela, la matrice de confusion est utile. Considérons le cas d'un problème de classification en deux classes $0$ ou $1$.
-La _matrice de confusion_ est la matrice de taille $2\times 2$ définie de la manière suivante 
+Il est courant de s'intéresser plus précisement aux erreurs de classification commises par la machine dure. Pour cela, la matrice de confusion est utile. Pour simplifier, considérons le cas d'un problème de classification en deux classes, notées $0$ ou $1$ (pour changer un peu). La _matrice de confusion_ est la matrice de taille $2\times 2$ définie de la manière suivante 
 
-|  y | 0  | 1  |
+|   | y = 0  | y = 1  |
 |:---: |:---|:---|
-|$c(x) = 0$  | TN | FN |
-|$c(x) = 1$  | FP | TP |
+|$c({\bf x}) = 0$  | TN | FN |
+|$c({\bf x}) = 1$  | FP | TP |
 
 
-Considérant la valeur 1 comme une classification positive et la valeur 0 comme une classification positive, FP et FN dénombrent les faux-positifs et les faux-négatifs. TP et TN dénombrent les vrais-positifs et les vrais-négatifs. Les erreurs de classification correspondent aux termes hors diagonale, FP + FN.
+Considérant la valeur 1 comme une classification positive et la valeur 0 comme une classification négative, FP et FN dénombrent les faux-positifs et les faux-négatifs. TP et TN dénombrent les vrais-positifs et les vrais-négatifs. L'erreur de classification simple correspond à l'addition des termes hors diagonale, FP + FN.
 
-Des fonctions de perte plus générale que l'erreur de classification simple  peuvent tenir compte de la nature des erreurs de classification.
+Des fonctions de perte plus générales que l'erreur de classification simple peuvent tenir compte de la nature des erreurs de classification en pondérant les contributions respectives des FP et des FN dans le calcul de l'erreur.
 
 
-## Machine optimale 
+## Machines optimales
 
 ## Règle de classification dure optimale
 
-La machine dure optimale pour l'erreur de classification est donnée par le calcul des probabilités conditionnelles des classes sachant les variables observées ${\bf x}$
+**Résultat.** Considérons la fonction de perte 01. La machine dure optimale pour l'erreur de classification est donnée par le calcul des probabilités conditionnelles des classes sachant les variables observées ${\bf x}$
 
 $$
 c_{\rm opt}({\bf x})  = \arg\max_k { p(y = k | {\bf x}) } \,.
 $$
-En clair, la machine optimale choisit parmi les classes $\{1,\dots, K\}$ la classe de ayant la plus grande probabilité conditionnelle, $q_k({\bf x}) = p(y = k | {\bf x})$. Nous voyons ainsi que la machine dure optimale s'appuie sur la machine molle $q({\bf x})$. 
 
-La preuve est simple et repose sur la loi de Bernoulli. Considérons un classifieur dur $c({\bf x})$. D'après la formule de conditionnement, nous avons
+En clair, la machine optimale choisit parmi les classes $\{1,\dots, K\}$ la classe ayant la plus grande probabilité conditionnelle, $q_k({\bf x}) = p(y = k | {\bf x})$. Nous voyons ainsi que la machine dure optimale s'appuie sur la machine probabiliste $q({\bf x})$. 
+
+La preuve de ce résultat est simple et repose sur la loi de Bernoulli. Considérons un classifieur dur quelconque, $c({\bf x})$. D'après la formule de conditionnement, nous avons
 
 $$
-\mathbb{E} [ L(y, c({\bf x})) ] =  \int \mathbb{E} [ L(y, c({\bf x})) | {\bf x}] p({\bf x}) d{\bf x}  
+\mathbb{E} [ L(c({\bf x}),y) ] =  \int \mathbb{E} [ L(c({\bf x}),y) | {\bf x}] p({\bf x}) d{\bf x}  
 $$
 Pour minimiser cette expression, il suffit de le faire pour toute valeur à l'intérieur de l'intégrale. Cela revient à minimiser la grandeur
 
 $$
-\mathbb{E} [ L(y, c({\bf x})) | {\bf x}] = p(y \neq c({ \bf x}) | {\bf x}) = 1 - p(y = c({ \bf x}) | {\bf x}).
+\mathbb{E} [ L(c({\bf x}),y) | {\bf x}] = p(y \neq c({ \bf x}) | {\bf x}) = 1 - p(y = c({ \bf x}) | {\bf x}).
 $$
-On peut donc choisir $c({\bf x})$ de sorte à maximiser la probabilité $p(y = c({ \bf x}) | {\bf x})$. Or nous avons un nombre fini ($K$) de possibilités
+On peut donc choisir $c({\bf x})$ de sorte à maximiser la probabilité $p(y = c({ \bf x}) | {\bf x})$. Pour maximiser, cette grandeur nous avons un nombre fini de cas à évaluer. En effet, supposons que $c({ \bf x}) = k $, nous avons
 
 $$
-p(y = c({ \bf x}) | {\bf x}) =  p(y = k | {\bf x}) \, , \quad {\rm si~} c({ \bf x}) = k , \quad \forall k= 1,\dots, K\, .
+p(y = c({ \bf x}) | {\bf x}) =  p(y = k | {\bf x}) \, .
 $$
-Nous avoyons ainsi que 
+Nous voyons ainsi que le choix optimal peut s'écrire de la manière suivante
 
 $$
-c_{\rm opt}({\bf x})  = \arg\max_k { p(y = k | {\bf x}) } \,.
+c_{\rm opt}({\bf x})  = \arg\max_{k \in [1,K]} { p(y = k | {\bf x}) } \,.
 $$
-Cette stratégie de classification optimale est souvent appelée la _règle de classification de Bayes_. 
+
+La stratégie de classification optimale consiste à choisir la catégorie $k$ maximisant la probabilité conditionnelle. Cette règle est souvent appelée la _règle de classification de Bayes_, en référence à la formule de Bayes que l'on peut utiliser pour le calcul de la probabilité. 
 
 
 ### Exemple unidimensionel
 
-Considérons un exemple unidimensionel très simple dans lequel des variables positives appartenant à deux classes équiprobables, numérotées $0$ et $1$, sont crées par un processus génératif de loi exponentielle de paramètres connus ($\lambda_0$ ou $\lambda_1$ selon la classe). Pour tout $x>0$, nous avons
+Considérons un exemple unidimensionel dans lequel des variables positives appartenant à deux classes équiprobables, numérotées $0$ et $1$, sont créées par un processus génératif de loi exponentielle de paramètres connus ($\lambda_0$ ou $\lambda_1$ selon la classe). Pour tout $x>0$, les densités des lois conditionnelles 
 $$
 p(x|y = 0) = \lambda_0 \exp(-\lambda_0 x )  
 $$
 et 
 $$
-p(x|y = 1) = \lambda_1 \exp(-\lambda_1 x ) .
+p(x|y = 1) = \lambda_1 \exp(-\lambda_1 x ) \, .
 $$
-Dans ce cas, nous pouvons appliquer la formule de Bayes pour définir la machine optimale. Puisque la variable de classe prend les valeurs $0$ ou $1$, il suffit de calculer la probabilité conditionnelle $p(y = 1 |x)$. Nous avons
+Dans ce cas, nous pouvons appliquer la formule de Bayes pour définir le classifieur optimal. Puisque la variable de classe prend les valeurs $0$ ou $1$, il suffit de calculer la probabilité conditionnelle $p(y = 1 |x)$. La probabilité $p(y = 0 |x)$ s'obtient par complémentaire, $p(y = 0 |x) = 1 - p(y = 1 |x)$. Nous avons
 
 $$
 p(y = 1 |x) = \frac{p(x|y=1) p(y = 1)}{p(x|y=0) p(y = 0) + p(x|y=1) p(y = 1)}\,.
 $$
 
-En remplaçant les densités, nous obtenons
+En remplaçant les densités par leurs expressions , nous obtenons
 $$
 p(y = 1 |x) = \frac{1}{1 + \exp(-(\lambda_0 - \lambda_1)x - \log(\lambda_1/\lambda_0))}\,.
 $$
