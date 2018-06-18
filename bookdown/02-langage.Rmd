@@ -1,17 +1,107 @@
 # Langage R et interface Rstudio
 
+## Introduction et objectifs (à compléter)
+
+L'objectif de cette séance est une brève présentation du langage de programmation R et de l'interface Rstudio.Il est essentiel de prendre en main cet outil très rapidement pour la réussite des travaux pratiques. Bien entendu, le contenu de cette séance est insuffisant pour cela. Nous donnons quelques pointeurs utiles et libres pour débuter en R. Il est fondamental de les parcourir avant de débuter les travaux pratiques. 
+
+* [R pour les débutants (Emmanuel Paradis)](https://cran.r-project.org/doc/contrib/Paradis-rdebuts_fr.pdf)
+
+* [Ouvrage en français (Vincent Goulet)](https://cran.r-project.org/doc/contrib/Goulet_introduction_programmation_R.pdf)
+
+Les manuels de R sont plus austères mais on peut les trouver utiles.
+
+* [Introduction à R](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf) 
+
+* [Liste des fonctions de base](https://stat.ethz.ch/R-manual/R-devel/library/base/html/00Index.html).
+
 
 ## Langage R
 
-### Principales classes d'objets
+Le langage R est un langage de programmation interprété. Il repose sur l'exécution dynamique du programme par un autre programme (l'interprète écrit en C). À l'origine, R a été développé pour des applications en statistique. Bien qu'il dépasse largement ce cadre, il reste particulièrement intéressant pour la science des données. 
+
+Le langage s'appuie sur la notion de **vecteur**, simplifiant le recours aux structures itératives
+(boucles for, while, etc.). Il n'y a pas de typage ou de déclaration obligatoire des variables. Il permet d'écrires des programmes courts, comportant quelques lignes de code seulement et le temps de développement est réduit.
 
 ### Utilisation de R
 
+Comme tout programme R doit être installé sur le système avant de pouvoir l'utiliser. Il s'agit d'un logiciel libre qu'il est possible de télécharger à partir du site [CRAN](https://cran.r-project.org/) pour une installation personnelle.  
+
+R est en premier lieu une application offrant une invite de commande symbolisée par un "prompt" (>). L'utilisation de R en ligne de commande est toutefois restreint, et il est utile pour des opérations très simple. Par exemple, on peut effectuer des opérations de calcul telles que calculer log(3)
+
+```{r}
+log(3)
+```
+ou faire la moyenne de 100 nombres pris au hasard entre 0 et 1
+```{r}
+x <- runif(100)
+mean(x)
+```
+
+ R peut être utilisé sous l'invite du système en mode de traitement par lot ("batch processing") grâce à la commande **R CMD BATCH**. Dans la suite, nous utiliserons essentiellement l'exécution de scripts (quelques commandes de R successives) à partir de l'interface **Rstudio**. Retenons que les principaux modes d'utilisation de R sont les suivants
+
+* Utilisation en ligne de commande : une commande simple est utilisée en mode interactif. La suite des commandes est enregistrée dans le fichier *.Rhistory*, et peut être retrouvée par la commande R **history()**.
+
+* Utilisation d'un script : un programme court ayant l'extension **.R** ou **.r** stocké sur le disque. Les scripts peuvent être exécuté par la commande **source()** ou en mode batch par **R CMD BATCH**.
+
+* Utilisation d'une fonction (routine) : une suite d'instructions effectuant un traitement spécifique bien identifié et pouvant être réutilisée. 
+
+* Utilisation d'une bibliothèque R : un programme écrit en R (et pouvant utiliser d'autres langages) appelé "package" qui rend disponible des fonctions à d'autres projets de programmation en conservant l'intégrité de son implémentation. Nous utiliserons par exemple des bibiothèques de "réseaux neuronaux" qui nous permettront de programmer en quelques lignes de code R des méthodes d'apprentissage statistique très puissantes.
+
+Le répertoire de travail (workspace) de R est le dossier par défaut dans lequel le logiciel va rechercher des fichiers de script ou de données et va sauvegarder l’espace de travail dans le fichier **.RData**. Le répertoire de travail est déterminé au lancement de R.
+
+Notons que lorsque l'on quitte R, le logiciel propose de sauver les objets créés pendant la session dans un répertoire local **.Rdata**. Si l'on accepte, on retrouve la session dans l'état où on la quitte lorsque l'on relançe le logiciel.
+
+### Principales classes d'objets
+
+Dans le langage R, toute forme de donnée appelée *objet*. Les variables, les fonctions, les opérateurs, même le symbole représentant le nom d’un objet est un objet. Les objets possèdent au minimum un mode (ou classe) et
+une longueur. Les principales classes d'objet sont les suivantes 
+
+* "numeric" : un vecteur contenant des valeurs numériques  
+* "character" : un vecteur contenant des caractères ou des chaînes de caractères
+* "logical" : un vecteur contenant des valeurs 0/1
+* "matrix" : un vecteur contenant des valeurs numériques, codé comme une matrice comportant $n$ lignes et $p$ colonnes.
+* "list" : une liste d'objets potentiellement hétérogène, comportant par exemple des vecteurs, des matrices, des caractères.
+* "data.frame" : une liste d'objets de même longueur.
+* "function" :  une fonction
+
+Par exemple, supposons que la variable $x$ prenne la valeur 8. 
+```{r}
+x <-  8
+x
+```
+Nous voyons que **x** est un vecteur dont la première valeur est égale à 1.
+```{r}
+x[1]
+```
+Nous vérifions que le vecteur **x** est de longueur 1 et de classe "numeric".
+```{r}
+length(x)
+class(x)
+```
+
+
 ### Manipulations vectorielles élémentaires
 
-### Fonctions de bases 
+
+
+
+
+### Fonctions de base
+
+En chargeant R, on charge des centaines de fonctions de base
 
 ### Bonnes pratiques
+
+* Data
+* Codes
+* Doc 
+* Comptes_Rendus
+
+* Suivre recommendations en matière de nomenclature pour l'écriture de code [(Coding style)](https://google.github.io/styleguide/Rguide.xml)
+
+indentation
+commentaires
+
 
 ## Rstudio
 
@@ -20,3 +110,8 @@
 ### Notebooks (Rmd)
 
 ### Bonnes pratiques
+
+* projet
+
+
+
