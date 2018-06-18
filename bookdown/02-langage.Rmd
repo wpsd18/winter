@@ -80,7 +80,125 @@ class(x)
 ```
 
 
+Pour créer une liste, on peut utiliser la fonction liste. La plupart des objets manipulés par les bibiothèques R sont des listes. Les différents attributs d'une liste sont accessibles par le symbole dollar (\$) ou par le double crochet. 
+
+```{r}
+mes_betes <- list(animal = c("chat", "chien"), sex = c("M", "F"), age = c(2, 8), vaccine = c(TRUE, TRUE) )
+```
+
+Pour obtenir les attributs, on pourra utiliser le symbole dollar
+
+```{r}
+mes_betes
+```
+Ainsi
+```{r}
+mes_betes$animal 
+```
+
+On pourra alors corriger les erreurs éventuelles. Si le second animal est un perroquet 
+
+```{r}
+mes_betes$animal[2] <- "perroquet"
+mes_betes
+```
+
+Tout les attributs ont meme longueur. On peut utiliser un tableau de données (data.frame). Un data.frame une liste particulière organisée en colonne.
+
+
+```{r}
+mes_betes <- data.frame(animal = c("chat", "perroquet"), sex = c("M", "F"), age = c(2, 8), vaccine = c(TRUE, TRUE) )
+mes_betes
+```
+
+
+
 ### Manipulations vectorielles élémentaires
+
+Nous décrivons deux exxemples de manipulations vectorielles élémentaires. Tout d'abord, considérons le vecteur suivant
+```{r}
+x <- c(1,6,7,1,0,9,2,3)
+x
+```
+et supposons que l'on cherche à *extraire les valeurs plus grandes que 2*. Dans ce cas, nous pouvons créer un vecteur logique
+```{r}
+(x > 2)
+```
+et obtenir le résultat de la manière suivante
+```{r}
+x[x > 2]
+```
+Nous obtenons les indices vérifiant la condition avec la fonction **which**
+```{r}
+which(x < 2)
+```
+
+
+Nous voyons que le calcul vectoriel est équivalent au code suivant utilisant une boucle *for* et un test  
+```{r}
+y <- NULL
+n <- length(x)
+
+  for (i in 1:n){
+    if (x[i] > 2){
+      y <- c(y, x[i])
+    } 
+  }
+y
+```
+
+Notre deuxième exemple est un plus subtil. Nous créons une matrice de taille 9 fois 11 contenant les premiers entiers et nous cherchons à *remplacer les valeurs paires par des valeurs nulles*. 
+
+```{r}
+M <- matrix(1:99, nrow = 9, ncol = 11)
+# dimensions de la matrice M 
+dim(M)
+# element 2,4
+M[2,4]
+```
+Puisque les matrices sont des vecteurs, la solution s'écrit tout simplement
+```{r}
+# le reste de la division s'écrit "%%"
+M[M %% 2 == 0] <- 0
+```
+Nous pouvons vérifier le résultat
+```{r}
+M
+```
+
+
+### Exercice
+
+La bibiothèque *'mlbench'* (machine learning benchmarks) contient des jeux de données que nous pourrons analyser et à partir desquels nous ferons des prédictions. L'exemple **BreastCancer** contient des données biomédicales concernant le cancer du sein (pour 699 patientes). La fonction **data** permet de charger les données en mémoire sous forme de tableau (data.frame). Avec la fonction **head** nous pouvons visualiser les premières lignes du tableau de données.
+
+
+```{r}
+library('mlbench')
+data(BreastCancer)
+head(BreastCancer)
+```
+
+Nous cherchons à récuperer le diagnostic des patientes (colonne **Class**) et à compter combien de diagnostics sont bénins ("benign"). 
+
+
+```{r}
+# les noms des colonnes
+colnames(BreastCancer)
+# On peut obtenir la colonne Class de la manière suivante 
+# On peut aussi remplacer Class par 11
+status <- BreastCancer[,"Class"]
+# méthode alternative : le $ désigne un attribut de liste  
+status <- BreastCancer$Class
+```
+
+```{r}
+sum(status == "benign")
+```
+
+
+```{r}
+table(status)
+```
 
 
 
@@ -88,7 +206,17 @@ class(x)
 
 ### Fonctions de base
 
-En chargeant R, on charge des centaines de fonctions de base
+En chargeant R, on charge des centaines de fonctions de base contenues dans les bibliothèques **base**, **stats**, **graphics**, etc, chargées par défaut. 
+
+
+```{r}
+apply(M, MARGIN = 2, sum)
+```
+
+```{r}
+colSums(M)
+```
+
 
 ### Bonnes pratiques
 
