@@ -192,7 +192,7 @@ $$
 R^2 = \sum_{k=1}^K \rho_k^2 < 1 .
 $$
 
-_Commentaire_ : le coefficient $R^2$ s'appelle le _coefficient de corrélation multiple_. 
+_Commentaire_ : le coefficient $R^2$ s'appelle le _coefficient de corrélation carrée multiple_. 
 
 
 
