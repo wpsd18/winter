@@ -39,5 +39,9 @@ bookdown/.RData
 bookdown/.DS_Store
 bookdown/.Rproj.user
 bookdown/_book/*
+<<<<<<< HEAD
 bookdown/_bookdown_files/*
+=======
+bookdown/_bookdown_files
+>>>>>>> 69b4806c58328ce5443ad18434da4185c7dadca8
 
