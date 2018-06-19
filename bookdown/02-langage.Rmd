@@ -182,7 +182,7 @@ M
 
 ### Application à un jeu de données
 
-La bibiothèque *'mlbench'* (machine learning benchmarks) contient des jeux de données que nous pouvons analyser et à partir desquels nous ferons des prédictions. L'exemple **BreastCancer** contient des données biomédicales concernant le cancer du sein (les données concernent 699 patientes). La fonction **data** permet de charger les données en mémoire sous forme de tableau (data.frame). Avec la fonction **head** nous pouvons visualiser les premières lignes du tableau **BreastCancer**.
+La bibiothèque *'mlbench'* ("machine learning benchmarks") contient des jeux de données que nous pouvons analyser et à partir desquels nous pourrons faire des prédictions. L'exemple **BreastCancer** contient des données biomédicales concernant le cancer du sein (les données concernent 699 patientes). La fonction **data** permet de charger les données en mémoire sous forme de tableau (data.frame). Avec la fonction **head** nous pouvons visualiser les premières lignes du tableau **BreastCancer**.
 
 
 ```{r}
@@ -208,7 +208,7 @@ Le résultat est donné par la commande suivante
 sum(status == "benign")
 ```
 
-Notons qu'il est aussi possible utiliser la fonction **table** qui créé un histogramme des données
+Notons qu'il est aussi possible utiliser la fonction **table** qui crée un histogramme des données de manière automatique
 ```{r}
 table(status) # help(table)
 ```
@@ -277,35 +277,51 @@ mean(sin(runif(10000, 0, 2)))
 
 ### Bonnes pratiques pour les travaux pratiques
 
-Programmer en R ou dans un autre langage doit permettre à un autre programmeur ou un autre utilisateur de comprendre et de réutiliser le code, et généralement de reproduire le travail effectué. Pour cela, une clé est l'organisation de son espace de travail. R possède de très bons outils pour cela (Rstudio). 
+Programmer en R ou dans un autre langage doit permettre à un autre programmeur ou un autre utilisateur de comprendre l'organisation d'un projet, et généralement de faciliter la reproductibilité du travail effectué. Pour cela, une clé est l'organisation de son espace de travail. R possède de très bons outils pour cela (Rstudio). 
 
-Pour les travaux pratiques, il est important de créer un répertoire pour chaque TP. Le répertoire de travail pourra contenir les sous-répertoires suivants
+Pour les travaux pratiques, il est important de créer un répertoire pour chaque TP. Le répertoire de travail d'un TP pourra contenir les sous-répertoires suivants
 
 * Data : un répertoire contenant les données du TP. 
 * Codes : un répertoire contenant les scripts ou les cahiers de travail en Rmd. 
 * Documents : un répertoire contenant des ressources séparées, par exemple les documents de référence   
 * Comptes_Rendus : un répertoire contenant le fichier 
 
+Il est de plus très important de respecter quelques recommendations en matière de nomenclature pour l'écriture de code. Quelques règles d'écriture peuvent être trouvée en suivant le lien suivant : [Coding style](https://google.github.io/styleguide/Rguide.xml). 
 
+Les codes étant en général très courts, on s'efforcera de commenter systématiquement les instructions des programmes (avec un dièse). Pour les noms de variables, nous utiliserons la convention "Wickham" utilisant des mots en lettres minuscules séparés par des tirets. Par exemple, pour nommer une fonction permettant de dire "Coucou", on écrira
 
+```{r}
+dire_coucou <- function(){
+  cat("Coucou \n")
+}
+```
 
-
-
-* Suivre recommendations en matière de nomenclature pour l'écriture de code [(Coding style)](https://google.github.io/styleguide/Rguide.xml)
-
-indentation
-commentaires
+```{r}
+dire_coucou()
+```
 
 
 ## Rstudio
 
+Rstudio est un programme dont nous nous servirons pour faire les TPs. Il est essentiel de se familiariser rapidement avec l'interface. Deux avantages intéressants que nous tirerons de ce programme est 1) la possibilité d'associer un projet à un espace de travail, 2) la possibilité de rédiger les TPs et les comptes rendus de TP en même temps que l'on effectue le TP en utilisant un **Notebook** (cahier). 
+
+R studio est plus qu'une interface graphique. Ce programme permet de coder en R (ou dans un autre langage), d'ouvrir des scripts ou des cahiers, de gérer ses fichiers, de consulter l'aide, d'installer des bibliothèques, d'afficher des graphiques, de gérer le versionnage du projet (git), etc.  
+
 ### Projets 
+
+Rstudio permet d'associer un "projet" à un espace de travail. Le projet peut être créé dans l'onglet **File**, en selectionnant **File > New Project** et en suivant les instructions de l'interface. 
+
+L'intêret d'un projet de pouvoir retrouver l'environnement de travail tel qu'on le laisse à la fermeture de l'application. Cela permet aussi de changer de projet très facilement et de revenir plus tard. 
 
 ### Notebooks (Rmd)
 
-### Bonnes pratiques
+Les cahiers (**Notebooks**) sont le mode de travail interactif que nous privéligierons en TP. Un cahier est un programme écrit en langage **Rmarkdown**. **Rmarkdown** est un langage de balise permettant de mélanger du texte et du code, que l'on exécute à la volée. Il est aussi possible d'intégrer des commandes latex pour inclure des équations, des images ou des liens web et des commandes html.  
 
-* projet
+On peut "compiler" un fichier Rmarkdown pour une sortie en PDF ou html. 
+
+Il est inutile de connaître le langage Rmarkdown à fond. Les fichiers préparés vous permettront de faire les TPs en simplifiant la phase de rédaction. Une feuille d'aide contenant les quelques commandes utiles de Rmarkdown est disponible dans l'onglet **Help** de Rstudio. 
+
+L'ensemble de ce cours est écrit en **Rmarkdown**.
 
 
 
