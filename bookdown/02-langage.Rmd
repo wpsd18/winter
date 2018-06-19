@@ -60,8 +60,8 @@ une longueur. Les principales classes d'objet sont les suivantes
 * "character" : un vecteur contenant des caractères ou des chaînes de caractères
 * "logical" : un vecteur contenant des valeurs 0/1
 * "matrix" : un vecteur contenant des valeurs numériques, codé comme une matrice comportant $n$ lignes et $p$ colonnes.
-* "list" : une liste d'objets potentiellement hétérogène, comportant par exemple des vecteurs, des matrices, des caractères.
-* "data.frame" : une liste d'objets de même longueur.
+* "list" : une liste d'objets potentiellement hétérogènes, contenant par exemple des vecteurs, des matrices, des caractères.
+* "data.frame" : une liste d'objets de même longueur organisée en tableau.
 * "function" :  une fonction
 
 Par exemple, supposons que la variable $x$ prenne la valeur 8. 
@@ -103,11 +103,15 @@ mes_betes$animal[2] <- "perroquet"
 mes_betes
 ```
 
-Tout les attributs ont meme longueur. On peut utiliser un tableau de données (data.frame). Un data.frame une liste particulière organisée en colonne.
+Remarquons que tous les attributs ont la même longueur. Plutôt que le format de liste, nous pouvons organiser  les données sous la forme d'un tableau (**data.frame**). Un objet de type **data.frame** est une liste particulière organisée en colonnes. Un data.frame peut être créé  de la manière suivante.
 
 
 ```{r}
-mes_betes <- data.frame(animal = c("chat", "perroquet"), sex = c("M", "F"), age = c(2, 8), vaccine = c(TRUE, TRUE) )
+# les noms sont donnés aux colonnes du tableau de données
+mes_betes <- data.frame(animal = c("chat", "perroquet"), 
+                        sex = c("M", "F"), 
+                        age = c(2, 8), 
+                        vaccine = c(TRUE, TRUE))
 mes_betes
 ```
 
@@ -115,20 +119,28 @@ mes_betes
 
 ### Manipulations vectorielles élémentaires
 
-Nous décrivons deux exxemples de manipulations vectorielles élémentaires. Tout d'abord, considérons le vecteur suivant
+Le langage R permet de nombreuses manipulations vectorielles. Nous décrivons ci-dessous deux exemples de manipulations vectorielles élémentaires. Dans le premier exemple, nous chercherons à extraire les éléments d'un vecteur satisfaisant une condition particulière (valeurs supérieures à deux). Dans le deuxième exemple, nous remplacerons certains éléments d'une matrice par des valeurs nulles.   
+
+
+Tout d'abord, considérons le vecteur suivant (notons que ) 
 ```{r}
-x <- c(1,6,7,1,0,9,2,3)
+x <- c(1,6,7,1,0,9,2,3)   # c() permet de créer un vecteur
 x
 ```
-et supposons que l'on cherche à *extraire les valeurs plus grandes que 2*. Dans ce cas, nous pouvons créer un vecteur logique
+
+Supposons que l'on cherche à *extraire les valeurs plus grandes que 2* du vecteur x. Dans ce cas, nous pouvons créer un vecteur logique
+
 ```{r}
 (x > 2)
 ```
+
 et obtenir le résultat de la manière suivante
+
 ```{r}
 x[x > 2]
 ```
-Nous obtenons les indices vérifiant la condition avec la fonction **which**
+
+Nous obtenons les indices vérifiant la condition **(x>2)** avec la fonction **which**
 ```{r}
 which(x < 2)
 ```
@@ -136,40 +148,41 @@ which(x < 2)
 
 Nous voyons que le calcul vectoriel est équivalent au code suivant utilisant une boucle *for* et un test  
 ```{r}
-y <- NULL
-n <- length(x)
+y <- NULL # initialiser la variable résultat par l'objet "NULL"
+n <- length(x) 
 
-  for (i in 1:n){
+for (i in 1:n){   # 1:n est un vecteur de valeurs de 1 à n
     if (x[i] > 2){
       y <- c(y, x[i])
     } 
   }
-y
+print(y) # on pourrait simplement écrire "y"
 ```
 
-Notre deuxième exemple est un plus subtil. Nous créons une matrice de taille 9 fois 11 contenant les premiers entiers et nous cherchons à *remplacer les valeurs paires par des valeurs nulles*. 
+Notre deuxième exemple est un plus subtil. Nous créons une matrice de taille 9 fois 11 contenant les 99 premiers entiers et nous cherchons à *remplacer les valeurs paires de cette matrice par des valeurs nulles*. 
 
 ```{r}
 M <- matrix(1:99, nrow = 9, ncol = 11)
-# dimensions de la matrice M 
-dim(M)
-# element 2,4
-M[2,4]
+dim(M) # dimensions de la matrice M 
+
+print(M[2,4]) # affiche l'élément [2,4] de la matrice
 ```
-Puisque les matrices sont des vecteurs, la solution s'écrit tout simplement
+
+Puisque les matrices sont codées comme des vecteurs, la solution s'écrit tout simplement
+
 ```{r}
-# le reste de la division s'écrit "%%"
-M[M %% 2 == 0] <- 0
+M[M %% 2 == 0] <- 0 # le reste de la division (modulo) s'écrit "%%"
 ```
+
 Nous pouvons vérifier le résultat
 ```{r}
 M
 ```
 
 
-### Exercice
+### Application à un jeu de données
 
-La bibiothèque *'mlbench'* (machine learning benchmarks) contient des jeux de données que nous pourrons analyser et à partir desquels nous ferons des prédictions. L'exemple **BreastCancer** contient des données biomédicales concernant le cancer du sein (pour 699 patientes). La fonction **data** permet de charger les données en mémoire sous forme de tableau (data.frame). Avec la fonction **head** nous pouvons visualiser les premières lignes du tableau de données.
+La bibiothèque *'mlbench'* (machine learning benchmarks) contient des jeux de données que nous pouvons analyser et à partir desquels nous ferons des prédictions. L'exemple **BreastCancer** contient des données biomédicales concernant le cancer du sein (les données concernent 699 patientes). La fonction **data** permet de charger les données en mémoire sous forme de tableau (data.frame). Avec la fonction **head** nous pouvons visualiser les premières lignes du tableau **BreastCancer**.
 
 
 ```{r}
@@ -178,52 +191,105 @@ data(BreastCancer)
 head(BreastCancer)
 ```
 
-Nous cherchons à récuperer le diagnostic des patientes (colonne **Class**) et à compter combien de diagnostics sont bénins ("benign"). 
+Nous cherchons à récupérer l'ensemble des diagnostics des patientes (colonne **Class**) et souhaitons compter le nombre de diagnostics bénins ("benign"). 
 
 
 ```{r}
-# les noms des colonnes
-colnames(BreastCancer)
+colnames(BreastCancer) # les noms des colonnes
 # On peut obtenir la colonne Class de la manière suivante 
 # On peut aussi remplacer Class par 11
 status <- BreastCancer[,"Class"]
-# méthode alternative : le $ désigne un attribut de liste  
+# Méthode alternative : le $ désigne un attribut de liste  
 status <- BreastCancer$Class
 ```
 
+Le résultat est donné par la commande suivante
 ```{r}
 sum(status == "benign")
 ```
 
-
+Notons qu'il est aussi possible utiliser la fonction **table** qui créé un histogramme des données
 ```{r}
-table(status)
+table(status) # help(table)
 ```
-
-
 
 
 
 ### Fonctions de base
 
-En chargeant R, on charge des centaines de fonctions de base contenues dans les bibliothèques **base**, **stats**, **graphics**, etc, chargées par défaut. 
-
+La programmation en R s'appuie sur l'utilisation de fonctions et l'utilisation de l'aide en ligne (fonction **help()**). La structure d'une fonction est la suivante
 
 ```{r}
-apply(M, MARGIN = 2, sum)
+f <- function(arg){
+  # body
+  }
 ```
 
+
+Des centaines de fonctions de base sont contenues dans les bibliothèques **base**, **stats**, **graphics**, etc, chargées par défaut en lançant R. Il est impossible d'énumérer l'ensemble de ces fonctions. C'est en pratiquant régulièrement l'écriture de commandes, en utilisant l'aide, les tutoriaux en ligne (vignettes) et internet que l'on progresse le plus vite dans l'apprentissage des fonctions de base. Des applications web aux graphiques les plus élaborés en passant par des maths de haut niveau, tout est réalisable en R.   
+
+Voici quelques fonctions clés. Pour lire des données locales ou distantes ou pour les écrire, nous pouvons utiliser les fonctions suivantes
+* **read.table()**, **write.table()**
+* **scan()**, **write()**
+* **read.csv2()**, **write.csv()**
+
+Pour effectuer des calculs statistiques de base, nous pouvons utiliser les fonctions suivantes
+
+* **mean()**, **median()**, **sd()**
+* **table()**, **hist()**, **pie()**
+
+Pour effectuer des tirages aléatoires, nous pouvons utiliser les fonctions suivantes
+
+* **sample()** pour un tirage d'urne
+* **rnorm()** pour un tirage de loi normale
+* **runif()** pour un tirage de loi uniforme
+
+La fonction **apply()** est particulièrement importante car elle permet d'appliquer une fonction aux lignes ou aux colonnes d'une matrice ou d'un tableau, évitant ainsi le recours à une boucle **for()**. Par exemple, nous souhaitons calculer la somme des valeurs de chaque colonne de la matrice **M**. 
+
+```{r}
+apply(M, MARGIN = 2, FUN = sum)
+```
+
+En R, il est aussi possible de calculer ceci directement
 ```{r}
 colSums(M)
 ```
 
 
-### Bonnes pratiques
+Finalement, notons l'usage de la fonction *pipe* de la bibliothèque **magrittr**. Un peu comme le "pipe" sous Unix/Linux, cette opérateur permet d'organiser séquentiellement les traitements à effectuer et gagne en lisibilité. Pour reproduire l'exemple précédent, nous pouvons écrire
 
-* Data
-* Codes
-* Doc 
-* Comptes_Rendus
+```{r}
+library(magrittr)
+M %>% colSums() # M est passée en argument à la fonction colSums
+```
+
+Si on souhaite calculer la moyenne du sinus de nombres aléatoires pris entre 0 et 2, il suffit de lire la phrase à l'envers et d'écrire
+
+```{r}
+runif(10000, 0, 2) %>% sin() %>% mean()
+```
+
+Cette opération évite les appels imbriqués et rend le code plus lisible. Elle est équivalente à la commande suivante 
+
+```{r}
+mean(sin(runif(10000, 0, 2)))
+```
+
+### Bonnes pratiques pour les travaux pratiques
+
+Programmer en R ou dans un autre langage doit permettre à un autre programmeur ou un autre utilisateur de comprendre et de réutiliser le code, et généralement de reproduire le travail effectué. Pour cela, une clé est l'organisation de son espace de travail. R possède de très bons outils pour cela (Rstudio). 
+
+Pour les travaux pratiques, il est important de créer un répertoire pour chaque TP. Le répertoire de travail pourra contenir les sous-répertoires suivants
+
+* Data : un répertoire contenant les données du TP. 
+* Codes : un répertoire contenant les scripts ou les cahiers de travail en Rmd. 
+* Documents : un répertoire contenant des ressources séparées, par exemple les documents de référence   
+* Comptes_Rendus : un répertoire contenant le fichier 
+
+
+
+
+
 
 * Suivre recommendations en matière de nomenclature pour l'écriture de code [(Coding style)](https://google.github.io/styleguide/Rguide.xml)
 
