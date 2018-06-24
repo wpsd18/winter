@@ -302,7 +302,7 @@ $$
 p_{\sf x_{1:k}} ({\bf x}_{1:k}) \equiv p({\bf x}_{1:k}) = \int p({\bf x}_{1:k}, {\bf x}_{k+1:D}) d {\bf x}_{k+1:D} \, .
 $$
 
-Par exemple, considérons un vecteur à 4 coordonnées. La loi marginale du couple $(x_1,x_2)$ sera donnée par l'intégrale suivante
+Par exemple, considérons un vecteur à quatre coordonnées. La loi marginale du couple $(x_1,x_2)$ sera donnée par l'intégrale suivante
 
 $$
 p(x_1, x_2) = \int p(x_1, x_2, x_3, x_4) dx_3 dx_4 \, .
@@ -390,7 +390,7 @@ $$
 Nous voyons donc que ${\bf \Lambda}$ est elle même une matrice de covariance. Ceci implique que ces termes diagonaux sont des variances, et donc strictement positifs.
 
 
-### Définition de la loi gaussienne $N({\bf m},{\bf C})$ (sujet du cours 2).
+### Définition de la loi gaussienne $N({\bf m},{\bf C})$ : sujet du cours 2.
 
 Soit ${\bf C}$ une matrice de covariance de dimension $D \times D$ et ${\bf m}$ un vecteur de dimension $D$. La loi gaussienne $N({\bf m},{\bf C})$ est la loi de densité 
 
@@ -401,6 +401,22 @@ $$
 
 L'espérance de ${\bf x}$ est égale à ${\bf m}$ et la matrice de covariance est égale à ${\bf C}$.
 
+
+## Principales notions à retenir et à savoir définir
+
+Dans cette séance, nous avons vu les points suivants.
+
+* La loi des vecteurs aléatoires peut être caractérisée par une fonction de densité. 
+
+* Les lois des variables dans un vecteur aléatoire s'appellent les lois marginales. 
+
+* Dans un vecteur aléatoire, on peut calculer les lois des variables sachant d'autres variables. Ces lois sont des lois conditionnelles.
+
+* L'espérance (valeur moyenne) d'une fonction d'un vecteur aléatoire est égale à l'intégrale de la fonction pondérée par la densité prise sur toutes les valeurs possibles.
+
+* Les valeurs moyennes correspondent aux valeurs empiriques lorsque l'on dispose d'un échantillon de taille infinie (loi des grands nombres).
+
+* En dimension $D\geq 1$, la matrice de covariance résume la variabilité des observations dans leur ensemble. Cette matrice est symétrique et ces valeurs propres sont strictement positives (ce sont des variances). En dimension 1, elle correspond à la variance.
 
 
 

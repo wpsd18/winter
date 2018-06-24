@@ -3,9 +3,9 @@
 ## Introduction et objectifs (à compléter)
 
 * Formule de Bayes 
-* Erreur de classification moyenne (_accuracy_)
-* Perte d'information (_logloss_)
-* Classifieur probabiliste optimal 
+* Erreur de classification moyenne (_accuracy_) et perte d'information (_logloss_)
+* Classifieur optimal 
+* Surapprentissage et ensemble de test 
 
 ## Quelques notions probabilistes supplémentaires
 
@@ -633,4 +633,16 @@ pred[pred == 0] <-  0.0000000000001
 ```
 
 
+## Principales notions à retenir
 
+Dans cette séance, nous avons vu les points suivants.
+
+* En apprentissage supervisé, une machine probabiliste est définie par une fonction calculant des probabilités pour chaque catégorie ($y = k$) et toute observation ${\bf x}$. On parle de classifieur probabiliste ou de modèle de prédiction.    
+
+* Un algorithme d'apprentissage supervisé est un algorithme qui ajuste le modèle de prédiction en  minimisant une fonction de perte calculée à partir des données observées. Les fonctions de perte les plus utilisées sont l'erreur de classification moyenne (_accuracy_) et la perte d'information (_logloss_). 
+
+* Le classifieur probabiliste optimal est obtenu en calculant les probabilités conditionnelles des catégories sachant les observations. Cela suppose un échantillon de taille infinie (il peut parfois être obtenu théoriquement en utilisant la formule de Bayes). Le classifieur déterministe optimal choisit la catégorie ayant la plus grande probabilité conditionnelle sachant ${\bf x}$.
+
+* Le phénomène de surapprentissage apparaît lorsque la taille de l'échantillon d'apprentissage est petite devant le nombre de paramètres du modèle de prédiction. 
+
+* Pour évaluer correctement un algorithme d'apprentissage, on calcule la fonction de perte sur un ensemble de données n'ayant pas servi lors de la phase apprentissage.   

@@ -4,45 +4,52 @@
 
 ## Objectif de la séance
 
-On suppose que l'on effectue une classification binaire à partir du vecteur ${\bf x} \in \mathbb{R}^D$. On notera $y \in {0,1}$ une classe associée à un tel vecteur et on appele _classifieur dur_ (_hard classifier_) toute une fonction $c({\bf x})$ retournant 0 ou 1, et supposée prédire la classe du vecteur ${\bf x}$. On suppose de plus que les données ont été générées en proportions égales dans deux classes.
+On suppose que l'on effectue une classification binaire à partir du vecteur ${\bf x} \in \mathbb{R}^D$. On note $y \in \{0,1\}$ une classe associée à un tel vecteur et on appelle _classifieur dur_ (_hard classifier_) toute une fonction $c({\bf x})$ retournant 0 ou 1, supposée prédire la classe du vecteur ${\bf x}$. 
 
-L'objectif de cette séance de travaux dirigés est de comprendre que le prédicteur optimal minimisant fonction de perte 0-1 (ou erreur de classification) est lié au calcul des probabilités conditionnelles de classe sachant ${\bf x}$.
+On suppose de plus que les données ont été générées en proportions égales dans deux classes
+$$
+p(y = 0) = p(y = 1) \,.
+$$
+
+L'objectif de cette séance de travaux dirigés est de vérifier que le prédicteur optimal minimisant fonction de perte 01 (ou erreur de classification) est lié au calcul des probabilités conditionnelles d'appartenance aux classes sachant ${\bf x}$. 
+
+Nous calculerons le classifieur optimal dans un cas gaussien, et vérifierons qu'il s'agit d'un neurone formel. Dans la seconde partie, nous étudierons les propriétés d'un classifieur non-paramétrique.
 
 
 
 ## Exercice 1.  Erreur 0-1 (accuracy) et prédiction dure.
 
-On considère la fonction d'erreur 0-1 (accuracy) pénalisant un mauvais classement : 
+On considère la fonction de perte 01 (accuracy) pénalisant un mauvais classement. Cette fonction est définie de la manière suivante 
 
 $$
-L(y,c({\bf x})) =  \mathbb{1}_{(y \neq c({\bf x}))} 
+L(c({\bf x}), y) =  \mathbb{1}_{(y \neq c({\bf x}))}  \, .
 $$
 
 ### Question 1 
 
-Montrer que la perte moyenne correspond à la proportion de mauvais classements
+Justifier que la perte moyenne correspond à la proportion de mauvais classements
 
 $$
-\mathbb{E}[ L(y,c({\bf x}))] = p(y \neq c({\bf x})) \, .
+\mathbb{E}[ L(c({\bf x}), y)] = p(y \neq c({\bf x})) \, .
 $$
 
 ### Question 2 
  
-\`A l'aide de la formule des probabilités totales, montrer que 
+Vérifier très rapidement que, si $c({\bf x}) = 1$, nous avons 
 
 $$
-p(y \neq c({\bf x}) | {\bf x}) = p(y = 0 | {\bf x}) {\rm ~~si~~} c({\bf x}) = 1 \, ,
+p(y \neq c({\bf x}) | {\bf x}) = p(y = 0 | {\bf x}) \, ,
 $$
-et que
+et, si $c({\bf x}) = 0$, nous avons
 
 $$
-p(y \neq c({\bf x}) | {\bf x}) = p(y = 1 | {\bf x}) {\rm ~~si~~} c({\bf x}) = 0 \, .
+p(y \neq c({\bf x}) | {\bf x}) = p(y = 1 | {\bf x})  \, .
 $$
 
 
 ### Question 3 
 
-En déduire que la fonction c_{\rm opt}({\bf x}) minimisant $L(y,c({\bf x}))$ en moyenne est égale à 
+Montrer que la fonction $c_{\rm opt}({\bf x})$ minimisant l'espérance de la variable $L(c({\bf x}),y)$ est égale à 
 
 $$
 c_{\rm opt}({\bf x}) = \left\{ 
@@ -52,17 +59,22 @@ c_{\rm opt}({\bf x}) = \left\{
 \end{array}
 \right.
 $$
-On appelera cette machine le _classifieur optimal_. La courbe de $\mathbb{R}^D$ définie par $p(y = 1 | {\bf x}) = p(y = 0 | {\bf x})$ s'appelle la _frontière de décision_. 
+
+On appelera la fonction $c_{\rm opt}({\bf x})$ le _classifieur optimal_. La courbe de $\mathbb{R}^D$ définie par l'équation 
+$$
+p(y = 1 | {\bf x}) = p(y = 0 | {\bf x})
+$$ 
+s'appelle la _frontière de décision_. 
 
 
 ### Question 3bis (facultative)
 
-On ne suppose plus que les données ont été générées en proportions égales dans deux classes ($p(y = 1) \neq  p(y = 0)$). Déterminer le _classifieur optimal_.
+On suppose que les données n'ont pas nécessairement été générées en proportion égale dans deux classes ($p(y = 1) \neq  p(y = 0)$). Déterminer le _classifieur optimal_.
 
 
-### Question 4 : décision neuronale
+### Question 4 
 
-On suppose dans cette question que le vecteur ${\bf x}$ ne possède qu'une dimension ($D = 1$). On suppose de plus que les données ont été générées en proportions égales dans deux classes selon des lois normales
+Dans cette question, on suppose que $x$ est une variable réelle ($D = 1$). On suppose  que les données ont été générées en proportion égale dans deux classes selon des lois normales
 
 $$
 p( x | y = k ) = N(x | m_k, 1 ) \, , \quad  k = 0, 1.
@@ -79,23 +91,35 @@ c_{\rm opt}(x) = \left\{
 \right.
 $$
 
-### Question 5 
+### Question 5  : décision neuronale
 
-Montrer que la fonction $c_{\rm opt}$ correspond à la définition d'un neurone artificiel booléen/logique. Pour cela, poser $w = (m_1 - m_0)$ et $s = (m_0 + m_1)/2$. 
+Montrer que la fonction $c_{\rm opt}(x)$ correspond à la définition d'un neurone artificiel logique de la forme
+
+$$
+n(x) = \left\{ 
+\begin{array}{cl}
+1 & {\rm si~~} wx - s > 0 \\
+0 & {\rm sinon.}  \\
+\end{array}
+\right.
+$$
+
+où $w = (m_1 - m_0)$ et $s = w(m_0 + m_1)/2$. 
 
 
 ### Question 6 (Classification probabiliste - _soft classifier_) 
 
-Montrer que la probabilité conditionnelle de $y = 1$ sachant $x$ est décrite par la formule suivante
+En utilisant la formule de Bayes, montrer que la probabilité conditionnelle de $y = 1$ sachant $x$ est décrite par la formule suivante
 
 $$
-p(y = 1 | x) = {\rm sigmoid}(w(x - s))
+p(y = 1 | x) = {\rm sigmoid}(wx - s)
 $$
-et  la fonction **sigmoid**$(x)$ est définie par
+où la fonction **sigmoid**$(x)$ est définie par
 
 $$
 {\rm sigmoid}(x) = \frac{1}{1 + e^{-x}} \, , \quad x \in \mathbb{R}. 
 $$
+
 Vérifier cette probabilité conditionnelle correspond à la définition d'un neurone artificiel probabiliste.
 
 
@@ -103,55 +127,55 @@ Vérifier cette probabilité conditionnelle correspond à la définition d'un ne
 
 ### Question 1
 
-En dimension $D$ quelconque, on suppose disposer d'un échantillon d'apprentissage constitué de $n$ observations vectorielles, $({\bf x}_i)_{i=1,\dots,n}$. 
+En dimension $D$ quelconque, on dispose d'un échantillon d'apprentissage constitué de $n$ observations vectorielles, $({\bf x}_i)_{i=1,\dots,n}$. 
 
-Pour un vecteur test ${\bf x}$, on considère l'ensemble des $k$ plus proches voisins ${\bf x}$ dans l'échantillon 
+Pour un vecteur test ${\bf x}$, on considère l'ensemble des $k$ plus proches voisins de ${\bf x}$ dans l'échantillon. Une définition plus formelle de $V({\bf x})$ peut être trouvée ci-dessous 
 
 $$
 V({\bf x}) = \{  {\bf x}_{(j)} ,  j = 1, \dots, k, {\rm ~t.q.~} \max_{j = 1, \dots, k } d({\bf x}_{(j)}, {\bf x})  < \min_{j = k+1, \dots, n } d({\bf x}_{(j)}, {\bf x}) \} 
 $$
-où $(.)$ désigne la permutation des éléments de l'échantillon d'apprentissage ordonnant les distances à ${\bf x}$.
+où $(j)$ désigne la permutation des éléments de l'échantillon d'apprentissage ordonnant les distances à ${\bf x}$.
 
-On considère l'algorithme de classification $k$-NN s'appuyant sur une règle de vote local (élection au suffrage universel direct par mode de scrutin majoritaire uninominal). 
+On considère l'algorithme de classification appelé $k$-NN s'appuyant sur une règle de vote local selon élection au suffrage universel direct par mode de scrutin majoritaire  
 
 $$
 \hat{c}({\bf x}) = \left\{ 
 \begin{array}{cl}
-1 & {\rm si~~} \frac1k \sum_{i \in N({\bf x})}  y_i  > \frac12  \\
+1 & {\rm si~~} \frac1k \sum_{i \in V({\bf x})}  y_i  > \frac12  \\
 0 & {\rm sinon.}  \\
 \end{array}
 \right.
 $$
 
-On suppose que l'échantillon est de taille arbitrairement grande ($n \to \infty$). Sous quelle condition pourrait-on justifier l'approximation suivante
+On suppose que l'échantillon est de taille arbitrairement grande ($n \to \infty$). Sous quelle condition pourrait-on justifier l'approximation suivante ? (Justifier par un graphique)
 
 $$
-\frac1k \sum_{i \in N({\bf x})}  y_i  \approx p(y = 1 | {\bf x}) . 
+\frac1k \sum_{i \in V({\bf x})}  y_i  \approx p(y = 1 | {\bf x}) . 
 $$
 
 ### Question 2 
 
- L'algorithme de construction du prédicteur $\hat{c}({\bf x})$ implémente-t-il la règle de classification  de Bayes ? 
+ L'algorithme de construction du classifieur $\hat{c}({\bf x})$ implémente-t-il la règle de classification  de Bayes ? Justifier la réponse.
 
 ### Question 3
 
-Une petite valeur de $k$ augmente-t-elle la variance du prédicteur $\hat{c}({\bf x})$ ?
+Une petite valeur de $k$ augmente-t-elle ou diminue-t-elle la variance de $\hat{c}({\bf x})$ ? Justifier la réponse.
 
 ### Question 4
 
-Une grande valeur de $k$ augmente-t-elle la variance du prédicteur $\hat{c}({\bf x})$ ? Quel problème voyez vous apparaître si la valeur de $k$ est trop grande ?
+Une grande valeur de $k$ augmente-t-elle ou diminue-t-elle la variance de $\hat{c}({\bf x})$ ? Quel problème voyez vous apparaître si la valeur de $k$ est trop grande ?
 
 
-### Question 5. Orange ou bleu
+### Question 5. Application au modèle de Hastie et Tibshirani.
 
-Le modèle HT (Hastie et Tibshirani) consiste à simuler un feu d'artifice gaussien. La première classe est centrée en $(1,0)$ et 10 (*n.subclass*) sous-classes sont générées selon la loi $N((0,1), {\bf I})$. Les données sont simulées en choisissant une sous-classe $m_k$ au hasard parmi les 10 selon une loi de variance (*sigma2*) plus faible, $N(m_k, \sigma^2{\bf I})$. La seconde classe obéit au même modèle génératif, mais à partir du point central $(0,1)$.
+Le modèle HT (de Hastie et Tibshirani) consiste à simuler un feu d'artifice gaussien. La première classe est centrée en $(1,0)$ et *n.subclass* $= 10$ sous-classes sont générées selon la loi $N((0,1), {\bf I})$. Les données sont alors simulées en choisissant une sous-classe $m_k$ au hasard parmi les 10 selon une loi de variance (*sigma2*) plus faible, $N(m_k, \sigma^2{\bf I})$. La seconde classe obéit au même modèle génératif, mais à partir du point central $(0,1)$.
 
 
 ```{r include = FALSE}
 source("./codes/TP3.r")
 ```
 
-Simulons un jeu de données en utilisant le générateur `rhastib`. Affichons les données 
+Simulons un jeu de données en utilisant le générateur `rhastib()', disponible dans le package du cours, et affichons les données colorées par classe
 
 
 ```{r}
@@ -167,29 +191,35 @@ Où vous semble passer la frontière de décision ?
 
 ### Question 6
 
-On entraine un classifieur $k$nn sur les données du modèle _hastib_ tout en évaluant son erreur de classification sur un ensemble test de même taille. On effectue ceci pour $k = 1, \dots, 50$. Commenter le code suivant.
+On entraine un classifieur $k$-NN sur les données du modèle _hastib_ tout en évaluant son erreur de classification sur un ensemble test de même taille. On effectue ceci pour $k = 1, \dots, 50$. Commenter le code suivant (4 lignes de commentaires à compléter).
 
 ```{r}
 acc.train <- NULL
 acc.test <- NULL
 
-for (i in 1:50){
+for (k in 1:50){
+  # comment 1
   mod.knn <- class::knn(x$train, 
                         x$train, 
                         x$class.train, 
-                        k = i, 
+                        k = k, 
                         prob = FALSE)
-  acc.train[i] <- mean(mod.knn == x$class.train)
+
+  # comment 2  
+  acc.train[k] <- mean(mod.knn == x$class.train)
   
+  # comment 3
   mod.knn <- class::knn(x$train, 
                         x$test, 
                         x$class.train, 
-                        k = i, 
+                        k = k, 
                         prob = FALSE)
-  
-acc.test[i] <- mean(mod.knn == x$class.test)
+  # comment 4 
+ acc.test[k] <- mean(mod.knn == x$class.test)
 }
 ```
+
+### Question 7
 
 On affiche les résultats de la manière suivante.
 
@@ -209,48 +239,52 @@ legend(x = 42, y = 0.95,
        col = c("blue", "red"), lty = 1)
 ```
 
-Commenter la courbe ci-dessus. Quel choix de $k$ vous apparait être justifié pour des prédictions futures concernant des tirages identiques indépendants ?
+Commenter la courbe obtenue ci-dessus. Quel choix de $k$ vous apparait être justifié pour des prédictions futures concernant des tirages identiques et indépendants de ceux effectués dans la simulation ?
 
-### Question 7
+Commenter l'effet de $k$ sur le biais et de variance des prédictions.
 
-Comprendre le code corespondant à l'experience suivante: _visualiser la frontière de décision_. Commenter l'effet de $k$ sur le biais et de variance des prédictions.  
+
+### Question 8
+
+Commenter le code correspondant à l'experience suivante: _visualiser la frontière de décision_. Utiliser l'aide de R pour les commandes inconnues.
+
 
 ```{r}
 ####################################################################
-x.coord <- seq( min(x$train[,1]), max(x$train[,1]), length = 100)
-y.coord <- seq( min(x$train[,2]) ,max(x$train[,2]), length =  100)
+x.coord <- seq(min(x$train[,1]), max(x$train[,1]), length = 100)
+y.coord <- seq(min(x$train[,2]) ,max(x$train[,2]), length =  100)
 
-##
+## comment 1
 matrice.test <- cbind(rep(x.coord, length = 100), 
                       rep(y.coord, each = 100))
 
-##
+## comment 2
 mod.knn <- class::knn(x$train, matrice.test, 
                       x$class.train, 
-                      k = 20, prob = TRUE)
+                      k = 30, prob = TRUE)
 
-##
+## Recupère les probabilités des classes calculées dans les modèle (objet mod.knn)  
 pred <- attr(mod.knn,"prob")
 
-##
+## comment 3
 pred[mod.knn != "orange"] <- 1 - pred[mod.knn != "orange"]
 proba <- matrix(pred, nrow = 100)
 
-##
-image(x.coord, y.coord, proba, col = grey.colors(10), main = "k = 20")
+## comment 4
+image(x.coord, y.coord, proba, col = grey.colors(10), main = "k = 30")
 points(x$train, col = x$class.train)
 ```
 
 
-A quoi correspond la carte générée dans l'image ci-dessus ? Interpréter les lignes de niveaux de cette carte. Commenter le code. 
+A quoi correspond la carte générée dans l'image ci-dessus ? Interpréter les lignes de niveau de cette carte. 
 
 ```{r}
 ##
-image(x.coord, y.coord,  matrix(pred > 0.5, nrow = 100), col = grey.colors(2), main = "k = 20")
+image(x.coord, y.coord,  matrix(pred > 0.5, nrow = 100), col = grey.colors(2), main = "k = 30")
 points(x$train, col = x$class.train)
 ```
 
-A quoi correspond la frontière de décision dans la carte précédente ? Comment est elle obtenue ? Commenter le code. Commenter le résultat affichier ci-dessous.
+A quoi correspond la frontière de décision dans la carte ci-dessus ? Comment est elle obtenue ? 
 
 
 ```{r}
@@ -273,3 +307,5 @@ image(x.coord, y.coord,
 ##
 points(x$train, col = x$class.train)
 ```
+
+Commenter le résultat affiché ci-dessus. Commenter le code. 
