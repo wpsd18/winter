@@ -1,6 +1,8 @@
 # Applications de l'apprentissage supervisé
 
-## autres méthodes
+Ce cours ne sera pas au programme. À compléter.
+
+## Autres méthodes
 
 ### svm
 
@@ -8,7 +10,7 @@
 
 ### boosting
 
-## non-supervisées
+## Méthodes non-supervisées
 
 ### clustering 
 
