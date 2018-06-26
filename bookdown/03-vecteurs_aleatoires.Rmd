@@ -2,7 +2,7 @@
 
 ## Objectifs
 
-L'objectif de cette séance est d'établir un catalogue de notions mathématiques de base permettant d'aborder la science des données. Pour quelqu'unes de ces notions, il s'agit de rappels de concepts connus (loi de probabilité, espérance, variance). Pour les autres, il s'agit de généraliser les notions unidimensionnelles s'appliquant aux variables aléatoires aux vecteurs aléatoires.
+L'objectif de cette séance est d'établir un catalogue de notions mathématiques de base permettant d'aborder la science des données. Pour certaines notions, il s'agit de rappels de concepts connus (loi de probabilité, espérance, variance). Pour les autres, il s'agit de généraliser à des vecteurs aléatoires les notions unidimensionnelles s'appliquant aux variables aléatoires.
 
 Ces notions concernent la définition des vecteurs aléatoires et leurs principales propriétés. Nous définirons les notions probabilistes utiles pour traiter des données de grande dimension, en particulier la notion de _matrice de covariance_. 
 
@@ -21,9 +21,11 @@ $$
 
 - ${\bf A}$ : matrice de dimension $D\times D$, $D \geq 2$. D'autres dimensions sont envisageables. En particulier, les matrices ne sont pas toutes carrées.
 
-- ${\bf X}$ : matrice de données de dimension $n\times D$ où $n$ représente la _taille d'un échantillon_ et $D$ la dimension des vecteurs aléatoires mesurés dans l'échantillon. L'étude de matrices de données ${\bf X}$ est le sujet de ce cours.
+- ${\bf X}$ : matrice de données de dimension $n\times D$ où $n$ représente la _taille d'un échantillon_ et $D$ la dimension des vecteurs aléatoires mesurés dans l'échantillon. L'étude de matrices de données ${\bf X}$ est l'un des objectifs de ce cours.
 
-- $p_{\sf x}$ (noter l'absence de sérif) : loi de la variable aléatoire $x$ ou du vecteur aléatoire ${\bf x}$. La fonction réelle $p_{\sf x}(x)$ représentera la _densité_ de la variable $x$. Lorsque le contexte n'est pas ambigu, la notation (abusive) $p(x)$ remplacera la notation $p_{\sf x}(x)$.
+- $p_{\sf x}$ (noter l'absence de sérif) : loi de la variable aléatoire $x$ ou du vecteur aléatoire ${\bf x}$. La fonction réelle $p_{\sf x}(x)$ représentera la _densité_ de la variable $x$. Lorsque le contexte n'est pas ambigu, la notation (abusive) $p(x)$ remplacera la notation $p_{\sf x}(x)$ par souci de lisibilité des formules.
+
+Les conventions précédentes sont universellement adoptées dans le domaine de l'apprentissage automatique.
 
 ## Variables aléatoires réelles
 
@@ -84,6 +86,7 @@ $$
 $$
 \mathbb{E} [f(x)] = \int f(x) p(x) dx .
 $$
+Losque les bornes ne sont pas indiquées, l'intégrale porte sur toutes les valeurs réelles. 
 
 Nous verrons en travaux dirigés un exemple de calcul d'espérance permettant de calculer l'entropie de Shannon d'une loi de probabilité.
 
@@ -119,8 +122,8 @@ $$
 
 l'erreur moyenne est de l'ordre $O(1/\sqrt{n})$. En effet, l'erreur quadratique moyenne est égale à 
 
-$${\rm var}[\bar{x}] =  {\rm var}[x]/n  $$
-et l'erreur est alors du même ordre que l'écart-type.
+$${\rm var}[\bar{x}] =  \frac1n {\rm var}[x] \, ,  $$
+et l'erreur est du même ordre que l'écart-type, c'est à dire $O(1/\sqrt{n})$.
 
 
 La formule ci-dessus montre comment nous pouvons estimer la valeur de l'espérance par une moyenne empirique. Dans la suite, nous calculons les variances et covariances empiriques de la manière suivante
@@ -222,7 +225,43 @@ $$
 h(p) =  \frac12 \log ( 2 \pi e \sigma^2) . 
 $$
 
-Cette relation établit le lien existant entre l'entropie de Shannon et la variance. Nous verrons plus loin que la moyenne ne porte pas d'information dans la loi de Gauss.  Nous retiendrons que, pour de nombreuses applications en science des données, information et variance sont des concepts synomymes.  
+Cette relation établit le lien existant entre l'entropie de Shannon et la variance. Nous verrons plus loin que la moyenne ne porte pas d'information dans la loi de Gauss.  Nous retiendrons que, pour de nombreuses applications en science des données, information et variance sont des concepts synomymes. 
+
+
+Le calcul théorique d'une espérance est rassurant, mais en général, calculer une telle intégrale de manière explicite est difficile. Nous devons garder à l'esprit que la notion signifie "valeur moyenne" la fonction $-\log p(x)$, lorsque les tirages sont de loi de densité $p(x)$. Dans les algorithmes, cette grandeur sera souvent évaluée empiriquement 
+
+$$
+h(p) \approx - \frac1n \sum_{i = 1}^n \log p(x_i) , \quad {\rm où } \quad x_i \sim N(0, \sigma^2) \,.
+$$
+
+Avec R, cela peut se calculer très facilement. Supposons par exemple que $\sigma = 1$. Nous avons
+
+```{r}
+ x <- rnorm(n = 1000000, sd = 1)
+```
+
+et en utilisons la fonction `dnorm()` pour calculer la densité de la loi normale. L'entropie est estimée de la manière suivante
+
+```{r, include = FALSE}
+library(magrittr)
+```
+
+
+
+```{r}
+x %>% dnorm() %>% log() %>% mean() -> h
+- h
+```
+
+Cette valeur est en effet très proche de la valeur théorique donnée par l'intégrale calculée précédemment
+
+```{r}
+(1 + log(2 * pi))/2
+```
+
+Pour $n = 10^6$, l'erreur est visible sur la troisième décimale.
+
+
 
 ## Vecteurs aléatoires 
 
@@ -406,17 +445,17 @@ L'espérance de ${\bf x}$ est égale à ${\bf m}$ et la matrice de covariance es
 
 Dans cette séance, nous avons vu les points suivants.
 
-* La loi des vecteurs aléatoires peut être caractérisée par une fonction de densité. 
+* La loi des vecteurs aléatoires peut être caractérisée par une fonction de densité multidimensionnelle. 
 
 * Les lois des variables dans un vecteur aléatoire s'appellent les lois marginales. 
 
-* Dans un vecteur aléatoire, on peut calculer les lois des variables sachant d'autres variables. Ces lois sont des lois conditionnelles.
+* Dans un vecteur aléatoire, on peut calculer les lois des variables sachant d'autres variables. Ce sont les lois conditionnelles.
 
-* L'espérance (valeur moyenne) d'une fonction d'un vecteur aléatoire est égale à l'intégrale de la fonction pondérée par la densité prise sur toutes les valeurs possibles.
+* L'espérance (valeur moyenne) d'une fonction d'un vecteur aléatoire est égale à l'intégrale de la fonction pondérée par la densité prise sur toutes les valeurs possibles de la variable considérée.
 
 * Les valeurs moyennes correspondent aux valeurs empiriques lorsque l'on dispose d'un échantillon de taille infinie (loi des grands nombres).
 
-* En dimension $D\geq 1$, la matrice de covariance résume la variabilité des observations dans leur ensemble. Cette matrice est symétrique et ces valeurs propres sont strictement positives (ce sont des variances). En dimension 1, elle correspond à la variance.
+* En dimension $D\geq 1$, la matrice de covariance résume la variabilité des observations dans leur ensemble. Cette matrice est symétrique et ces valeurs propres sont strictement positives (ce sont des variances). En dimension 1, la matrice de covariance correspond à la variance.
 
 
 

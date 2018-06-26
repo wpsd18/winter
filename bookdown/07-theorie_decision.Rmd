@@ -7,6 +7,8 @@
 * Classifieur optimal 
 * Surapprentissage et ensemble de test 
 
+Ce chapitre et le suivant (apprentissage supervisé) forment le coeur de ce cours. Trois séances d'amphi y seront consacrées. 
+
 ## Quelques notions probabilistes supplémentaires
 
 Nous définissons les notions d'espérance conditionnelle, et de formule de Bayes, ainsi que les formules de conditionnement. Ces notions élémentaires seront très utiles pour la bonne compréhension des méthodes employées par la suite.    

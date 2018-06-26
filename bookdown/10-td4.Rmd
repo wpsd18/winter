@@ -4,11 +4,11 @@
 
 ## Objectif de la séance 
 
-L'objectif de cette séance de travaux dirigés est de construire un neurone discriminant deux classes en reliant l'apprentissage aux lois normales et à la formule de Bayes.
+L'objectif de cette séance de travaux dirigés est de construire un modèle de prédiction probabiliste lorsque les données de chaque catégorie sont échantillonnées selon des lois normales. Grâce à la formule de Bayes, nous établirons une correspondance entre ce modèle et un neurone formel probabiliste. 
 
-On suppose que les observations (caractéristiques) constituent un vecteur ${\bf x}$ de dimension $D > 1$. On suppose que les données se répartissent en deux classes, $0$ et $1$. Les données ont été générées en proportions $\pi_0$ et $\pi_1$ dans chacune des deux classes.
+On suppose que les observations (caractéristiques) constituent un vecteur ${\bf x}$ de dimension $D > 1$. Pour simplifier,  on suppose que les données se répartissent en deux classes, $y = 0$ et $y = 1$. Les données ont été générées en proportions $\pi_0$ et $\pi_1$ dans chacune des deux classes.
 
-Le modèle génératif repose sur des lois gaussiennes de moyenne $\mu_k$, $k = 0, 1$ et de matrice de covariance $\Sigma$ (identique pour les deux classes).
+Le modèle génératif repose sur des lois gaussiennes de moyenne $\mu_k$, $k = 0, 1$, et de matrice de covariance $\Sigma$ *identique pour les deux classes*.
 
 $$
 p( {\bf x}  | y = k ) = N( {\bf x}  | \mu_k, \Sigma ) \, , \quad  \forall k = 0, 1, \quad {\bf x} \in \mathbb{R}^D.
@@ -20,15 +20,15 @@ $$
  
 ### Question 1 
 
-En dimension 2, représenter graphiquement de manière idéalisée la distribution des deux classes. Imaginer une règle simple pour décider quelle serait la classe d'une donnée de l'ensemble test.  
+En dimension 2, représenter graphiquement de manière idéalisée la distribution des deux classes. Imaginer une règle simple pour décider quelle serait la classe d'une donnée prise dans un ensemble test.  
 
 ### Question 2
 
-On suppose dans un premier temps que $\pi_0 = \pi_1$. Utiliser la formule de Bayes pour calculer la probabilité $p(y = 1 | {\bf x})$.
+On suppose dans un premier temps que $\pi_0 = \pi_1$. Utiliser la formule de Bayes pour calculer la probabilité conditionnelle $p(y = 1 | {\bf x})$.
 
 ### Question 3
 
-Montrer que cette probabilité peut se représenter par la fonction *neuronale* suivante, appelée classifieur probabiliste (ou _soft_)
+Rappeler la définition d'une fonction de prédiction neuronale (neurone formel probabiliste). Montrer que cette probabilité peut se représenter par la fonction *neuronale* suivante, appelée classifieur probabiliste (ou _soft_)
 
 $$
 p( y = 1 | {\bf x} ) = {\rm sigmoid}( {\bf w}^T  ( {\bf x} - {\bf x}_0) )  \, ,
@@ -41,7 +41,7 @@ $$
 et
 
 $$
-{\bf x}_0 = (\mu_0 + \mu_1)/2
+{\bf x}_0 = (\mu_0 + \mu_1)/2 \, .
 $$
 
 ### Question 4
@@ -50,53 +50,62 @@ Montrer que la règle de décision optimale sépare les observations par un plan
 
 ### Question 5
 
-On suppose maintenant $\pi_0 \neq \pi_1$. Montrer que le calcul de ${\bf w}$ reste inchangé et que le calcul de ${\bf x}_0$ est modifié de la façon suivante
+On suppose maintenant que $\pi_0 \neq \pi_1$. Montrer que le calcul de ${\bf w}$ reste inchangé et que le calcul de ${\bf x}_0$ se modifie de la façon suivante
 
 $$
-{\bf x}_0 = \frac12 (\mu_0 + \mu_1) - (\mu_1 - \mu_0) \frac{\ln(\pi_1/\pi_0)}{(\mu_1 - \mu_0)^T \Sigma^{-1} (\mu_1 - \mu_0)}
+{\bf x}_0 = \frac12 (\mu_0 + \mu_1) - (\mu_1 - \mu_0) \frac{\ln(\pi_1/\pi_0)}{(\mu_1 - \mu_0)^T \Sigma^{-1} (\mu_1 - \mu_0)} \, .
 $$
 
 ### Question 6
 
-Proposer une manière simple de calculer les moyennes de classe ($\mu_0$ et $\mu_1$), la matrice de covariance $\sigma^{-1}$ et les vecteurs ${\bf w}$ et ${\bf x}_0$. Commenter le code R ci-dessous pour cela.
+Proposer une manière simple d'estimer les moyennes de classe ($\mu_0$ et $\mu_1$), la matrice de covariance $\Sigma^{-1}$ et les vecteurs ${\bf w}$ et ${\bf x}_0$. Commenter le code R ci-dessous pour cela.
 
 ```{r}
 sigmoid <- function(x) {1/(1 + exp(-x))}
 
-#
-source("./codes/TP3.r")
+# Simulation de données en deux classes selon le modèle HT (300 observations par classes) 
+source("./codes/TP3.r") 
 x <- rhastib(300, 300, sigma2 = 0.1)
 
-# Algorithme d'apprentissage
-mu0 <- apply(x$train[ x$class.train == "orange",], 2, mean)
-mu1 <- apply(x$train[ x$class.train == "lightblue",], 2, mean)
+# comment 1
+mu0 <- apply(x$train[x$class.train == "orange",], 2, mean)
+mu1 <- apply(x$train[x$class.train == "lightblue",], 2, mean)
 
-Sigma0 <- cov(x$train[ x$class.train == "orange",]) 
-Sigma1 <- cov(x$train[ x$class.train == "lightblue",])
-Sigma <- (Sigma0+Sigma1)/2
+# comment 2
+Sigma0 <- cov(x$train[x$class.train == "orange",]) 
+Sigma1 <- cov(x$train[x$class.train == "lightblue",])
+Sigma <- (Sigma0 + Sigma1)/2
 
-#
+# comment 3
 w <- solve(Sigma) %*% (mu1 - mu0)
 x0 <- (mu0 + mu1)/2
 
-#  
+# comment 4 
 pred <- sigmoid(t(w) %*% t(x$test - x0))
 ```
 
 ### Question 7
 
-Comparer le résultat à la fonction _lda()_ de R
+Comparer le résultat à la fonction `lda()` de R. Cette fonction cherche le plan séparant deux classes. Commenter le code R suivant. 
 
 ```{r}
 mod.lda <-  MASS::lda(x$class.train ~ ., data = data.frame(x$train))
+
+# comment 1
 pred.lda <- predict(mod.lda, data.frame(x$test))$posterior[,1]
+
+# comment 2
 plot(as.numeric(pred), pred.lda)
 ```
 
 
 ### Question 8
 
-Calculer les valeurs des fonctions d'erreur log-loss et 0-1 sur l'ensemble test à l'aide d'un code R.
+Calculer les valeurs des fonctions d'erreur logloss et 01 sur l'ensemble test à l'aide d'un code R.
+
+
+### Solution à la question 8
+
 
 ```{r}
 # log-loss
