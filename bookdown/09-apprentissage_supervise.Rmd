@@ -136,7 +136,7 @@ L'analyse mathématique cherche souvent à répondre à cette question en projet
 
 L'intelligence artificielle propose d'approcher le prédicteur optimal par des combinaisons de fonctions neuronales agencées en couches successives, comme dans le cerveau humain. L'idée n'est pas d'utiliser une base fonctionnelle particulière mais d'apprendre une base adaptable au problème considérée, afin d'utiliser les meilleures représentations des variables observées.
 
-Par exemple, un réseau de neurones possédant une couche cachée s'écrit
+Par exemple, un réseau de neurones possédant une couche cachée s'écrit de la manière suivante
 
 $$
  q({\bf x}, {\bf \theta}) = {\rm sigmoid}({\bf W_0}^T \, {\rm sigmoid}({\bf W_1}^T{\bf x}) ) \, .
@@ -147,7 +147,7 @@ $$
 \theta = ({\bf W_0}, {\bf W_1}).
 $$
 
-Les notations ${\bf W_1}^T$ et ${\bf W_0}^T$ désignent désormais des matrices de dimensions respectives $D \times L$ et $L\times 1$ et la fonction _sigmoide_ est appliquée à chaque coordonnée des vecteurs. Le paramètre $L$ correspond au nombre de neurones dans la couche cachée.  Le paramètre global $\theta$ est donc de dimension $(D + 2)L + 1$. Ainsi, pour deux dimensions ($D =2$) et 20 neurones, nous aurons 81 paramètres distincts dans le modèle. 
+Les notations ${\bf W_0}^T$ et ${\bf W_1}^T$ désignent désormais des matrices de dimensions respectives $D \times L$ et $L\times 1$ et la fonction _sigmoide_ est appliquée à chaque coordonnée des vecteurs. Le paramètre $L$ correspond au nombre de neurones dans la couche cachée.  Le paramètre global $\theta$ est donc de dimension $(D + 2)L + 1$. Ainsi, pour deux dimensions ($D =2$) et 20 neurones, nous aurons 81 paramètres distincts dans le modèle. 
 
 La formule peut se généraliser à plusieurs couches. On parle alors de réseaux multi-couches. On qualifie les réseaux multi-couches de _réseaux profonds_ à partir d'une douzaine de couches.  Par exemple, un réseau de neurones possédant 3 couches cachées s'écrit
 

@@ -3,98 +3,112 @@
 
 ## Objectif de la séance
 
-L'objectif de cette séance de travaux dirigés est de comprendre la prédiction soft (optimalité du calcul des probabilités conditionnelles). On étudiera aussi l'effet de la régularisation sur les réseaux de neurones en la reliant à la minimisation de l'erreur.
+L'objectif de cette séance de travaux dirigés est de comprendre l'optimalité de la prédiction probabiliste (pourquoi chercher à calculer des probabilités conditionnelles). On étudiera par ailleurs l'effet de la régularisation sur les réseaux de neurones.
 
-Dans un problème de classification à deux classes (0 et 1), on appelera prédiction douce (soft) l'action d'estimer ou d'approcher la probabilité pour qu'une donnée de l'ensemble test soit de la classe 1. Un prédicteur soft sera une fonction des caractéristiques telle que
-
-$$
-\hat{g}({\bf x}) \approx g({\bf x}) \equiv p(y = 1 | {\bf x}).
-$$
-
-
-Les modèles de prédiction comportent souvent des paramètres, notés (${\bf \theta}$). La phase d'apprentissage nous permet d'optimiser ces paramètres en considérant un ensemble d'observations. Le prédicteur soft sera alors une fonction où l'on a injecté le résultat de la phase d'apprentissage $\hat{\bf \theta}$  
+Dans un problème de classification à deux classes (0 et 1), on appelera prédiction probabiliste (soft) l'action d'estimer ou d'approcher la probabilité qu'une donnée de l'ensemble test soit de la classe 1. Un prédicteur probabiliste sera une fonction des variables observées, $\hat{q}({\bf x})$, telle que
 
 $$
-\hat{g}({\bf x}) \equiv g({\bf x}, \hat{\bf \theta}).
+\hat{q}({\bf x}) \approx q({\bf x}) \equiv p(y = 1 | {\bf x}).
 $$
 
+
+Les modèles de prédiction comportent souvent des paramètres, notés (${\bf \theta}$). La phase d'apprentissage nous permet d'optimiser ces paramètres en considérant un ensemble d'observations et les catégories de ces variables observées. On note le résultat de la phase d'apprentissage $\hat{\bf \theta}$. Le modèle de prédiction sera alors une fonction de ${\bf x}$ où l'on a injecté ce résultat
+
+$$
+\hat{q}({\bf x}) \equiv q({\bf x}, \hat{\bf \theta}).
+$$
+
+La prédiction n'a de sens que pour un ensemble test indépendant de l'ensemble des observations utilisées pendant l'apprentissage. 
 
 ## Exercice 1.  Erreur quadratique
 
 ### Question 1 
 
-Dans un problème de classification binaire, on considère que l'on peut approcher les observations de classe 0 ou 1 par une fonction prenant ses valeurs dans l'intervalle fermé $[0,1]$ (pour laquelle des valeurs différentes de 0 ou 1 sont autorisées). On définit la perte quadratique de la façon suivante
+Dans un problème de classification binaire, on considère que l'on peut approcher les observations de classe 0 ou 1 par une fonction $\phi({\bf x})$ prenant ses valeurs dans l'intervalle fermé $[0,1]$ (et pour laquelle des valeurs différentes de 0 ou 1 sont autorisées). On définit la fonction de perte quadratique de la façon suivante
 
 $$
-L(y , \phi({\bf x}))  = (y - \phi({\bf x}))^2  \, , \quad y = 0, 1. 
+L(\phi({\bf x}), y)  = (y - \phi({\bf x}))^2  \, , \quad y \in \{ 0, 1\}, \quad {\bf x} \in \mathbb{R}^D. 
 $$
 
-Montrer que $E[L(y , \phi({\bf x}))| {\bf x} ] \geq p(y = 1| {\bf x})$ pour toute fonction $\phi({\bf x}) \in [0,1]$. *Indication* : Ajouter et retrancher l'espérance conditionnelle  $E[ y | {\bf x} ]$. 
-
-### Question 2. Optimalité du predicteur soft.
-
-En déduire l'optimalité du prédicteur $g({\bf x} ) = p(y = 1| {\bf x})$ au sens des moindres carrés  
+Montrer que 
 
 $$
-E[ (y - \phi({\bf x}))^2 ]  \geq E[ (y - g({\bf x})  )^2 ]   , \quad \forall \phi({\bf x}) \in [0,1]
+\mathbb{E}[L(\phi({\bf x}), y)| {\bf x} ] \geq  q({\bf x}) = p(y = 1| {\bf x})
+$$ 
+
+pour toute fonction $\phi({\bf x}) \in [0,1]$. 
+
+*Indication* : Ajouter et retrancher l'espérance conditionnelle  $\mathbb{E}[ y | {\bf x} ]$. Calculer cette espérance conditionnelle.
+
+### Question 2. Optimalité du prédicteur probabiliste.
+
+En déduire l'optimalité du prédicteur $q({\bf x} ) = p(y = 1| {\bf x})$ au sens des moindres carrés  
+
+$$
+\mathbb{E}[ (y - \phi({\bf x}))^2 ]  \geq \mathbb{E}[ (y - q({\bf x})  )^2 ]   , \quad \forall \phi({\bf x}) \in [0,1] \, .
 $$
 
 ### Question 3
 
-On dispose d'un échantillon d'apprentissage et d'un échantillon de test. Quelles formules empiriques permettent de calculer les erreurs d'apprentissage et de prédiction ? 
+On dispose d'un échantillon de test. Quelle formule empirique permet de calculer l'erreur de prédiction (valeur moyenne de la fonction de perte ? On donnera une réponse pour $\phi({\bf x})$.
 
 ### Question 4
 
-Ecrire des instructions R permettant le calcul des erreurs pour un modèle dont on dispose d'une fonction _predict()_. 
+Ecrire des instructions R permettant le calcul des erreurs pour un modèle dont on dispose d'une fonction `predict()`. 
 
 
-## Exercice 2. Perte entropique ou log-loss. 
+## Exercice 2. Perte entropique ou logloss. 
 
 On définit la perte entropique ou log-loss de la façon suivante
 
 $$
-L(y , \phi({\bf x}))  = -  y \log \phi({\bf x}) - (1-y)\log(1 - \phi({\bf x}))  \, , \quad y = 0, 1. 
+L(\phi({\bf x}), y)  = -  y \log \phi({\bf x}) - (1-y)\log(1 - \phi({\bf x}))  \, , \quad y = 0, 1. 
 $$
 
 ### Question 1 
 
-Montrer que 
-
-$$
-E[ L(y , \phi({\bf x})) | {\bf x} ] = - p(y  = 1 | {\bf x} ) \log \phi({\bf x}) -
-p(y  = 0 | {\bf x} ) \log(1 - \phi({\bf x}))
-$$
+On dispose d'un échantillon de test. Quelle formule empirique permet de calculer la valeur moyenne de la fonction de perte ?
 
 ### Question 2 
 
-Sachant ${\bf x}$, on définit la loi de probabilité $q$ sur $\{ 0, 1\}$ telle que 
-$$
-q(1) =  \phi({\bf x}) = 1 - q(0).
-$$
-### Question 3 
-
 Montrer que 
+
 $$
-D_{KL}( p(y  = . | {\bf x} ) \| q ) =   E[ L(y , \phi({\bf x})) | {\bf x} ]  
-- h(p(y  = . | {\bf x} )) 
+\mathbb{E}[ L(\phi({\bf x}),y) | {\bf x} ] = - p(y  = 1 | {\bf x} ) \log \phi({\bf x}) -
+p(y  = 0 | {\bf x} ) \log(1 - \phi({\bf x}))
 $$
-où $h(p)$ est l'information de la loi $p$.
+
+
+### Question 3
+
+Pour une valeur de ${\bf x}$ fixée, on définit la loi de probabilité $p_\phi(.|{\bf x})$ sur $\{ 0, 1\}$ telle que 
+$$
+p_\phi(1|{\bf x}) =  \phi({\bf x}) 
+$$
+et 
+$$
+p_\phi(0|{\bf x}) =  1 - \phi({\bf x}) \, .
+$$
+
+Pour tout ${\bf x}$, montrer que 
+
+$$
+\mathbb{E}[ L(\phi({\bf x}), y) | {\bf x} ]  - h(p(y  = . | {\bf x} ))  = D_{\rm KL}( p(y  = . | {\bf x} ) \,  \|  \, p_\phi( . | {\bf x} ) )
+$$
+où $h(p)$ est l'information de la loi $p$ et  $D_{\rm KL}$ est la divergence de [Kullback-Liebler](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence).
 
 ### Question 4
 
-En déduire que le prédicteur soft $g({\bf x})$ est optimal au sens du critère d'entropie  
+En déduire que le prédicteur probabiliste $q({\bf x}) = p(y = 1 | {\bf x})$ est optimal au sens du critère d'entropie  
 
 $$
-E[ L(y , \phi({\bf x})) ] \geq E[ L(y , g({\bf x})) ] \,  , \quad \forall \phi({\bf x}) \in [0,1].
+\mathbb{E}[ L(\phi({\bf x}) , y) ] \geq \mathbb{E}[ L(q({\bf x}), y) ] \,  , \quad \forall \phi({\bf x}) \in [0,1].
 $$
+
 
 ### Question 5
 
-On dispose d'un échantillon d'apprentissage et d'un échantillon de test. Quelles formules permettent de calculer les erreurs d'apprentissage et de prédiction ? 
-
-### Question 6
-
-Ecrire des instructions permettant le calcul des erreurs en R pour un modèle dont on dispose de la fonction _predict()_. 
+Ecrire des instructions permettant le calcul des fonctions de perte pour un modèle dont on dispose d'une fonction `predict(). 
 
 
 
@@ -106,53 +120,54 @@ Ecrire des instructions permettant le calcul des erreurs en R pour un modèle do
 Montrer que l'erreur quadratique se décompose de la manière suivante. 
 
 $$
-E[ (\hat{g}({\bf x})  - g({\bf x}))^2 ] = {\rm var}(\hat{g}({\bf x})) + (E[\hat{g}({\bf x}) - g({\bf x})])^2
+\mathbb{E}[ (\hat{q}({\bf x})  - q({\bf x}))^2 ] = {\rm var}(\hat{q}({\bf x})) + (\mathbb{E}[\hat{q}({\bf x}) - q({\bf x})])^2 \, .
 $$
 
-Interpréter les deux termes de l'expression de droite. 
+Interpréter les deux termes de l'expression de droite, et expliquer ce qui pourrait agir sur chacun des termes (taille des échantillons, nombre de paramètres, complexité du modèle de prédiction). 
 
 ### Question 2. Réseaux neuronaux.
 
-### A revoir pb avec softmax
 
-Soit ${\bf x} \in \mathbb{R}^D$, une observation de dimension $D$. On appelle réseau de neurones à une couche cachée un prédicteur soft de la forme
+Soit ${\bf x} \in \mathbb{R}^D$. On appelle réseau de neurones à une couche cachée un prédicteur probabiliste de la forme
 
 $$
- g({\bf x}, \theta) = {\rm sigmoid}( {\bf w_1^T}  \, {\rm sigmoid}( {\bf w_0^T} {\bf x}  - {\bf b_0} )  - {\bf b_1}) \, .
+ q({\bf x}, \theta) = {\rm sigmoid}( {\bf W_0^T}  \, {\rm sigmoid}( {\bf W_1^T} {\bf x}  - {\bf b_1} )  - {\bf b_0}) \, .
 $$
  
-Les matrices ${\bf w_0^T}$ et ${\bf w_1^T}$ sont de dimensions respectives $D \times k$ et $k \times 1$. Les vecteurs ${\bf b_0}$ et ${\bf b_1}$ sont de dimensions respectives $k$ et $1$. La fonction _sigmoid()_ est appliquée à chaque coordonnée des vecteurs.
+Les matrices ${\bf W_0^T}$ et ${\bf W_1^T}$ sont de dimensions respectives $D \times k$ et $k \times 1$, où $k$ est le nombre de neurones de la couche cachée. Les vecteurs ${\bf b_0}$ et ${\bf b_1}$ sont de dimensions respectives $k$ et $1$. La fonction _sigmoide_ est appliquée à chaque coordonnée des vecteurs.
 
-Les coefficients $w$ sont appelés les *poids* (weights) et les coefficients $b$ sont appelés les *seuils* (bias).  Le paramètre $k$ est le nombre de neurones dans la couche cachée.  
+Les coefficients des matrices ${\bf W}$ sont appelés les *poids* (weights) et les coefficients $b$ sont appelés les *seuils* (bias).    
 
 Le paramètre global $\theta$ correspond à 
 $$
-\theta = ({\bf w_0}, {\bf w_1}, {\bf b_0}, {\bf b_1}).
+\theta = ({\bf W_0}, {\bf W_1}, {\bf b_0}, {\bf b_1}).
 $$
-Le paramètre global est donc de dimension $(D + 2)k + 1$. Ainsi, pour deux dimensions et 20 neurones nous aurons 81 paramètres. 
+Le paramètre global est donc de dimension $(D + 2)k + 1$. Ainsi, en deux dimensions et en utilisant 20 neurones nous aurons 81 paramètres. 
 
 La formule peut se généraliser à plusieurs couches. On parle alors de réseaux multi-couches. On qualifie les réseaux multi-couches de réseaux *profonds* à partir d'une douzaine de couches.     
 
-Les réseaux de neurones apprennent en minimisant le critère suivant 
+Les réseaux de neurones apprennent en minimisant une fonction de perte pénalisée de la forme suivante 
 
 $$
-L(\theta) = \frac1n \sum_{i=1}^n L(y_i,  g({\bf x}_i, \theta) ) 
-+ \lambda \| \theta \|_2^2 \, , \quad \lambda > 0.
+L(\theta) = \frac1n \sum_{i=1}^n L(q({\bf x}_i, \theta), y_i) + \lambda \| \theta \|_2^2 \, , \quad \lambda > 0.
 $$
 
-L'optimisation est réalisée par un algorithme numérique (gradient stochastique par exemple) agissant directement sur le paramètre $\theta$. Le paramètre $\lambda$ est un paramètre régularisateur, dont le rôle est de contrebalancer un complexité trop élevée du modèle ($k$ trop grand).
+L'optimisation est réalisée par un algorithme numérique (algorithme gradient stochastique par exemple) agissant directement sur le paramètre $\theta$. Le paramètre $\lambda$ est un paramètre régularisateur, dont le rôle est de contrebalancer une complexité trop élevée du modèle ($k$ trop grand). En d'autres termes, une grande valeur de $\lambda$ forcera certains poids à être très faibles. 
 
-En considérant des valeurs de $\lambda$ grandes, discuter la contribution de ce paramètre au biais d'erreur de prédiction.
+En considérant une grande valeur de $\lambda$, discuter l'effet de ce paramètre sur la fonction de perte quadratique. Comment chacun des deux termes de l'erreur quadratique moyenne est il sensible à ce paramètre ?
 
 ### Question 3
 
-Commenter les expériences suivantes où l'on fait varier les valeurs de $k$ et de $\lambda$
+Commenter les codes et les résultats des expériences  suivantes où l'on fait varier les valeurs de $k$ et de $\lambda$
 
 ```{r}
-source("./codes/TP3.r")
+
+# Simulation selon de la modèle HT. 400 données sont équiréparties en 2 classes
+  source("./codes/TP3.r")
   
   x <- rhastib(200, 200, sigma2 = 0.1)
 
+# Création d'une grille de valeurs tests pour les prédictions d'un modèle probabiliste 
 ####################################################################
   x.coord <- seq(min(x$train[,1]), max(x$train[,1]), length = 100)
   y.coord <- seq(min(x$train[,2]), max(x$train[,2]), length = 100)
@@ -161,10 +176,11 @@ source("./codes/TP3.r")
                         rep(y.coord, each = 100))
 ####################################################################
 
-  mod_nnet <- nnet::nnet(x$train, 
+# comment 1:
+ mod_nnet <- nnet::nnet(x$train, 
                         x$class.train == "orange", 
-                        size = 50,   #k
-                        decay = 0.0, #lambda
+                        size = 50,   #size = k
+                        decay = 0.0, #decay = lambda
                         maxit = 500,
                         trace = FALSE,
                         entropy = TRUE)
@@ -172,6 +188,7 @@ source("./codes/TP3.r")
 # prediction sur toute la zone d'étude 
   pred <- predict(mod_nnet, matrice.test)
 
+# comment 2:  
   image(x.coord, y.coord,  
         matrix(pred > 0.5, nrow = 100), 
         col = grey.colors(2), 
@@ -181,15 +198,16 @@ source("./codes/TP3.r")
 ```
 
 ```{r}
+  # comment 3:
   mod_nnet <- nnet::nnet(x$train, 
                        x$class.train == "orange", 
-                       size = 1,   #k
-                       decay = 0.1, #lambda
+                       size = 1,   # size = k
+                       decay = 0.1, #decay = lambda
                        maxit = 500,
                        trace = FALSE,
                        entropy = TRUE)
 
-  # prediction sur toute la zone d'étude
+  # comment 4:
 
   pred <- predict(mod_nnet, matrice.test)
 
@@ -200,23 +218,30 @@ source("./codes/TP3.r")
   points(x$train, col = x$class.train)
 ```
 
-### Question 3.  Choix des paramètres $k$ et $\lambda$.
 
-Ecrire une boucle permettant de tester les prédictions de plusieurs modèles. Nous privilégierons un choix de $\lambda$ entre $0.8$ et $10^{-3}$ pour un nombre de neurones important (40).
+### Question 3 :  Choix des paramètres $k$ et $\lambda$.
+
+Commenter le code suivant permettant de tester les prédictions de plusieurs modèles. Nous privilégierons un choix de $\lambda$ entre $0.8$ et $10^{-3}$ pour un nombre de neurones important (40).
 
 ```{r}
-  logloss <- function(p, y){ - y * log(p) - (1-y)*log(1 - p) }
+# comment 1
+  logloss <- function(p, y){ 
+      return(-y*log(p) - (1-y)*log(1-p))
+  }
+
   lambda <- 10^{-seq(0.1,3,length = 30)}
 
+# comment 2
   logloss_test <- NULL
   for (l in lambda){
+  # comment 3    
   mod_nnet <- nnet::nnet(x$train, 
                        x$class.train == "orange", 
                        size = 40, 
                        decay = l, 
                        trace = FALSE,
                        entropy = TRUE)
-  
+  # comment 4  
   logloss_test <- c(logloss_test,
                     mean(logloss(predict(mod_nnet, x$test),  
                                   (x$class.test == "orange")))
@@ -227,8 +252,10 @@ plot(lambda, logloss_test, log = "x")
 ```
 
 ```{r}
+# comment 5
   lambda.cv <- lambda[which.min(logloss_test)]
 
+# comment 6
   mod_nnet <- nnet::nnet(x$train, 
                        x$class.train == "orange", 
                        size = 40,   #k
@@ -251,7 +278,7 @@ plot(lambda, logloss_test, log = "x")
 ```
 
 
-Lorsque l'on utilise le paramètre de régularisation optimal, un affichage interactif permettant de zoomer l'image nous montre les détails d'un paysage régulier.
+Lorsque l'on utilise le paramètre de régularisation optimal, un affichage interactif permettant de zoomer l'image nous montre les détails des prédictions.
 
 
 ```{r}
