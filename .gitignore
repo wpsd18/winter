@@ -41,4 +41,4 @@ bookdown/.Rproj.user
 bookdown/_book/*
 bookdown/_bookdown_files/*
 bookdown/_bookdown_files/bookdown-demo_files/*
-
+bookdown/_bookdown_files/bookdown-demo_files/figure-html/*
