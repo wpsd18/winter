@@ -39,8 +39,10 @@ bookdown/.RData
 bookdown/.DS_Store
 bookdown/.Rproj.user
 bookdown/_book/*
+bookdown/_book/figures/*.png
+bookdown/_book/figures/*.JPG
 bookdown/_book/bookdown-demo_files/*
-bookdown/_book/bookdown-demo_files/figure-html/*
+bookdown/_book/bookdown-demo_files/figure-html/*.png
 bookdown/_bookdown_files/*
 bookdown/_bookdown_files/bookdown-demo_files/*
 bookdown/_bookdown_files/bookdown-demo_files/figure-html/*
