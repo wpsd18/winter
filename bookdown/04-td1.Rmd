@@ -66,7 +66,7 @@ Par le calcul et en s'aidant de la question 1, en déduire que
 $$
 D_{KL}( q \|  p ) = - h(q) + h(p) \, . 
 $$
-Pour cela, on se souviendra que la variance de la loi $q$ est égale à $\sigma^2$ par hypothèse.
+Pour cela, on se souviendra que la variance de la loi $q$ (qui est supposée centrée) est égale à $\sigma^2$ par hypothèse.
 
 ### Question 5
 
@@ -92,7 +92,7 @@ où $|\Sigma|$ est le déterminant de la matrice $\Sigma$.
 L'objectif de cet exercice est de montrer que l'[*information mutuelle*](https://en.wikipedia.org/wiki/Mutual_information), $I$, de deux variables réelles $x$ et $y$ formant un couple gaussien est liée au coefficient de correlation de ces deux variables,
 
 $$
-\rho = \frac{{\rm cov}(x,y)}{\sigma^2_{\sf x} \sigma^2_{\sf y}} \, , 
+\rho = \frac{{\rm cov}(x,y)}{\sqrt{\sigma^2_{\sf x} \sigma^2_{\sf y}}} \, , 
 $$
 par la relation suivante 
 
