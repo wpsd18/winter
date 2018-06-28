@@ -27,13 +27,13 @@ La prédiction n'a de sens que pour un ensemble test indépendant de l'ensemble 
 Dans un problème de classification binaire, on considère que l'on peut approcher les observations de classe 0 ou 1 par une fonction $\phi({\bf x})$ prenant ses valeurs dans l'intervalle fermé $[0,1]$ (et pour laquelle des valeurs différentes de 0 ou 1 sont autorisées). On définit la fonction de perte quadratique de la façon suivante
 
 $$
-L(\phi({\bf x}), y)  = (y - \phi({\bf x}))^2  \, , \quad y \in \{ 0, 1\}, \quad {\bf x} \in \mathbb{R}^D. 
+L(\phi({\bf x}), y)  = (y - \phi({\bf x}))^2  \, , \quad y \in \{ 0, 1\}, \quad {\bf x} \in \mathbb{R}^D \, . 
 $$
 
 Montrer que 
 
 $$
-\mathbb{E}[L(\phi({\bf x}), y)| {\bf x} ] \geq  q({\bf x}) = p(y = 1| {\bf x})
+\mathbb{E}[L(\phi({\bf x}), y)| {\bf x} ] \geq  q({\bf x}) = p(y = 1| {\bf x}) \, ,
 $$ 
 
 pour toute fonction $\phi({\bf x}) \in [0,1]$. 
@@ -75,7 +75,7 @@ Montrer que
 
 $$
 \mathbb{E}[ L(\phi({\bf x}),y) | {\bf x} ] = - p(y  = 1 | {\bf x} ) \log \phi({\bf x}) -
-p(y  = 0 | {\bf x} ) \log(1 - \phi({\bf x}))
+p(y  = 0 | {\bf x} ) \log(1 - \phi({\bf x})) \, .
 $$
 
 
@@ -93,7 +93,7 @@ $$
 Pour tout ${\bf x}$, montrer que 
 
 $$
-\mathbb{E}[ L(\phi({\bf x}), y) | {\bf x} ]  - h(p(y  = . | {\bf x} ))  = D_{\rm KL}( p(y  = . | {\bf x} ) \,  \|  \, p_\phi( . | {\bf x} ) )
+\mathbb{E}[ L(\phi({\bf x}), y) | {\bf x} ]  - h(p(y  = . | {\bf x} ))  = D_{\rm KL}( p(y  = . | {\bf x} ) \,  \|  \, p_\phi( . | {\bf x} ) ) \, ,
 $$
 où $h(p)$ est l'information de la loi $p$ et  $D_{\rm KL}$ est la divergence de [Kullback-Liebler](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence).
 
@@ -108,12 +108,12 @@ $$
 
 ### Question 5
 
-Ecrire des instructions permettant le calcul des fonctions de perte pour un modèle dont on dispose d'une fonction `predict(). 
+Ecrire des instructions permettant le calcul des fonctions de perte pour un modèle dont on dispose d'une fonction `predict()`. 
 
 
 
 
-#### Exercice 3.  Décomposition de l'erreur quadratique.
+## Exercice 3.  Décomposition de l'erreur quadratique.
 
 ### Question 1 
 
@@ -134,7 +134,7 @@ $$
  q({\bf x}, \theta) = {\rm sigmoid}( {\bf W_0^T}  \, {\rm sigmoid}( {\bf W_1^T} {\bf x}  - {\bf b_1} )  - {\bf b_0}) \, .
 $$
  
-Les matrices ${\bf W_0^T}$ et ${\bf W_1^T}$ sont de dimensions respectives $D \times k$ et $k \times 1$, où $k$ est le nombre de neurones de la couche cachée. Les vecteurs ${\bf b_0}$ et ${\bf b_1}$ sont de dimensions respectives $k$ et $1$. La fonction _sigmoide_ est appliquée à chaque coordonnée des vecteurs.
+Les matrices ${\bf W_0^T}$ et ${\bf W_1^T}$ sont de dimensions respectives $D \times H$ et $H \times 1$, où $H$ est le nombre de neurones de la couche cachée. Les vecteurs ${\bf b_0}$ et ${\bf b_1}$ sont de dimensions respectives $H$ et $1$. La fonction _sigmoide_ est appliquée à chaque coordonnée des vecteurs.
 
 Les coefficients des matrices ${\bf W}$ sont appelés les *poids* (weights) et les coefficients $b$ sont appelés les *seuils* (bias).    
 
@@ -142,7 +142,7 @@ Le paramètre global $\theta$ correspond à
 $$
 \theta = ({\bf W_0}, {\bf W_1}, {\bf b_0}, {\bf b_1}).
 $$
-Le paramètre global est donc de dimension $(D + 2)k + 1$. Ainsi, en deux dimensions et en utilisant 20 neurones nous aurons 81 paramètres. 
+Le paramètre global est donc de dimension $(D + 2)H + 1$. En dimension $D=2$ et en utilisant 20 neurones, nous aurons ainsi 81 paramètres. 
 
 La formule peut se généraliser à plusieurs couches. On parle alors de réseaux multi-couches. On qualifie les réseaux multi-couches de réseaux *profonds* à partir d'une douzaine de couches.     
 
@@ -152,13 +152,13 @@ $$
 L(\theta) = \frac1n \sum_{i=1}^n L(q({\bf x}_i, \theta), y_i) + \lambda \| \theta \|_2^2 \, , \quad \lambda > 0.
 $$
 
-L'optimisation est réalisée par un algorithme numérique (algorithme gradient stochastique par exemple) agissant directement sur le paramètre $\theta$. Le paramètre $\lambda$ est un paramètre régularisateur, dont le rôle est de contrebalancer une complexité trop élevée du modèle ($k$ trop grand). En d'autres termes, une grande valeur de $\lambda$ forcera certains poids à être très faibles. 
+L'optimisation est réalisée par un algorithme numérique (un algorithme de gradient stochastique par exemple) agissant directement sur le paramètre $\theta$. Le paramètre $\lambda$ est un paramètre régularisateur, dont le rôle est de contrebalancer une complexité trop élevée du modèle ($H$ trop grand). En d'autres termes, une grande valeur de $\lambda$ forcera certains poids à être très faibles. 
 
-En considérant une grande valeur de $\lambda$, discuter l'effet de ce paramètre sur la fonction de perte quadratique. Comment chacun des deux termes de l'erreur quadratique moyenne est il sensible à ce paramètre ?
+En considérant une grande valeur de $\lambda$, discuter l'effet de ce paramètre sur la fonction de perte quadratique. Comment chacun des deux termes de l'erreur quadratique moyenne est-il sensible au changement de ce paramètre ?
 
 ### Question 3
 
-Commenter les codes et les résultats des expériences  suivantes où l'on fait varier les valeurs de $k$ et de $\lambda$
+Commenter les codes et les résultats des expériences  suivantes où l'on fait varier les valeurs de $H$ et de $\lambda$
 
 ```{r}
 
@@ -167,7 +167,8 @@ Commenter les codes et les résultats des expériences  suivantes où l'on fait 
   
   x <- rhastib(200, 200, sigma2 = 0.1)
 
-# Création d'une grille de valeurs tests pour les prédictions d'un modèle probabiliste 
+# Création d'une grille de valeurs tests pour les prédictions d'un 
+# modèle probabiliste 
 ####################################################################
   x.coord <- seq(min(x$train[,1]), max(x$train[,1]), length = 100)
   y.coord <- seq(min(x$train[,2]), max(x$train[,2]), length = 100)
@@ -176,10 +177,10 @@ Commenter les codes et les résultats des expériences  suivantes où l'on fait 
                         rep(y.coord, each = 100))
 ####################################################################
 
-# comment 1:
+# comment 1
  mod_nnet <- nnet::nnet(x$train, 
                         x$class.train == "orange", 
-                        size = 50,   #size = k
+                        size = 50,   #size = H
                         decay = 0.0, #decay = lambda
                         maxit = 500,
                         trace = FALSE,
@@ -188,7 +189,7 @@ Commenter les codes et les résultats des expériences  suivantes où l'on fait 
 # prediction sur toute la zone d'étude 
   pred <- predict(mod_nnet, matrice.test)
 
-# comment 2:  
+# comment 2  
   image(x.coord, y.coord,  
         matrix(pred > 0.5, nrow = 100), 
         col = grey.colors(2), 
@@ -198,17 +199,16 @@ Commenter les codes et les résultats des expériences  suivantes où l'on fait 
 ```
 
 ```{r}
-  # comment 3:
+  # comment 3
   mod_nnet <- nnet::nnet(x$train, 
                        x$class.train == "orange", 
-                       size = 1,   # size = k
+                       size = 1,   # size = H
                        decay = 0.1, #decay = lambda
                        maxit = 500,
                        trace = FALSE,
                        entropy = TRUE)
 
-  # comment 4:
-
+  # comment 4
   pred <- predict(mod_nnet, matrice.test)
 
   image(x.coord, y.coord,  
@@ -219,9 +219,9 @@ Commenter les codes et les résultats des expériences  suivantes où l'on fait 
 ```
 
 
-### Question 3 :  Choix des paramètres $k$ et $\lambda$.
+### Question 3 :  Choix des hyperparamètres $H$ et $\lambda$.
 
-Commenter le code suivant permettant de tester les prédictions de plusieurs modèles. Nous privilégierons un choix de $\lambda$ entre $0.8$ et $10^{-3}$ pour un nombre de neurones important (40).
+Commenter le code suivant permettant de tester les prédictions de plusieurs modèles. Nous privilégierons un choix de $\lambda$ entre $0.8$ et $10^{-3}$ pour un nombre de neurones important ($H = 40$).
 
 ```{r}
 # comment 1
@@ -230,35 +230,39 @@ Commenter le code suivant permettant de tester les prédictions de plusieurs mod
   }
 
   lambda <- 10^{-seq(0.1,3,length = 30)}
-
-# comment 2
+  
+  # comment 2
   logloss_test <- NULL
+  
   for (l in lambda){
-  # comment 3    
-  mod_nnet <- nnet::nnet(x$train, 
+    
+    # comment 3   
+    mod_nnet <- nnet::nnet(x$train, 
                        x$class.train == "orange", 
                        size = 40, 
                        decay = l, 
                        trace = FALSE,
                        entropy = TRUE)
-  # comment 4  
-  logloss_test <- c(logloss_test,
+    
+    # comment 4  
+    logloss_test <- c(logloss_test,
                     mean(logloss(predict(mod_nnet, x$test),  
                                   (x$class.test == "orange")))
                     )
-}
+  }
 
-plot(lambda, logloss_test, log = "x")
+  # comment 5
+  plot(lambda, logloss_test, log = "x")
 ```
 
 ```{r}
-# comment 5
+# comment 6
   lambda.cv <- lambda[which.min(logloss_test)]
 
-# comment 6
+# comment 7
   mod_nnet <- nnet::nnet(x$train, 
                        x$class.train == "orange", 
-                       size = 40,   #k
+                       size = 40,   #H
                        decay = lambda.cv, #lambda optimisé
                        maxit = 500,
                        trace = FALSE,
