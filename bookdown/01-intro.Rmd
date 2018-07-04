@@ -1,13 +1,30 @@
 # Introduction {#intro}
 
-You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \@ref(methods).
+L’objectif de ce cours est de proposer une introduction à la science des données et aux principes de bases de l'apprentissage automatique supervisé. L'ensemble du module privilégie une approche fondée sur des exemples, et les notions étudiées seront systématiquement appliquées de manière concrète dans des travaux pratiques notés. 
 
- Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab).
+Les exemples s'appuient sur des données simulées réparties en plusieurs catégories selon des lois spécifiques à chaque catégories, mais aussi et surtout sur des données réelles. 
 
-```{r nice-tab, tidy=FALSE}
-knitr::kable(
-  head(iris, 20), caption = 'Here is a nice table!',
-  booktabs = TRUE
-)
-```
+Dans les exemples réels, nous tenterons de prédire la survie de certains passagers lors du naufrage du Titanic, ou la gravité du cancer du sein à partir de mesures histologiques. Nous nous intéressons à la reconnaissance automatique de caractères manuscrits et un défi final portera sur l'analyse d'opinion à partir de texte écrits.
 
+Des connaissances élémentaires en calcul des probabilités et en théorie de l'information sont nécessaires pour aborder le cours. Après une introduction aux lois multidimensionnelles, notamment gaussiennes, le cours abordera les principes de la théorie de la décision et la minimisation de fonctions de perte en apprentissage supervisé. Ensuite, il appliquera cette théorie à l'intelligence artificielle prédictive et en particulier aux réseaux de neurones multicouches. Les travaux pratiques se feront en langage R, présenté lors des cours. Chaque élève sera amené à programmer plusieurs intelligences artificielles lors des travaux pratiques et à répondre à un défi d'analyse prédictive. Des connaissances de base en programmation et la motivation pour apprendre de nouvelles matières seront très utiles pour arriver au bout du défi.
+
+Le contenu du cours est le suivant
+
+* Introduction au langage R. 
+* Lois de probabilités multidimensionnelles. 
+* Théorie de la décision. 
+* Apprentissage supervisé. Réseaux de neurones.
+
+
+#### CONTRÔLE CONTINU :
+
+Type d'évaluation : Contrôle continu en travaux dirigés et en travaux pratiques. Présence obligatoire notée.
+
+#### SESSION NORMALE :
+
+Type d'examen : Un examen écrit. L'examen portera notamment sur les définitions données en cours d'amphi et sur la manipulation de R. 
+
+Durée : 2h00.
+Documents autorisés : aucun
+Documents interdits  : tous documents
+Matériel : aucun

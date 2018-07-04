@@ -5,9 +5,15 @@ output: html_notebook
 
 ** **
 
-#### Règles
+#### Règles de rendu
 
-* 
+* Chaque TP donne lieu à un bref compte-rendu portant sur certaines questions posées dans l'énoncé du TPs.
+
+* Le compte-rendu doit être complété à partir du texte de l'énoncé. Les codes R doivent être inclus dans le texte du compte-rendu (menu **Insert**) et commentés avec précision.
+
+* Le compte-rendu doit être déposé **sur TEIDE à la fin de la séance de TP**. Le retard n'est pas accepté.
+
+* Le compte-rendu doit être déposé **sur TEIDE au format HTML**. Utiliser la fonction **Preview** pour obtenir le document au format HTML. Les fichiers source ne seront pas acceptés.
 
 
 ** **
@@ -15,27 +21,28 @@ output: html_notebook
 
 #### Exercice 1:  
 
-*  A partir de l'ensemble d'apprentissage, donner les fréquences des variables contenues dans chacune des 9 colonnes du tableau de données **tit_train**.  Arrondir les résultats à 2 décimales
+*  À partir de l'ensemble d'apprentissage, donner les fréquences des variables contenues dans chacune des 9 colonnes du tableau de données `tit_train`.  Arrondir les résultats à 2 décimales
 
-* Calculer la probabilité de survie d'un individu sachant sa classe à bord (colonnes 7 à 9 dans le tableau de données).
+* Calculer la probabilité de survie d'un homme (`gender == 1`) ou une femme (`gender == 0`).
+
+* Calculer la probabilité de survie d'un individu sachant sa classe à bord (colonnes 7 à 9 dans le tableau de données `tit_train`).
 
 #### Exercice 2: 
 
-* Calculer les probabilités de survie sachant les variables *gender* et *child*.
+* Calculer les probabilités de survie conditionnelles sachant les variables `gender` et `child` (4 cas).
 
-* Calculer le nombre de prédictions correctes effectuées en considérant les fréquences de survies conditionnelles aux variables **gender** et **child**. Représenter les résultats sous forme de [matrice de confusion](https://fr.wikipedia.org/wiki/Matrice_de_confusion).
+* Calculer le nombre de prédictions correctes effectuées dans l'ensemble `tit_train` en considérant les fréquences de survies conditionnelles aux variables `gender` et `child`. Représenter les résultats sous forme de matrice de confusion.
 
-* Calculer le nombre de prédictions correctes et l'erreur Logloss en considérant les fréquences de survies conditionnelles aux variables **gender**, **child**, **class3** (prédicteur fréquentiel).
+* Calculer le nombre moyen de prédictions correctes et la perte logloss en considérant les fréquences de survies conditionnelles aux variables `gender`, `child` et `class3`.
 
+* Pour l'ensemble de test, évaluer les performances du prédicteur fréquentiel s'appuyant sur les caractérisques `gender`, `child`, `class3``selon les critères accuracy et logloss.
 
-#### Exercice 4:
+* Pour l'ensemble de test, évaluer les predictions un prédicteur s'appuyant sur un modèle de réseau de neurones ayant 5 neurones cachés et utilisant le profil complet d'un passager.
 
+* Quelles prédictions vous semblent les meilleures ? Celles obtenues par les probabilités empiriques ou celles obtenues par le modèle neuronal ? Justifier votre réponse. 
 
-* Pour l'ensemble de test, evaluer le prédicteur fréquentiel s'appuyant sur les caractérisques **gender**, **child**, **class3** (critère accuracy et logloss)
+* Quelles sont les différences de prédiction ? 
 
-* Pour l'ensemble de test, evaluer les predictions un prédicteur s'appuyant sur un modèle de réseau de neurones utilisant le profil complet d'un passager.
-
-* Magrittr: utiliser la syntaxe "pipe" pour la prediction précédente
 
 
 
