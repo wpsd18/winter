@@ -9,11 +9,11 @@ output: html_notebook
 
 * Chaque TP donne lieu à un bref compte-rendu portant sur certaines questions posées dans l'énoncé du TPs.
 
-* Le compte-rendu doit être complété à partir du texte de l'énoncé. Les codes R doivent être inclus dans le texte du compte-rendu (menu **Insert**) et commentés avec précision.
+* Le compte-rendu doit être complété à partir du texte de l'énoncé. Les codes R doivent être inclus dans le texte du compte-rendu (menu **Insert**) et commentés avec précision. **Les commentaires compteront pour une par importante dans la note**.
 
 * Le compte-rendu doit être déposé **sur TEIDE à la fin de la séance de TP**. Le retard n'est pas accepté.
 
-* Le compte-rendu doit être déposé **sur TEIDE au format HTML**. Utiliser la fonction **Preview** pour obtenir le document au format HTML. Les fichiers source ne seront pas acceptés.
+* Le compte-rendu doit être déposé **sur TEIDE au format HTML uniquement**. Utiliser la fonction **Preview** ou **knitr** du menu de rstudio pour obtenir le document au format souhaité. **Les fichiers "source" (Rmd) ne seront pas acceptés par les correcteurs**.
 
 
 ** **
