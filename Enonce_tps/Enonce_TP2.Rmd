@@ -18,6 +18,18 @@ output:
 
 ** **
 
+**IMPORTANT** : Cet énoncé est un document de travail intéractif personnel **qui ne doit pas être rendu**. Le **compte-rendu de TP est un document séparé** et seul **le compte-rendu doit être déposé dans TEIDE en fin de séance** au format HTML. 
+
+Il est fortement conseillé **de préparer le TP** pour le réussir et pour **déposer le compte-rendu** dans de bonnes conditions. La préparation consiste à lire l'intégralité du TP, à en comprendre les principales étapes et celles nécessitant des recherches dans l'aide du programme. La préparation consiste aussi à lire le fichier de compte-rendu pour **identifier les réponses à rendre dans l'énoncé**.
+
+Le **rendu porte notamment sur les questions finales**. Il faut gérer son temps le mieux possible. La préparation et l'organisation pendant le TP sont essentielles. 
+
+
+
+** **
+
+
+
 L'objectif de cette séance de travaux pratiques est de se familiariser avec l'analyse d'un jeu de données et de construire ses premiers modèles prédictifs. Le TP s'appuie sur une version du [défi "titanic"](https://www.kaggle.com/c/titanic), dont le but est de prédire le plus précisement possible la survie d'un passager lors du naufrage du Titanic.
 
 Le [naufrage du RMS Titanic](https://fr.wikipedia.org/wiki/Titanic) est l'un des naufrages les plus dramatiques de l'histoire de la navigation. Le 15 avril 1912, lors de son voyage inaugural, le Titanic coule après avoir heurté un iceberg, tuant 1502 des 2224 passagers et membres d'équipage. Cette tragédie a choqué la communauté internationale et conduit à l'amélioration des règles de sécurité pour les navires.

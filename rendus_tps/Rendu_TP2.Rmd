@@ -9,9 +9,9 @@ output: html_notebook
 
 * Chaque TP donne lieu à un bref compte-rendu portant sur certaines questions posées dans l'énoncé du TPs.
 
-* Le compte-rendu doit être complété à partir du texte de l'énoncé. Les codes R doivent être inclus dans le texte du compte-rendu (menu **Insert**) et commentés avec précision. **Les commentaires compteront pour une par importante dans la note**.
+* Le compte-rendu doit être complété à partir du texte de l'énoncé. Les codes R doivent être inclus dans le texte du compte-rendu (menu **Insert**) et commentés avec précision. **Les commentaires compteront pour une part importante dans la note**.
 
-* Le compte-rendu doit être déposé **sur TEIDE à la fin de la séance de TP**. Le retard n'est pas accepté.
+* Le compte-rendu doit être déposé **sur TEIDE à la fin de la séance de TP**. Les rendus en retard sont fortement pénalisé. Il est 
 
 * Le compte-rendu doit être déposé **sur TEIDE au format HTML uniquement**. Utiliser la fonction **Preview** ou **knitr** du menu de rstudio pour obtenir le document au format souhaité. **Les fichiers "source" (Rmd) ne seront pas acceptés par les correcteurs**.
 
@@ -35,13 +35,13 @@ output: html_notebook
 
 * Calculer le nombre moyen de prédictions correctes et la perte logloss en considérant les fréquences de survies conditionnelles aux variables `gender`, `child` et `class3`.
 
-* Pour l'ensemble de test, évaluer les performances du prédicteur fréquentiel s'appuyant sur les caractérisques `gender`, `child`, `class3``selon les critères accuracy et logloss.
+* Pour l'ensemble de test, évaluer les performances du prédicteur fréquentiel s'appuyant sur les caractérisques `gender`, `child`, `class3` selon les critères *accuracy* et *log loss*.
 
 * Pour l'ensemble de test, évaluer les predictions un prédicteur s'appuyant sur un modèle de réseau de neurones ayant 5 neurones cachés et utilisant le profil complet d'un passager.
 
 * Quelles prédictions vous semblent les meilleures ? Celles obtenues par les probabilités empiriques ou celles obtenues par le modèle neuronal ? Justifier votre réponse. 
 
-* Quelles sont les différences de prédiction ? 
+* Quelles sont les différences de prédiction entre les deux approches ? 
 
 
 

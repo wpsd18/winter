@@ -5,37 +5,50 @@ output: html_notebook
 
 ** **
 
-#### Règles
+#### Règles de rendu
 
-* 
+* Chaque TP donne lieu à un bref compte-rendu portant sur certaines questions posées dans l'énoncé du TPs.
+
+* Le compte-rendu doit être complété à partir du texte de l'énoncé. Les codes R doivent être inclus dans le texte du compte-rendu (menu **Insert**) et commentés avec précision. **Les commentaires compteront pour une part importante dans la note**.
+
+* Le compte-rendu doit être déposé **sur TEIDE à la fin de la séance de TP**. Les rendus en retard seront fortement pénalisé. 
+
+* Le compte-rendu doit être déposé **sur TEIDE au format HTML uniquement**. Utiliser la fonction **Preview** ou **knitr** du menu de rstudio pour obtenir le document au format souhaité. **Les fichiers "source" (Rmd) ne seront pas acceptés par les correcteurs**.
 
 
 ** **
 
 
-#### Exercice 1:  
-
-* **knn**: Pour $k = 1,\dots, 30$, calculer l'erreur de classification et l'erreur Logloss sur l'ensemble test. Représenter ces résultats sous forme de courbes (Accuracy/Logloss en fonction de k).
-
-*  Quel choix de $k$ vous parait le plus pertinent ?
 
 
-#### Exercice 2: 
+#### Exercice 1 :  Données simulées (knn)
 
-* **lda**: Calculer l'erreur de classification et l'erreur Logloss sur l'ensemble test. 
+* Méthode `knn` : Pour $k = 1,\dots, 30$, calculer l'erreur de classification et la perte log loss à partir de l'ensemble test (on modifiera 0 ou 1 les probabilités pour éviter les valeurs "Inf"). Représenter ces résultats sous la forme de graphes "accuracy" et "logloss" en fonction de $k$.
 
-#### Exercice 3: 
-
-* **nnet**: Pour decay$ = 0, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1$, calculer l'erreur de classification et l'erreur Logloss sur l'ensemble test. Représenter ces résultats sous forme de tableau (Accuracy/Logloss en fonction de k).
+*  Quel choix de $k$ vous parait le plus pertinent pour la simulation effectuée ?
 
 
-#### Exercice 4: Défi "Wisconsin Breast Cancer Database" 
+#### Exercice 2 : Données simulées (lda)
 
-* Reporter dans un tableau 2x7 (*knitr::kable*), puis dans deux diagrammes en barres, les valeurs des erreurs de classification et de logloss moyenne obtenues pour 100 découpages en ensembles trains/tests.  
+* Méthode `lda` : Calculer le taux de bonne classification et la perte log loss sur l'ensemble test. 
 
-Note: Pour *k-nn* et *nnet* reporter les valeurs des paramètres de "régularisation" ($k$ et *decay*) conduisant aux meilleures performances ainsi que les erreurs correspondantes.
 
-* Quel choix de prédicteur vous parait être le meilleur ? 
+#### Exercice 3 : Données simulées (nnet) 
 
-* On considère que le risque associé à une mauvaise prédiction *bénin* classé en *malin* (surdiagnostic) est moins important que pour la prédiction *malin* classé en *bénin*. Discuter le choix du prédicteur. 
+* Méthode `nnet` :  Pour `decay`$ = 0, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1$, calculer le taux de bonne classification et la perte log loss sur l'ensemble test. Représenter ces résultats sous forme de tableau (accuracy/logloss en fonction de `decay`).
 
+
+#### Exercice 4 : "Wisconsin Breast Cancer Database" 
+
+* À l'aide de l'ensemble test, évaluer les taux de classification et de perte log loss pour les méthodes `lda`, `nnet` et `knn`. Pour `knn` et `nnet`, utiliser, dans un premier temps, les paramètres $k = 15$ et `decay`$=0.01$.
+
+* Reporter sous forme de tableau avec des valeurs arrondies les valeurs des taux de classification et de perte log loss obtenues pour les méthodes `knn`, `lda`, `nnet` (dans cet ordre).  Quel choix de prédicteur vous parait être le meilleur ? Justifier.
+
+* Pour `knn` et `nnet`, explorer les paramètres de "complexité" ($k$ et `decay`) conduisant aux meilleures performances. Reporter les performances des modèles correspondant dans un tableau.
+
+#### Défi "Wisconsin Breast Cancer Database" 
+
+
+* Pour les méthodes `knn`, `lda`, `nnet`, calculer les probabilités de la classe "malignant" pour chaque élément de la l'ensemble test. On choisira les paramètres `k` et `decay` donnant les meilleures performances possibles.
+
+* Pour les méthodes `knn`, `lda`, `nnet`, appliquer  la fonction `eval_cancer` et présenter les résultat sous forme de tableau (`data.frame`).

@@ -21,6 +21,8 @@ cours/*.htm
 cours/*.html
 rendus_tps/*.html
 rendus_tps/*.htm
+enonce_tps/*.html
+enonce_tps/*.htm
 
 #bin
 rendus_tps/*.RDS

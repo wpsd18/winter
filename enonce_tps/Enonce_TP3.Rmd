@@ -19,6 +19,15 @@ output:
 
 ** **
 
+**IMPORTANT** : Cet énoncé est un document de travail intéractif personnel **qui ne doit pas être rendu**. Le **compte-rendu de TP est un document séparé** et seul **le compte-rendu doit être déposé dans TEIDE en fin de séance** au format HTML. 
+
+Il est fortement conseillé **de préparer le TP** pour le réussir et pour **déposer le compte-rendu** dans de bonnes conditions. La préparation consiste à lire l'intégralité du TP, à en comprendre les principales étapes et celles nécessitant des recherches dans l'aide du programme. La préparation consiste aussi à lire le fichier de compte-rendu pour **identifier les réponses à rendre dans l'énoncé**.
+
+Le **rendu porte notamment sur les questions finales**. Il faut gérer son temps le mieux possible. La préparation et l'organisation pendant le TP sont essentielles. 
+
+
+** **
+
 L'objectif de cette séance de travaux pratiques est de comparer les performances de trois méthodes de classification supervisée : les méthodes des $k$-plus proches voisins, de l'analyse discriminante linéaire et un réseaux de neurones à une couche cachée. Il s'agit de bien comprendre le phénomène de sur-entrainement (overfitting) et de choisir les paramètres des classifieurs permettant de minimiser son effet.
 
 Dans la première partie du TP, on utilisera des données simulées comportant 2 classes, de distribution conditionnelle non gaussienne. Cette simulation est inspirée de l'ouvrage de référence de Hastie, Tibshirani et Friedman intitulé [the Elements of Statistical Learning](https://web.stanford.edu/~hastie/Papers/ESLII.pdf) (les meilleurs ouvrages de référence sont écrits en anglais).
@@ -95,7 +104,7 @@ help(knn)
 ```
 
 
-* Pour $k = 1O$, calculer l'erreur de classification et la perte logloss à partir de l'ensemble test.
+* Pour $k = 1O$, calculer le taux de bonne classification et la perte logloss à partir de l'ensemble test.
 
 ```{r}
 # Nombre moyen de bons classements 
@@ -115,7 +124,7 @@ help(knn)
 
 
 
-* Pour $k = 1,\dots, 30$, calculer l'erreur de classification et la perte logloss à partir de l'ensemble test (on modifiera les probabilités pour éviter Inf). Représenter ces résultats sous la forme de graphes accuracy et logloss en fonction de $k$.
+* Pour $k = 1,\dots, 30$, calculer le taux de bonne classification et la perte logloss à partir de l'ensemble test (on modifiera les probabilités pour éviter Inf). Représenter ces résultats sous la forme de graphes accuracy et logloss en fonction de $k$.
 
 
 ```{r}
@@ -187,7 +196,7 @@ help(predict.lda)
 
 
 
-* Calculer l'erreur de classification et la perte logloss sur l'ensemble test. Commenter et compléter le code suivant.
+* Calculer le taux de bonne classification et la perte log loss sur l'ensemble test. Commenter et compléter le code suivant.
 
 
 ```{r}
@@ -237,7 +246,7 @@ head(proba_class)
 
 
 
-* Calculer l'erreur de classification et la perte log loss sur l'ensemble test. On exécutera éventuellement le chunck de code précédent plusieurs fois.
+* Calculer le taux de bonne classification et la perte log loss sur l'ensemble test. On exécutera éventuellement le chunck de code précédent plusieurs fois.
 
 ```{r}
 # 
@@ -251,7 +260,7 @@ head(proba_class)
 
 
 
-* Pour `decay`$ = 0, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1$, calculer l'erreur de classification et la perte log loss sur l'ensemble test. Représenter ces résultats sous forme de tableau (accuracy/logloss en fonction de `decay`). Commenter et completer le code suivant.
+* Pour `decay`$ = 0, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1$, calculer le taux de bonne classification et la perte log loss sur l'ensemble test. Représenter ces résultats sous forme de tableau (accuracy/logloss en fonction de `decay`). Commenter et completer le code suivant.
 
 
 ```{r}
@@ -303,7 +312,7 @@ library(magrittr)
 
 
 
-#### Exercice 4: Défi "Wisconsin Breast Cancer Database" : 1H15 incluant le rendu
+#### Exercice 4 :  "Wisconsin Breast Cancer Database" : 1H15 incluant le rendu
 
 
 Wisconsin Breast Cancer Database" est un tableau de données contenant neuf caracteristiques mesurées sur les tumeurs cancéreuses de 699 patientes (Données du Dr William H. Wolberg, University of Wisconsin Hospital, Madison, Wisconsin USA). Toutes les variables ont été converties en valeurs numériques variant entre 0 et 10 (Il y a 16 données manquantes). Voici les noms des variables et leur signification.
@@ -351,7 +360,7 @@ head(BreastCancer)
 
 
 
-* À l'aide de l'ensemble test, évaluer les erreurs de classification et de perte log loss pour les méthodes `lda`, `nnet` et `knn`. Pour `knn` et `nnet`, utiliser, dans un premier temps, les paramètres $k = 15$ et `decay`$=0.01$.
+* À l'aide de l'ensemble test, évaluer les taux de classification et de perte log loss pour les méthodes `lda`, `nnet` et `knn`. Pour `knn` et `nnet`, utiliser, dans un premier temps, les paramètres $k = 15$ et `decay`$=0.01$.
 
 
 Pour l'analyse discriminante, compléter et commenter le code suivant.
@@ -419,7 +428,7 @@ Pour la méthode des $k$ plus proches voisins, compléter et commenter le code s
 
 
 
-* Reporter dans des diagrammes en barres, les valeurs des erreurs de classification et de log loss obtenues pour les 3 méthodes.  Quel choix de prédicteur vous parait être le meilleur ? Justifier.
+* Reporter dans des diagrammes en barres les valeurs des taux de classification et de perte log loss obtenues pour les méthodes `knn`, `lda`, `nnet` (dans cet ordre).  Quel choix de prédicteur vous parait être le meilleur ? Justifier.
 
 
 ```{r}
@@ -436,10 +445,44 @@ Pour la méthode des $k$ plus proches voisins, compléter et commenter le code s
   barplot(accuracy, col = 2:4, ylab = "accuracy") 
 ```
 
+* Puis sous forme de tableau avec des valeurs arrondies
 
-* Pour *knn* et *nnet* explorer les paramètres de "complexité" ($k$ et `decay`) conduisant aux meilleures performances. Reporter les performances des modèles correspondant dans un tableau ou un graphique.
+```{r}
+library(magrittr)
+data.frame(log_loss, accuracy) %>% round(2)
+```
 
 
 
+* Pour `knn` et `nnet`, explorer les paramètres de "complexité" ($k$ et `decay`) conduisant aux meilleures performances. Reporter les performances des modèles correspondant dans un tableau.
+
+
+#### Défi "Wisconsin Breast Cancer Database" : Evaluation finale
+
+* Charger en mémoire les jeux de données `cancer_train` et `cancer_test` de la bibliothèque `isd`. Le jeu d'apprentissage contient 413 profils de tumeurs, et la variable `Class` est enregistrée dans la dixième colonne du tableau. La classification n'est pas donnée pour le jeu de données test, qui contient 150 profils de tumeurs.
+
+```{r}
+data(cancer_train)
+data(cancer_test)
+```
+
+* Pour les méthodes `knn`, `lda`, `nnet`, calculer les probabilités de la classe "malignant" pour chaque élément de la l'ensemble test. On choisira les paramètres `k` et `decay` donnant les meilleures performances possibles.
+
+```{r}
+# entrainement d'un modèle à paramétrer
+mod_mymethod <-  my_method(cancer_train[,-10], cancer_train$Class)
+
+# proba de la classe "malignant" pour l'ensemble test 
+prob <- predict(mod_mymethod, cancer_test) 
+
+```
+
+* Pour les méthodes `knn`, `lda`, `nnet`, appliquer  la fonction `eval_cancer` et présenter les résultat sous forme de tableau (`data.frame`).
+
+```{r}
+# accuracy et log loss sur l'ensemble test
+# help(eval_cancer)
+eval_cancer(prob) 
+```
 
 
