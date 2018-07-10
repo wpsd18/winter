@@ -5,9 +5,16 @@ output: html_notebook
 
 ** **
 
-#### Règles
+#### Règles de rendu
 
-* 
+* Chaque TP donne lieu à un bref compte-rendu portant sur certaines questions posées dans l'énoncé du TPs.
+
+* Le compte-rendu doit être complété à partir du texte de l'énoncé. Les codes R doivent être inclus dans le texte du compte-rendu (menu **Insert**) et commentés avec précision. **Les commentaires compteront pour une part importante dans la note**.
+
+* Le compte-rendu doit être déposé **sur TEIDE à la fin de la séance de TP**. Les rendus en retard sont fortement pénalisé. Il est 
+
+* Le compte-rendu doit être déposé **sur TEIDE au format HTML uniquement**. Utiliser la fonction **Preview** ou **knitr** du menu de rstudio pour obtenir le document au format souhaité. **Les fichiers "source" (Rmd) ne seront pas acceptés par les correcteurs**.
+ 
 
 
 ** **
@@ -17,25 +24,27 @@ output: html_notebook
 
 * Construire une fonction mathématique correspondant à un réseau ayant deux neurones cachés, permettant d'approcher la probabilité conditionnelle $p(y=1|x)$ de manière arbitrairement précise.
 
-* Vérifier le résultat en ajustant un réseau à deux neurones avec la librairie nnet. Représenter graphiquement les valeurs prédites par le réseau de neurones et superposer la courbe de la fonction mathématique proposée.
+* Vérifier le résultat en ajustant un réseau à deux neurones avec la bibliothèque `nnet`. Représenter graphiquement les valeurs prédites par le réseau de neurones et superposer la courbe de la fonction mathématique proposée.
 
-* Calculer l'erreur de prédiction d'un réseau de neurones à 2 neurones cachés
+*  Pour l'échantillon d'apprentissage, calculer l'erreur de classification du réseau de neurones à 2 neurones cachés ajusté à la question précédente.
 
 #### Exercice 2: 
 
-* Visualiser un historique d'entrainement de réseau de neurones. On choisira 100 neurones par exemple.
+* Visualiser un historique d'entrainement d'un réseau de neurones. On choisira 100 neurones par exemple.
 
-* Evaluer le modèle précédent en reportant les erreurs de classification et de logloss obtenues pour votre ensemble test.
+* Evaluer le modèle précédent en reportant les erreurs de classification et de perte log loss obtenues pour votre ensemble test.
 
 * Visualiser la frontière prédite entre les deux classes orange et bleue pour votre ensemble test.
 
 
 #### Exercice 3:  Défi "MNIST 1-2-7" 
 
-* Reporter dans un tableau 12x2 (*knitr::kable*), puis dans deux diagrammes en barres, les valeurs des erreurs de classification et de logloss obtenues sur l'ensemble test pour 12 réseaux de neurones distincts dont on aura fait varier les paramètres (nombre de couches cachées: 1 à 3, nombre de neurones par couche cachée: 10 et 100, valeurs de dropout: 0.2 et 0.5)
+* Reporter dans un tableau 12x2, les valeurs des erreurs de classification et de logloss obtenues sur l'ensemble test pour 12 réseaux de neurones distincts dont on aura fait varier les paramètres (nombre de couches cachées : 1 à 3, nombre de neurones par couche cachée : 10 et 100, valeurs de dropout : 0.2 et 0.5)
 
 
-* Quel choix de prédicteur vous parait être le meilleur ? 
+* Quel modèle de prédiction vous parait être le meilleur ? 
+
+* Pour ce modèle, quelles sont les erreurs de classification les plus fréquentes ? Quantifier ces erreurs.
 
 
 

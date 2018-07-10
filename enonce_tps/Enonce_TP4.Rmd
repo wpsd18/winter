@@ -19,6 +19,15 @@ output:
 
 ** **
 
+
+**IMPORTANT** : Cet énoncé est un document de travail intéractif personnel **qui ne doit pas être rendu**. Le **compte-rendu de TP est un document séparé** et seul **le compte-rendu doit être déposé dans TEIDE en fin de séance** au format HTML. 
+
+Il est fortement conseillé **de préparer le TP** pour le réussir et pour **déposer le compte-rendu** dans de bonnes conditions. La préparation consiste à lire l'intégralité du TP, à en comprendre les principales étapes et celles nécessitant des recherches dans l'aide du programme. La préparation consiste aussi à lire le fichier de compte-rendu pour **identifier les réponses à rendre dans l'énoncé**.
+
+Le **rendu porte notamment sur les questions finales**. Il faut gérer son temps le mieux possible. La préparation et l'organisation pendant le TP sont essentielles. 
+
+** **
+
 #### Objectif
 
 L'objectif de cette séance de travaux pratiques est de se familiariser plus en profondeur avec les modèles de réseaux de neurones. Nous nous appuierons notamment sur le logiciel _keras_ permettant d'utiliser la bibliothèque de réseaux de neurones _tensorflow_, développée en particulier pour l'apprentissage profond.
@@ -123,7 +132,7 @@ On considère un jeu de données unidimensionel dans lequel les variables $x \in
 
 
 
-* Vérifier le résultat en ajustant un réseau à deux neurones avec la fonction _nnet_. Représenter graphiquement les valeurs prédites par le réseau de neurones et superposer la courbe de la fonction mathématique proposée dans la question précédente. Commenter et compléter le code suivant.
+* Vérifier le résultat en ajustant un réseau à deux neurones avec la fonction `nnet`. Représenter graphiquement les valeurs prédites par le réseau de neurones et superposer la courbe de la fonction mathématique proposée dans la question précédente. Commenter et compléter le code suivant.
 
 
 ```{r}

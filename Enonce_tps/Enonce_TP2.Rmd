@@ -28,7 +28,7 @@ Le **rendu porte notamment sur les questions finales**. Il faut gérer son temps
 
 ** **
 
-
+#### Objectif
 
 L'objectif de cette séance de travaux pratiques est de se familiariser avec l'analyse d'un jeu de données et de construire ses premiers modèles prédictifs. Le TP s'appuie sur une version du [défi "titanic"](https://www.kaggle.com/c/titanic), dont le but est de prédire le plus précisement possible la survie d'un passager lors du naufrage du Titanic.
 
