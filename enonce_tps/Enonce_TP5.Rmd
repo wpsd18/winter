@@ -16,7 +16,18 @@ output:
 
 * Liste des [fonctions de base](https://stat.ethz.ch/R-manual/R-devel/library/base/html/00Index.html).
 
+** **
+Ce TP sera réalisé en plus grande autonomie que les précédents et les codes seront moins guidés. La note attribuée au rendu de ce TP aura un poids plus important que celles concernant les TPs précédents. 
 
+Le rendu comportera en particulier
+
+- Un fichier intitulé "Rendu_TP5.html" correspond au document "Rendu_TP5.Rmd" complété et commenté. Ce fichier décrira le modèle de prédiction choisi pour le défi de classification. 
+
+- Un "objet" R sauvé sous forme compressée contenant le modèle choisi pour être évalué par l'enseignant sur l'ensemble test. Le fichier compressé devra être sauvé sous le format RDS ou hdf5. Son intitulé devra être personnalisé sous la forme "my_login_bestmodel.ext" (voir les exemples à la fin du TP).
+
+- Un script R, contenant une fonction permettant d'évaluer le modèle (voir les exemples à la fin du TP).
+ 
+ 
 ** **
 
 L'objectif de cette séance de travaux pratiques est de répondre à un défi de classification portant sur l'analyse d'opinion à partir de documents textuels ("natural language processing"). 
@@ -30,16 +41,7 @@ Dans cette séance de TP, nous téléchargerons un échantillon de la base de do
 
 Le but de ce TP est de prédire le mieux possible l'opinion ou le _sentiment_ des utilisateurs à partir des fréquences d'occurrence de certains termes apparaissant dans les textes. Un échantillon de test comportant 5000 critiques indépendantes sera utilisé par l'enseignant pour évaluer la méthode sélectionnée.
 
-Ce TP sera réalisé en plus grande autonomie que les précédents et les codes seront moins guidés. La note attribuée au rendu de ce TP aura un poids plus important que celles concernant les TPs précédents. 
 
-Le rendu comportera en particulier
-
-- Un fichier intitulé "Rendu_TP5.html" correspond au document "Rendu_TP5.Rmd" complété et commenté. Ce fichier décrira le modèle de prédiction choisi pour le défi de classification. 
-
-- Un "objet" R sauvé sous forme compressée contenant le modèle choisi pour être évalué par l'enseignant sur l'ensemble test. Le fichier compressé devra être sauvé sous le format RDS son intitulé devra être personnalisé sous la forme "my_login_bestmodel.RDS" (voir les exemples à la fin du TP).
-
-- Un script R, contenant une fonction permettant d'évaluer le modèle (voir les exemples à la fin du TP).
- 
 
 ```{r}
 library(magrittr)
@@ -109,7 +111,7 @@ Le document 13 contient les termes "beautiful", "happy",  "interesting", "love",
 Pour la suite, c'est à vous de jouer.
 
 
-## Exercice unique: Défi "analyse de sentiments"
+## Exercice : Défi "analyse de sentiments"
 
 #### Lecture des données
 

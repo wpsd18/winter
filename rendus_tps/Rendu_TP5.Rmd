@@ -24,15 +24,29 @@ Le dépot comportera en plus du fichier intitulé "Rendu_TP5.html"
  
 
 ** **
+## Exercice : Défi analyse d'opinion (IMDB)
+
+#### Analyse d'association
+
+* Dans quelles proportions les termes de valeur d'association $r^2$ supérieure à 0.02 apparaissent-ils dans les documents ? Représenter graphiquement ces proportions  à l'aide d'un diagramme en barre. 
+
+* Dans quelles proportions les termes de valeur d'association $r^2$ supérieure à 0.02 apparaissent-ils dans les documents **à connotation positive** ? Représenter graphiquement ces proportions  à l'aide d'un diagramme en barre.
+
+#### Modèles de prédiction
+
+* \`A l'aide des outils vus dans les séances précédentes, tels que `keras`, `lda`, `nnet`, ou d'autres bibliothèques de programmes que vous pourriez trouver dans R, ajuster des modèles d'apprentissage aux données contenues dans le TP : `x_imbd` et `y_imbd`.
+
+* Dans un tableau, décrire les performances des méthodes choisies pour des échantillons d'apprentissage et de test que vous aurez créés vous-mêmes à partir des objets `x_imbd` et `y_imbd`. Les performances seront mesurées par les erreurs de classification et d'entropie (perte log loss).
+
+* Donner le code R correspondant au meilleur modèle que vous avez ajusté (chunck ci-dessous). 
+
+```{r}
+# code de mon meilleur modèle
+model <-  ex_deus_machina
+```
 
 
-#### Exercice : Défi analyse d'opinion (IMDB)
-
-* \`A l'aide des outils vus dans les séances précédentes, tels que _keras_, _lda_, _nnet_, ou d'autres bibliothèques de programmes que vous pourriez trouver dans R, par exemple _xgboost_, _ranger_, _libsvm_, etc, ajuster des modèles d'apprentissage aux données contenues dans le TP : "x_imbd" et "y_imbd".
-
-* Dans un tableau, décrire les performances des méthodes choisies pour des échantillons d'apprentissage et de test que vous aurez créés vous-mêmes. Les performances seront mesurées par les erreurs de classification et d'entropie (logloss).
-
-* Sauver votre modèle dans un format compressé (RDS ou HDF5 pour keras). Remplacer "mylogin" par votre propre login ensimag. 
+* Sauver votre meilleur modèle dans un format compressé (RDS ou HDF5 pour keras). Remplacer la chaine de caractère "my_login" par votre propre login ensimag. 
 
 ```{r}
 # standard r packages: 
@@ -42,7 +56,10 @@ Le dépot comportera en plus du fichier intitulé "Rendu_TP5.html"
   # save_model_hdf5(object = model, filepath = "mylogin_model_keras.hdf5")
 ```
 
+* Déposer votre modèle dans TEIDE. 
 
-* Ecrire et appliquer une fonction appelée "prediction_finale" pouvant prendre par défaut en entrée une matrice appelé "x_ultime" de taille 5000 lignes et 2000 colonnes contenant des valeurs binaires et une matrice "y_ultime" de taille 5000 lignes et 2 colonnes contenant des valeurs binaires. Cette fonction devra prédire les classes contenues dans "y_ultime" à partir des données "x_ultime" en chargeant le modèle que vous aurez choisi pour le défi.
+* Ecrire et appliquer une fonction appelée "prediction_finale" pouvant prendre par défaut en entrée une matrice appelée "x_ultime" de taille 5000 lignes et 2000 colonnes contenant des valeurs binaires et une matrice "y_ultime" de taille 5000 lignes et 2 colonnes contenant des valeurs binaires. Cette fonction devra prédire les classes contenues dans "y_ultime" à partir des données "x_ultime" en chargeant le modèle que vous aurez choisi pour le défi. Elle calculera les taux de classification et la perte log loss pour l'ensemble considéré.
 
-*  Déposer votre modèle dans TEIDE. Joindre un script de lecture contenant la fonction prediction_finale() et la version htlm de ce compte rendu..
+* Joindre un script R contenant la fonction `prediction_finale()` préalablement testée
+
+* Ne pas oublier la version htlm de ce compte rendu.
