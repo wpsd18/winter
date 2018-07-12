@@ -392,7 +392,7 @@ Lire les données MNIST. Il y a 4 ensembles de variables.
 
 
 
-* Construire successivement plusieurs réseaux de neurones multi-couches à l'aide de la fonction `keras_model_sequential()`, en faisant varier les paramètres des couches comme ci-dessous. On perndra soin de commenter et compléter le code.  
+* Construire successivement plusieurs réseaux de neurones multi-couches à l'aide de la fonction `keras_model_sequential()`, en faisant varier les paramètres des couches comme ci-dessous. On prendra soin de commenter et compléter le code suivant.  
 
 ```{r}
 # commenter les lignes suivantes
@@ -454,12 +454,19 @@ quod_errat_demonstratum(pred_class, mnist$test$y[boo_te])
 
 #### Défi MNIST (40 minutes)
 
-Pour les données 1,2,7 de l'exercice précédents.
+Pour les données de l'exercice précédent, répondre aux questions suivantes.
 
 * Reporter dans un tableau 12x2 (`data.frame`), puis dans deux diagrammes en barres, les valeurs des erreurs de classification et de _logloss_ obtenues sur l'ensemble test pour 12 réseaux de neurones distincts dont on aura fait varier les paramètres de la manière suivante 
   - nombre de couches cachées: 1 à 3, 
   - nombre de neurones par couche cachée: 10 ou 100, 
   - valeur de `dropout`: 0.2 ou 0.5.
+
+Inclure dans tableau une colonne indiquant le nom de chaque modele. Par exemple, un modèle à 2 couches cachées, 10 neurones par couche et une valeur "dropout" de 0.2 pourra s'appeler "modele_2_10_2"
+
+```{r}
+paste(c("modele", 2, 10, 2), collapse = "_")
+```
+
 
 
 * Quel modèle de prédiction vous parait être le meilleur ? 

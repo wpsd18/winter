@@ -18,11 +18,11 @@ output:
 
 ** **
 
-**IMPORTANT** : Cet énoncé est un document de travail intéractif personnel **qui ne doit pas être rendu**. Le **compte-rendu de TP est un document séparé** et seul **le compte-rendu doit être déposé dans TEIDE en fin de séance** au format HTML. 
+**IMPORTANT** : Cet énoncé est un document de travail interactif personnel **qui ne doit pas être rendu**. Le **compte-rendu de TP est un document séparé** et seul **le compte-rendu doit être déposé dans TEIDE en fin de séance** au format HTML. 
 
 Il est fortement conseillé **de préparer le TP** pour le réussir et pour **déposer le compte-rendu** dans de bonnes conditions. La préparation consiste à lire l'intégralité du TP, à en comprendre les principales étapes et celles nécessitant des recherches dans l'aide du programme. La préparation consiste aussi à lire le fichier de compte-rendu pour **identifier les réponses à rendre dans l'énoncé**.
 
-Le **rendu porte notamment sur les questions finales**. Il faut gérer son temps le mieux possible. La préparation et l'organisation pendant le TP sont essentielles. 
+Le **rendu porte notamment sur les questions finales**. Il faut gérer son temps le mieux possible. La préparation et une bonne organisation pendant le TP sont essentielles. 
 
 
 
