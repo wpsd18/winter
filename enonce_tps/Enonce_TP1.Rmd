@@ -204,10 +204,10 @@ Voici un exemple de ce qu'il ne faut pas faire en R, bien que cela soit parfaite
 
 ```{r}
   # comment 1
-  # Le reste de la division par 2 ("modulo 2") s'écrit "%% 2"
   x <- sample(1:12, 1000000, complete_moi)
 
   # comment 2
+  # Le reste de la division par 2 ("modulo 2") s'écrit "%% 2"
   mean( condition_logique )
 ```
 
@@ -615,7 +615,7 @@ On utilise une loi gaussienne pour simuler les données de chaque classe. Dans c
   cat("Covariance class 1 \n")
   C1
 
-  # matrice de covariance de la classe 1
+  # matrice de covariance de la classe 2
   C2 <- matrix(c(3, 1, 1, 2), nrow = 2, byrow = T)
   cat("Covariance class 2 \n")
   C2
