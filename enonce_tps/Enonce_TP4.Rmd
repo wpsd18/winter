@@ -360,7 +360,7 @@ Lire les données MNIST. Il y a 4 ensembles de variables.
 ```
 
 
-* Les images de dimension 28x28 doivent être converties en vecteurs de longueur 784. Cela peut se faire de plusieurs manières, en particulier, la fonction `array_reshape()` de keras est très utile pour cela.  
+* Les images de dimension 28x28 doivent être converties en vecteurs de longueur 784 ($= 28 \times 28$). Cela peut se faire de plusieurs manières. En particulier, la fonction `array_reshape()` de keras est très utile pour cela.  
 
 
 ```{r}
