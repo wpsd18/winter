@@ -1,7 +1,9 @@
 ---
 output:
-  word_document: default
   pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
 ---
 # Langage R et interface Rstudio
 
@@ -164,7 +166,7 @@ for (i in 1:n){   # 1:n est un vecteur de valeurs de 1 à n
 print(y) # on pourrait simplement écrire "y"
 ```
 
-Notre deuxième exemple est un plus subtil. Nous créons une matrice de taille 9 fois 11 contenant les 99 premiers entiers et nous cherchons à *remplacer les valeurs paires de cette matrice par des valeurs nulles*. 
+Notre deuxième exemple est un peu plus subtil. Nous créons une matrice de taille 9 fois 11 contenant les 99 premiers entiers et nous cherchons à *remplacer les valeurs paires de cette matrice par des valeurs nulles*. 
 
 ```{r}
 M <- matrix(1:99, nrow = 9, ncol = 11)
@@ -261,10 +263,11 @@ colSums(M)
 ```
 
 
-Finalement, notons l'usage de la fonction *pipe* de la bibliothèque **magrittr**. Un peu comme le "pipe" sous Unix/Linux, cette opérateur permet d'organiser séquentiellement les traitements à effectuer et gagne en lisibilité. Pour reproduire l'exemple précédent, nous pouvons écrire
+Finalement, notons l'usage de la fonction *pipe* de la bibliothèque **magrittr**. Un peu comme le "pipe" sous Unix/Linux, cet opérateur permet d'organiser séquentiellement les traitements à effectuer et gagne en lisibilité. Pour reproduire l'exemple précédent, nous pouvons écrire
 
 ```{r}
 library(magrittr)
+
 M %>% colSums() # M est passée en argument à la fonction colSums
 ```
 
@@ -316,7 +319,7 @@ R studio est plus qu'une interface graphique. Ce programme permet de coder en R 
 
 Rstudio permet d'associer un "projet" à un espace de travail. Le projet peut être créé dans l'onglet **File**, en selectionnant **File > New Project** et en suivant les instructions de l'interface. 
 
-L'intêret d'un projet de pouvoir retrouver l'environnement de travail tel qu'on le laisse à la fermeture de l'application. Cela permet aussi de changer de projet très facilement et de revenir plus tard. 
+L'intêret d'un projet est de pouvoir retrouver l'environnement de travail tel qu'on le laisse à la fermeture de l'application. Cela permet aussi de changer de projet très facilement et de revenir plus tard. 
 
 ### Notebooks (Rmd)
 
