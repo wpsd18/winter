@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 # Vecteurs aléatoires 
 
 ## Objectifs
@@ -216,7 +221,7 @@ $$
 Considérons la densité de la loi normale de moyenne nulle et de variance $\sigma^2$, $p(x) = N(x|m = 0, \sigma^2)$. En notant que la variance de la loi normale est égale à $\sigma^2$, nous obtenons
 
 $$
-h(p) = 1 +  \log (\sqrt{ 2 \pi \sigma^2}).
+h(p) = 1/2 +  \log (\sqrt{ 2 \pi \sigma^2}).
 $$
 
 En simplifiant, nous obtenons
