@@ -26,91 +26,93 @@ Les manuels de R sont plus austères mais on peut les trouver utiles.
 
 Le langage R est un langage de programmation interprété. Il repose sur l'exécution dynamique du programme par un autre programme (l'interprète écrit en C). À l'origine, R a été développé pour des applications en statistique. Bien qu'il dépasse largement ce cadre, il reste particulièrement intéressant pour la science des données. 
 
-Le langage s'appuie sur la notion de **vecteur**, simplifiant le recours aux structures itératives
-(boucles for, while, etc.). Il n'y a pas de typage ou de déclaration obligatoire des variables. Il permet d'écrires des programmes courts, comportant quelques lignes de code seulement et le temps de développement est réduit.
+Le langage s'appuie sur la notion de **vecteur**, simplifiant le recours aux structures itératives (boucles for, while, etc.). Il n'y a pas de typage ou de déclaration obligatoire des variables. Le langage permet d'écrire des programmes courts, comportant quelques lignes de code seulement et le temps de développement est réduit.
 
 ### Utilisation de R
 
 Comme tout programme R doit être installé sur le système avant de pouvoir l'utiliser. Il s'agit d'un logiciel libre qu'il est possible de télécharger à partir du site [CRAN](https://cran.r-project.org/) pour une installation personnelle.  
 
-R est en premier lieu une application offrant une invite de commande symbolisée par un "prompt" (>). L'utilisation de R en ligne de commande est toutefois restreint, et il est utile pour des opérations très simple. Par exemple, on peut effectuer des opérations de calcul telles que calculer log(3)
+R est en premier lieu une application offrant une invite de commande symbolisée par un "prompt" (>). L'utilisation de R en ligne de commande est toutefois restreinte, et réservée à des opérations très simples. Par exemple, on peut effectuer des opérations de calcul telles que calculer log(3)
 
 ```{r}
 log(3)
 ```
-ou faire la moyenne de 100 nombres pris au hasard entre 0 et 1
+ou faire la moyenne de 100 nombres pris au hasard entre 0 et 1.
 ```{r}
 x <- runif(100)
 mean(x)
 ```
 
- R peut être utilisé sous l'invite du système en mode de traitement par lot ("batch processing") grâce à la commande **R CMD BATCH**. Dans la suite, nous utiliserons essentiellement l'exécution de scripts (quelques commandes de R successives) à partir de l'interface **Rstudio**. Retenons que les principaux modes d'utilisation de R sont les suivants
+ R peut être utilisé sous l'invite du système en mode de traitement par lot ("batch processing") grâce à la commande système **R CMD BATCH**. Dans la suite, nous utiliserons essentiellement l'exécution de scripts (quelques commandes de R successives) à partir de l'interface **Rstudio**. Retenons que les principaux modes d'utilisation de R sont les suivants
 
-* Utilisation en ligne de commande : une commande simple est utilisée en mode interactif. La suite des commandes est enregistrée dans le fichier *.Rhistory*, et peut être retrouvée par la commande R **history()**.
+* *Utilisation en ligne de commande* : une commande simple est utilisée en mode interactif. La suite des commandes est enregistrée dans le fichier *.Rhistory*, et peut être retrouvée par la commande R `history()`.
 
-* Utilisation d'un script : un programme court ayant l'extension **.R** ou **.r** stocké sur le disque. Les scripts peuvent être exécuté par la commande **source()** ou en mode batch par **R CMD BATCH**.
+* *Utilisation d'un script* : un programme court ayant l'extension **.R** ou **.r** stocké sur le disque. Les scripts peuvent être exécutés par la commande `source()` ou en mode batch par **R CMD BATCH**.
 
-* Utilisation d'une fonction (routine) : une suite d'instructions effectuant un traitement spécifique bien identifié et pouvant être réutilisée. 
+* *Utilisation d'une fonction (routine)* : une suite d'instructions effectuant un traitement spécifique bien identifié et pouvant être réutilisée. 
 
-* Utilisation d'une bibliothèque R : un programme écrit en R (et pouvant utiliser d'autres langages) appelé "package" qui rend disponible des fonctions à d'autres projets de programmation en conservant l'intégrité de son implémentation. Nous utiliserons par exemple des bibiothèques de "réseaux neuronaux" qui nous permettront de programmer en quelques lignes de code R des méthodes d'apprentissage statistique très puissantes.
+* *Utilisation d'une bibliothèque R* : un programme écrit en R (et pouvant utiliser d'autres langages) appelé "package" qui rend disponible des fonctions à d'autres projets de programmation en conservant l'intégrité de son implémentation. Nous utiliserons par exemple des bibiothèques de "réseaux neuronaux" qui nous permettront de programmer en quelques lignes de code R des méthodes d'apprentissage statistique très puissantes.
 
 Le répertoire de travail (workspace) de R est le dossier par défaut dans lequel le logiciel va rechercher des fichiers de script ou de données et va sauvegarder l’espace de travail dans le fichier **.RData**. Le répertoire de travail est déterminé au lancement de R.
 
-Notons que lorsque l'on quitte R, le logiciel propose de sauver les objets créés pendant la session dans un répertoire local **.Rdata**. Si l'on accepte, on retrouve la session dans l'état où on la quitte lorsque l'on relançe le logiciel.
+Notons que lorsque l'on quitte R, le logiciel propose de sauver les objets créés pendant la session dans le fichier **.Rdata**. En acceptant et en relançant le logiciel, on retrouvera la session dans l'état où on l'a quittée.
 
 ### Principales classes d'objets
 
-Dans le langage R, toute forme de donnée appelée *objet*. Les variables, les fonctions, les opérateurs, même le symbole représentant le nom d’un objet est un objet. Les objets possèdent au minimum un mode (ou classe) et
-une longueur. Les principales classes d'objet sont les suivantes 
+Dans le langage R, toute forme de donnée est appelée *objet*. Les variables, les fonctions, les opérateurs, et même le symbole représentant le nom d’un objet est un objet. Les objets possèdent au minimum un mode (ou classe) et une longueur. Les principales classes d'objet sont les suivantes 
 
-* "numeric" : un vecteur contenant des valeurs numériques  
-* "character" : un vecteur contenant des caractères ou des chaînes de caractères
-* "logical" : un vecteur contenant des valeurs 0/1
-* "matrix" : un vecteur contenant des valeurs numériques, codé comme une matrice comportant $n$ lignes et $p$ colonnes.
-* "list" : une liste d'objets potentiellement hétérogènes, contenant par exemple des vecteurs, des matrices, des caractères.
-* "data.frame" : une liste d'objets de même longueur organisée en tableau.
-* "function" :  une fonction
+* `numeric`: un vecteur contenant des valeurs numériques,  
+* `character` : un vecteur contenant des caractères ou des chaînes de caractères,
+* `logical` : un vecteur contenant des valeurs logiques ou binaires,
+* `matrix` : un vecteur contenant des valeurs numériques, recodé comme une matrice comportant $n$ lignes et $p$ colonnes,
+* `list` : une liste d'objets potentiellement hétérogène, contenant par exemple des vecteurs, des matrices, des caractères,
+* `data.frame` : une liste d'objets de même longueur organisée en tableau,
+* `function` :  une fonction.
 
-Par exemple, supposons que la variable $x$ prenne la valeur 8. 
+Par exemple, supposons que la variable `x` prenne la valeur 8. 
 ```{r}
 x <-  8
 x
 ```
-Nous voyons que **x** est un vecteur dont la première valeur est égale à 1.
+Nous voyons que `x` est un vecteur dont la première valeur est égale à 1.
 ```{r}
 x[1]
 ```
-Nous vérifions que le vecteur **x** est de longueur 1 et de classe "numeric".
+Nous vérifions que le vecteur `x` est de longueur 1 et qu'il est de la classe `numeric.
 ```{r}
 length(x)
 class(x)
 ```
 
 
-Pour créer une liste, on peut utiliser la fonction liste. La plupart des objets manipulés par les bibiothèques R sont des listes. Les différents attributs d'une liste sont accessibles par le symbole dollar (\$) ou par le double crochet. 
+Pour créer une liste, on peut utiliser la fonction list`. La plupart des objets manipulés par les bibiothèques R sont des listes. Les différents attributs d'une liste sont accessibles par le symbole dollar (\$) ou par le double crochet. 
 
 ```{r}
-mes_betes <- list(animal = c("chat", "chien"), sex = c("M", "F"), age = c(2, 8), vaccine = c(TRUE, TRUE) )
+mes_betes <- list(animal = c("chat", "chien"), 
+                  sex = c("M", "F"), 
+                  age = c(2, 8), 
+                  vaccine = c(TRUE, TRUE))
 ```
 
-Pour obtenir les attributs, on pourra utiliser le symbole dollar
+Pour obtenir les attributs de la liste ``mes_betes, on pourra utiliser le symbole dollar
 
 ```{r}
 mes_betes
 ```
-Ainsi
+Ainsi, pour obtenir l'argument animal, on peut faire
+
 ```{r}
 mes_betes$animal 
 ```
 
-On pourra alors corriger les erreurs éventuelles. Si le second animal est un perroquet 
+On pourra alors corriger les erreurs éventuelles. Si le second animal est un perroquet, il suffit de modifier l'argument de la liste  
 
 ```{r}
 mes_betes$animal[2] <- "perroquet"
 mes_betes
 ```
 
-Remarquons que tous les attributs ont la même longueur. Plutôt que le format de liste, nous pouvons organiser  les données sous la forme d'un tableau (**data.frame**). Un objet de type **data.frame** est une liste particulière organisée en colonnes. Un data.frame peut être créé  de la manière suivante.
+Remarquons que tous les attributs ont la même longueur. Plutôt que le format de liste, nous pouvons organiser  les données sous la forme d'un tableau (`data.frame`). Un objet de type `data.frame` est une liste particulière organisée en colonnes. Un `data.frame` peut être créé de la manière suivante.
 
 
 ```{r}
@@ -129,7 +131,8 @@ mes_betes
 Le langage R permet de nombreuses manipulations vectorielles. Nous décrivons ci-dessous deux exemples de manipulations vectorielles élémentaires. Dans le premier exemple, nous chercherons à extraire les éléments d'un vecteur satisfaisant une condition particulière (valeurs supérieures à deux). Dans le deuxième exemple, nous remplacerons certains éléments d'une matrice par des valeurs nulles.   
 
 
-Tout d'abord, considérons le vecteur suivant (notons que ) 
+Tout d'abord, considérons le vecteur suivant (notons que `c()` permet de créer un vecteur) 
+
 ```{r}
 x <- c(1,6,7,1,0,9,2,3)   # c() permet de créer un vecteur
 x
@@ -141,19 +144,21 @@ Supposons que l'on cherche à *extraire les valeurs plus grandes que 2* du vecte
 (x > 2)
 ```
 
-et obtenir le résultat de la manière suivante
+et obtenir le résultat de la manière suivante.
 
 ```{r}
 x[x > 2]
 ```
 
-Nous obtenons les indices vérifiant la condition **(x>2)** avec la fonction **which**
+Nous obtenons les indices vérifiant la condition `(x>2)` avec la fonction `which`.
+
 ```{r}
 which(x > 2)
 ```
 
 
-Nous voyons que le calcul vectoriel est équivalent au code suivant utilisant une boucle *for* et un test  
+Nous voyons que le calcul vectoriel est équivalent au code suivant utilisant une boucle `for` et un test
+
 ```{r}
 y <- NULL # initialiser la variable résultat par l'objet "NULL"
 n <- length(x) 
@@ -175,7 +180,7 @@ dim(M) # dimensions de la matrice M
 print(M[2,4]) # affiche l'élément [2,4] de la matrice
 ```
 
-Puisque les matrices sont codées comme des vecteurs, la solution s'écrit tout simplement
+Puisque les matrices sont codées comme des vecteurs, la solution s'écrit tout simplement de la manière suivante
 
 ```{r}
 M[M %% 2 == 0] <- 0 # le reste de la division (modulo) s'écrit "%%"
@@ -189,7 +194,7 @@ M
 
 ### Application à un jeu de données
 
-La bibiothèque *'mlbench'* ("machine learning benchmarks") contient des jeux de données que nous pouvons analyser et à partir desquels nous pourrons faire des prédictions. L'exemple **BreastCancer** contient des données biomédicales concernant le cancer du sein (les données concernent 699 patientes). La fonction **data** permet de charger les données en mémoire sous forme de tableau (data.frame). Avec la fonction **head** nous pouvons visualiser les premières lignes du tableau **BreastCancer**.
+La bibiothèque *'mlbench'* ("machine learning benchmarks") contient des jeux de données que nous pouvons analyser et à partir desquels nous pourrons faire des prédictions. L'exemple **BreastCancer** contient des données biomédicales concernant le cancer du sein (les données concernent 699 patientes). La fonction `data` permet de charger les données en mémoire sous forme de tableau (`data.frame`). Avec la fonction `head` nous pouvons visualiser les premières lignes du tableau `BreastCancer.
 
 
 ```{r}
@@ -203,9 +208,12 @@ Nous cherchons à récupérer l'ensemble des diagnostics des patientes (colonne 
 
 ```{r}
 colnames(BreastCancer) # les noms des colonnes
-# On peut obtenir la colonne Class de la manière suivante 
-# On peut aussi remplacer Class par 11
-status <- BreastCancer[,"Class"]
+
+# On peut obtenir la colonne "Class" de la manière suivante 
+# On peut aussi remplacer "Class" par 11
+
+status <- BreastCancer[, "Class"]
+
 # Méthode alternative : le $ désigne un attribut de liste  
 status <- BreastCancer$Class
 ```
@@ -215,7 +223,8 @@ Le résultat est donné par la commande suivante
 sum(status == "benign")
 ```
 
-Notons qu'il est aussi possible utiliser la fonction **table** qui crée un histogramme des données de manière automatique
+Notons qu'il est aussi possible utiliser la fonction `table` qui crée un histogramme des données de manière automatique
+
 ```{r}
 table(status) # help(table)
 ```
@@ -224,7 +233,7 @@ table(status) # help(table)
 
 ### Fonctions de base
 
-La programmation en R s'appuie sur l'utilisation de fonctions et l'utilisation de l'aide en ligne (fonction **help()**). La structure d'une fonction est la suivante
+La programmation en R s'appuie sur l'utilisation de fonctions et l'utilisation de l'aide en ligne `help()`. La structure d'une fonction est la suivante
 
 ```{r}
 f <- function(arg){
@@ -233,31 +242,32 @@ f <- function(arg){
 ```
 
 
-Des centaines de fonctions de base sont contenues dans les bibliothèques **base**, **stats**, **graphics**, etc, chargées par défaut en lançant R. Il est impossible d'énumérer l'ensemble de ces fonctions. C'est en pratiquant régulièrement l'écriture de commandes, en utilisant l'aide, les tutoriaux en ligne (vignettes) et internet que l'on progresse le plus vite dans l'apprentissage des fonctions de base. Des applications web aux graphiques les plus élaborés en passant par des maths de haut niveau, tout est réalisable en R.   
+Des centaines de fonctions de base sont contenues dans les bibliothèques `base`, `stats`, `graphics`, etc, et sont chargées par défaut en lançant R. Il est impossible d'énumérer l'ensemble de ces fonctions. C'est en pratiquant régulièrement l'écriture de commandes, en utilisant l'aide, les tutoriaux en ligne (vignettes) et internet que l'on progresse le plus vite dans l'apprentissage des principales commandes et fonctions de R. Des applications web aux graphiques les plus élaborés en passant par des maths de haut niveau, **tout** est réalisable en R.   
 
-Voici quelques fonctions clés. Pour lire des données locales ou distantes ou pour les écrire, nous pouvons utiliser les fonctions suivantes
-* **read.table()**, **write.table()**
-* **scan()**, **write()**
-* **read.csv2()**, **write.csv()**
+Voici quelques fonctions clés. Pour lire des données locales ou distantes ou pour en sauvegarder, nous pouvons utiliser les fonctions suivantes
+* `read.table()`, `write.table()`
+* `scan()`, `write()`
+* `read.csv2()`, `write.csv()`, etc.
 
-Pour effectuer des calculs statistiques de base, nous pouvons utiliser les fonctions suivantes
+La documentation de ces fonctions est directement disponible dans R. Pour effectuer des calculs statistiques de base, nous pouvons utiliser les fonctions suivantes
 
-* **mean()**, **median()**, **sd()**
-* **table()**, **hist()**, **pie()**
+* `mean()`, `median()`, `sd()`
+* `table()`, `hist()`, `pie()`, etc.
 
 Pour effectuer des tirages aléatoires, nous pouvons utiliser les fonctions suivantes
 
-* **sample()** pour un tirage d'urne
-* **rnorm()** pour un tirage de loi normale
-* **runif()** pour un tirage de loi uniforme
+* `sample()` pour un tirage d'urne,
+* `rnorm()` pour un tirage de loi normale,
+* `runif()` pour un tirage de loi uniforme, etc.
 
-La fonction **apply()** est particulièrement importante car elle permet d'appliquer une fonction aux lignes ou aux colonnes d'une matrice ou d'un tableau, évitant ainsi le recours à une boucle **for()**. Par exemple, nous souhaitons calculer la somme des valeurs de chaque colonne de la matrice **M**. 
+La fonction **apply()** est particulièrement importante car elle permet d'appliquer une fonction aux lignes ou aux colonnes d'une matrice ou d'un tableau, évitant ainsi le recours à une boucle `for()`. Par exemple, nous souhaitons calculer la somme des valeurs de chaque colonne de la matrice `M. 
 
 ```{r}
 apply(M, MARGIN = 2, FUN = sum)
 ```
 
-En R, il est aussi possible de calculer ceci directement
+En R, il est aussi possible de calculer cette somme directement à l'aide de la fonction `colSums()`.
+
 ```{r}
 colSums(M)
 ```
@@ -271,17 +281,20 @@ library(magrittr)
 M %>% colSums() # M est passée en argument à la fonction colSums
 ```
 
-Si on souhaite calculer la moyenne du sinus de nombres aléatoires pris entre 0 et 2, il suffit de lire la phrase à l'envers et d'écrire
+Si on souhaite calculer la moyenne du sinus de 10000 nombres aléatoires pris entre 0 et 2, il suffit de lire la phrase à l'envers et d'écrire
 
 ```{r}
 runif(10000, 0, 2) %>% sin() %>% mean()
 ```
 
-Cette opération évite les appels imbriqués et rend le code plus lisible. Elle est équivalente à la commande suivante 
+Cette opération évite les appels imbriqués et rend le code plus lisible. Elle est équivalente à la commande suivante. 
 
 ```{r}
 mean(sin(runif(10000, 0, 2)))
 ```
+
+Remarquons que le résultat produit est un peu différent.
+
 
 ### Bonnes pratiques pour les travaux pratiques
 
@@ -289,14 +302,14 @@ Programmer en R ou dans un autre langage doit permettre à un autre programmeur 
 
 Pour les travaux pratiques, il est important de créer un répertoire pour chaque TP. Le répertoire de travail d'un TP pourra contenir les sous-répertoires suivants
 
-* Data : un répertoire contenant les données du TP. 
+* Data : un répertoire contenant les données du TP (dans les TPs, les données seront chargées en mémoire). 
 * Codes : un répertoire contenant les scripts ou les cahiers de travail en Rmd. 
-* Documents : un répertoire contenant des ressources séparées, par exemple les documents de référence   
-* Comptes_Rendus : un répertoire contenant le fichier 
+* Documents : un répertoire contenant des ressources séparées, par exemple les documents de référence.   
+* Comptes_Rendus : un répertoire contenant le fichier à rendre.
 
-Il est de plus très important de respecter quelques recommendations en matière de nomenclature pour l'écriture de code. Quelques règles d'écriture peuvent être trouvée en suivant le lien suivant : [Coding style](https://google.github.io/styleguide/Rguide.xml). 
+Il est de plus très important de respecter quelques recommendations en matière de nomenclature pour l'écriture de code. Quelques règles d'écriture peuvent être trouvées en suivant le lien suivant : [Coding style](https://google.github.io/styleguide/Rguide.xml), mais ce n'est pas exhaustif. 
 
-Les codes étant en général très courts, on s'efforcera de commenter systématiquement les instructions des programmes (avec un dièse). Pour les noms de variables, nous utiliserons la convention "Wickham" utilisant des mots en lettres minuscules séparés par des tirets. Par exemple, pour nommer une fonction permettant de dire "Coucou", on écrira
+Les codes étant en général très courts, on s'efforcera de commenter systématiquement les instructions des programmes à l'aide d'un symbole dièse. Pour les noms de variables, nous utiliserons la convention "Wickham" utilisant des mots en lettres minuscules séparés par des tirets. Par exemple, pour nommer une fonction permettant de dire "Coucou", on écrira
 
 ```{r}
 dire_coucou <- function(){
@@ -311,7 +324,7 @@ dire_coucou()
 
 ## Rstudio
 
-Rstudio est un programme dont nous nous servirons pour faire les TPs. Il est essentiel de se familiariser rapidement avec l'interface. Deux avantages intéressants que nous tirerons de ce programme est 1) la possibilité d'associer un projet à un espace de travail, 2) la possibilité de rédiger les TPs et les comptes rendus de TP en même temps que l'on effectue le TP en utilisant un **Notebook** (cahier). 
+Rstudio est un programme dont nous nous servirons pour faire les TPs. Il est essentiel de se familiariser rapidement avec l'interface. Deux avantages intéressants que nous tirerons de ce programme est 1) la possibilité d'associer un projet à un espace de travail, 2) la possibilité de rédiger les TPs et les comptes rendus de TP de manière interactive en même temps que l'on effectue le TP. Pour cela, nous utiliserons en utilisant un cahier de travail, **Notebook**. 
 
 R studio est plus qu'une interface graphique. Ce programme permet de coder en R (ou dans un autre langage), d'ouvrir des scripts ou des cahiers, de gérer ses fichiers, de consulter l'aide, d'installer des bibliothèques, d'afficher des graphiques, de gérer le versionnage du projet (git), etc.  
 
@@ -319,15 +332,15 @@ R studio est plus qu'une interface graphique. Ce programme permet de coder en R 
 
 Rstudio permet d'associer un "projet" à un espace de travail. Le projet peut être créé dans l'onglet **File**, en selectionnant **File > New Project** et en suivant les instructions de l'interface. 
 
-L'intêret d'un projet est de pouvoir retrouver l'environnement de travail tel qu'on le laisse à la fermeture de l'application. Cela permet aussi de changer de projet très facilement et de revenir plus tard. 
+L'intêret d'un projet est de pouvoir retrouver l'environnement de travail tel qu'on le laisse à la fermeture de l'application. Cela permet aussi de changer de projet très facilement et d'y revenir plus tard. 
 
 ### Notebooks (Rmd)
 
-Les cahiers (**Notebooks**) sont le mode de travail interactif que nous privéligierons en TP. Un cahier est un programme écrit en langage **Rmarkdown**. **Rmarkdown** est un langage de balise permettant de mélanger du texte et du code, que l'on exécute à la volée. Il est aussi possible d'intégrer des commandes latex pour inclure des équations, des images ou des liens web et des commandes html.  
+Les cahiers (**Notebooks**) sont le mode de travail interactif que nous privéligierons en TP. Un cahier est un programme écrit en langage **Rmarkdown**. **Rmarkdown** est un langage de balise permettant de mélanger du texte et du code, que l'on exécute à la volée en mode interactif. Il est aussi possible d'intégrer des images, des liens web, des commandes html ou des commandes latex pour inclure des équations.  
 
-On peut "compiler" un fichier Rmarkdown pour une sortie en PDF ou html. 
+On peut "compiler" un fichier Rmarkdown pour une sortie en format PDF ou html.  En TPs, il vous sera demander de fournir obligatoirement un compte rendu au format html, pour que l'enseignant puisse le visualiser à partir de l'application de dépot (TEIDE). Attention, tout autre format sera ignoré.  
 
-Il est inutile de connaître le langage Rmarkdown à fond. Les fichiers préparés vous permettront de faire les TPs en simplifiant la phase de rédaction. Une feuille d'aide contenant les quelques commandes utiles de Rmarkdown est disponible dans l'onglet **Help** de Rstudio. 
+Il est inutile de connaître le langage Rmarkdown à fond. Des fichiers préparés vous permettront de faire les TPs en simplifiant la phase de rédaction. Une feuille d'aide contenant les quelques commandes utiles de Rmarkdown est disponible dans l'onglet **Help** de Rstudio. 
 
 L'ensemble de ce cours est écrit en **Rmarkdown**.
 

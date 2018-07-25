@@ -22,9 +22,9 @@ L'objectif de cet exercice est d'établir le résultat suivant, justifiant l'imp
 Considèrons une densité de probabilité, $p(x)$, définie sur l'ensemble des réels. On rappelle que l'information (ou [*entropie de Shannon*](https://en.wikipedia.org/wiki/Entropy_(information_theory))) de la densité de probabilité $p(x)$ est définie de la manière suivante
 
 $$
-h(p) = - \int p(x) \log p(x) dx . 
+h(p) = - \int_{\mathbb{R}} p(x) \log p(x) dx . 
 $$
-Dans cette équation, la fonction $\log$ est usuellement définie en base 2, mais d'autres définitions sont possibles. On suppose que $p(x)$ est la densité de la loi normale de moyenne $m$ et de variance $\sigma^2$, 
+Dans cette équation, la fonction $\log$ est parfois définie en base 2, mais d'autres définitions sont possibles, et nous utiliserons par défaut la base naturelle ($e$). On suppose que $p(x)$ est la densité de la loi normale de moyenne $m$ et de variance $\sigma^2$, 
 
 $$
 p(x) = N(x | m , \sigma^2) \, , \quad x \in \mathbb{R}. 
@@ -46,10 +46,10 @@ Quelle interprétation de ce résultat vous parait être importante pour l'analy
 On suppose désormais que les lois considérées sont centrées, c'est à dire d'espérance nulle. Nous supposons que les lois sont de variance finie égale à $\sigma^2$. Afin de démontrer le principe d'entropie maximale, nous considérons la [*divergence de Kullback-Leibler*](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence) définie par  
 
 $$
-D_{KL}( q \|  p ) = \int q(y) \log \left( \frac{q(y)}{p(y)} \right) dy \, .
+D_{KL}( q \|  p ) = \int_{\mathbb{R}} q(y) \log \left( \frac{q(y)}{p(y)} \right) dy \, .
 $$
 
-Rappeler l'interprétation de cette grandeur en terme de perte d'information. À l'aide du théorème de transfert, démontrer que 
+Rappeler l'interprétation de cette grandeur en terme de perte d'information (quitte à revenir à la définition rappelée dans le lien vers internet). À l'aide du théorème de transfert, démontrer que 
 
 $$
 D_{KL}( q \|  p ) = - h(q) - \mathbb{E}[\log p(y)] \, , 

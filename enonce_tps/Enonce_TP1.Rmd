@@ -57,7 +57,7 @@ Pour créer des vecteurs en R, on peut utiliser les fonctions  `c()`, `seq()`, `
 
 ```{r}
   # comment 2
-  x <- c(1,6,7,2)
+  x <- c(1, 6, 7, 2)
   x
 
   # comment 3  
@@ -369,7 +369,7 @@ Pour créer une liste, on peut utiliser la fonction `list()`. Les arguments list
 
 Une fonction est une partie de code recevant une ou plusieurs informations à partir desquelles elle retourne un résultat. Bien que nous utiliserons le plus souvent les fonctions des bibliothèques de base ou de bibliothèques installées, il est utile de pouvoir en construire soi-même.
 
-* Créer une fonction `f(x)` prenant en entrée un vecteur numérique et retournant une liste contenant la moyenne et l'ecart type de `x` (fonctions `mean`, `sd`).  Commenter et compléter le code suivant.
+* Créer une fonction `f(x)` prenant en entrée un vecteur numérique et retournant une liste contenant la moyenne et l'écart type de `x` (fonctions `mean`, `sd`).  Commenter et compléter le code suivant.
 
 
 ```{r}
@@ -448,7 +448,7 @@ cat("Determinant de C = ", det(C))
 ```{r}
   # comment 1 : 
   help(eigen)
-  obj <-eigen(C)
+  obj <- eigen(C)
 
   # comment 2 : 
   U <- change_moi
@@ -575,7 +575,7 @@ d2_maha <- function(x, x0, C = cov(x0)){
 
 
 
-* Calculer la valeur moyenne du carré de la distance de Mahanalobis entre chaque vecteur simulé dans l'objet `x0` et de centre de `x` (pour la matrice $C$). Compléter le code suyivnt
+* Calculer la valeur moyenne du carré de la distance de Mahanalobis entre chaque vecteur simulé dans l'objet `x0` et de centre de `x` (pour la matrice $C$). Compléter le code suivant
 
 
 ```{r}

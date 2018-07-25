@@ -15,22 +15,23 @@ Ces notions concernent la définition des vecteurs aléatoires et leurs principa
 
 ## Notations
 
+Nous utiliserons les conventions de notation suivantes. 
 
-- ${\bf x}$ : vecteur aléatoire de dimension $D$ noté comme un vecteur colonne. La transposée du vecteur  ${\bf x}$ est un vecteur ligne
+- ${\bf x}$ : (minuscule grasse) vecteur aléatoire de dimension $D$ noté comme un vecteur colonne. La transposée du vecteur  ${\bf x}$ est un vecteur ligne
 
 $$
 {\bf x}^T = (x_1, \dots, x_D) \, .
 $$
 
-- $x,y$ : variables aléatoires unidimensionnelles. Les variables $x$ ou $y$ peuvent représenter les coordonnées d'un vecteur de plus grande dimension. Par ailleurs $y$ peut être une variable discrète (catégorielle) représentant le classement d'un vecteur ${\bf x}$ en plusieurs catégories.
+- $x,y$ : (minuscules) variables aléatoires unidimensionnelles. Les variables $x$ ou $y$ peuvent représenter les coordonnées d'un vecteur de plus grande dimension. Par ailleurs $y$ peut être une variable discrète (catégorielle) représentant le classement d'un vecteur ${\bf x}$ en plusieurs catégories.
 
-- ${\bf A}$ : matrice de dimension $D\times D$, $D \geq 2$. D'autres dimensions sont envisageables. En particulier, les matrices ne sont pas toutes carrées.
+- ${\bf A}$ : (majuscule grasse) matrice de dimension $D\times D$, $D \geq 2$. D'autres dimensions sont envisageables. En particulier, les matrices ne sont pas toutes carrées.
 
-- ${\bf X}$ : matrice de données de dimension $n\times D$ où $n$ représente la _taille d'un échantillon_ et $D$ la dimension des vecteurs aléatoires mesurés dans l'échantillon. L'étude de matrices de données ${\bf X}$ est l'un des objectifs de ce cours.
+- ${\bf X}$ : (majuscule grasse) matrice de données de dimension $n\times D$ où $n$ représente la _taille d'un échantillon_ et $D$ la dimension des vecteurs aléatoires mesurés dans l'échantillon. L'étude de matrices de données ${\bf X}$ est l'un des objectifs de ce cours.
 
 - $p_{\sf x}$ (noter l'absence de sérif) : loi de la variable aléatoire $x$ ou du vecteur aléatoire ${\bf x}$. La fonction réelle $p_{\sf x}(x)$ représentera la _densité_ de la variable $x$. Lorsque le contexte n'est pas ambigu, la notation (abusive) $p(x)$ remplacera la notation $p_{\sf x}(x)$ par souci de lisibilité des formules.
 
-Les conventions précédentes sont universellement adoptées dans le domaine de l'apprentissage automatique.
+Bien qu'il existe d'autres convention de notation, les conventions précédentes sont universellement adoptées dans le domaine de l'apprentissage automatique.
 
 ## Variables aléatoires réelles
 
@@ -43,13 +44,25 @@ Soit $x$ une variable aléatoire à valeurs réelles. On dit que $x$ admet $p(x)
 $$
 p(x \in (a,b]) = \int_a^b p(x) dx \, .
 $$
+Bien entendu, la désignation de la variable $x$ à l'intérieur de l'intégrale est arbitraire. Elle n'est ici que pour nous rappeler que nous travaillons avec une variable aléatoire nommée $x$. Si $x$ représente la taille d'un individu pris au hasard dans une population infinie, on pourrait tout aussi bien écrire
+$$
+p({\rm taille} \in (1.56,1.87]) = \int_{1.56}^{1.87} p(x) dx \, ,
+$$
+
+ou 
+$$
+p({\rm taille} \in (1.56,1.87]) = \int_{1.56}^{1.87} p(v) dv \, ,
+$$
+
+sans que cela change la valeur de la probabilité. Dans tous les cas, il s'agit de l'aire sous la courbe de la fonction de densité comprise entre les valeurs $a$ et $b$.
+
 
 ![**Densité de probabilité**. L'aire grisée correspond à la probabilité pour que la variable $x$ se trouve dans l'intervalle (a,b).](./figures/density.png)
 
-Lorsque cette grandeur est bien définie, on appelle _espérance_ de la variable aléatoire $x$ l'intégrale égale à
+Lorsque cette grandeur est bien définie, on appelle _espérance_ (ou valeur moyenne) de la variable aléatoire $x$ l'intégrale égale à
 
 $$
-\mathbb{E}[x] = \int x p(x) dx \, .
+\mathbb{E}[x] = \int_{\mathbb{R}} x p(x) dx \, .
 $$
 
 Lorsque cette grandeur est finie, on appelle _variance_ de la variable aléatoire $x$ la grandeur égale à
@@ -74,27 +87,80 @@ $$
 
 Les propriétés suivantes sont rappelées pour leur importance dans les calculs probabilistes.
 
-1. L'espérance est linéaire : pour tout couple de scalaires $(a,b)$, nous avons $\mathbb{E}[ax + by] = a\mathbb{E}[x] + b\mathbb{E}[y]$.
+1. **L'espérance est linéaire** : pour tout couple de scalaires $(a,b)$, nous avons $\mathbb{E}[ax + by] = a\mathbb{E}[x] + b\mathbb{E}[y]$.
 
-2. La variance est quadratique : pour tout couple de scalaires $(a,b)$, nous avons ${\rm var}[ax + by] = a^2{\rm var}[x] + b^2{\rm var}[y] + 2ab {\rm cov}[x,y]$.
+2. **La variance est quadratique** : pour tout couple de scalaires $(a,b)$, nous avons ${\rm var}[ax + by] = a^2{\rm var}[x] + b^2{\rm var}[y] + 2ab {\rm cov}[x,y]$.
 
-3. La covariance est symétrique : ${\rm cov}[x,y] = {\rm cov}[y,x]$. De plus, nous avons 
+3. **La covariance est symétrique** : ${\rm cov}[x,y] = {\rm cov}[y,x]$. De plus, nous avons 
 
 $$
 {\rm cov}[x,y] = \mathbb{E}[xy] - \mathbb{E}[x] \mathbb{E}[y]  \, .
 $$
 
-4. Si $x$ et $y$ sont indépendantes, alors ${\rm cov}[x,y] = 0$.
+4. Si les variables $x$ et $y$ sont indépendantes, alors ${\rm cov}[x,y] = 0$.
 
 5. _Théorème de transfert_. Si $f(x)$ est une fonction de $x$ dont l'espérance est bien définie, alors son espérance est égale à 
 
 $$
-\mathbb{E} [f(x)] = \int f(x) p(x) dx .
+\mathbb{E} [f(x)] = \int_{\mathbb{R}} f(x) p(x) dx .
 $$
-Losque les bornes ne sont pas indiquées, l'intégrale porte sur toutes les valeurs réelles. 
+Lorsque les bornes ne sont pas indiquées, l'intégrale porte sur toutes les valeurs dont la densité est non nulle. 
 
-Nous verrons en travaux dirigés un exemple de calcul d'espérance permettant de calculer l'entropie de Shannon d'une loi de probabilité.
+Nous verrons en travaux dirigés un exemple de calcul d'espérance permettant de calculer l'entropie de Shannon d'une loi de probabilité. Pour donner un exemple plus simple, considérons la fonction de densité de la loi uniforme sur $(0,1)$
 
+$$
+p(x) = \left\{ 
+\begin{array}{ll}
+1 & {\rm si ~ } x \in (0,1), \\
+0 & {\rm si ~ } x \notin (0,1).
+\end{array}
+\right.
+$$
+Le calcul de l'espérance de cette loi donne le résultat suivant
+
+$$
+\mathbb{E}[x] = \int_0^1 x p(x) dx = \int_0^1 x dx = \frac12. 
+$$
+En langage R, nous pouvons effectuer 100000 tirages de loi uniforme de la manière suivante
+
+```{r}
+  x <- runif(100000)
+```
+
+La valeur moyenne arrondie à 2 décimales est égale à
+
+
+```{r, include = FALSE}
+library(magrittr)
+```
+
+
+```{r}
+  mean(x) %>% round(digit = 2)
+```
+
+
+La covariance peut être interprétée comme une mesure de l'effet d'une variable sur une autre. Pour cela, supposons que les variables $x$ et $y$ sont reliées par une relation "linéaire"
+
+$$
+ y = ax + \epsilon, 
+$$
+où $a$ est un scalaire quelconque et $\epsilon$ une variable aléatoire indépendante de $x$ (on dit parfois un *bruit*). Nous avons alors
+
+$$
+{\rm cov}[x,y] = {\rm cov}[x, ax + \epsilon] = a{\rm cov}[x, x] + {\rm cov}[x, \epsilon] \, .
+$$
+D'après les propriétés précédentes, nous avons
+
+$$
+{\rm cov}[x,y] = {\rm cov}[x, ax + \epsilon] = a{\rm var}[x] \, .
+$$
+Lorsque l'effet ($a$) est positif, la covariance est positive et lorsque l'effet est négatif, la covariance devient négative. Nous voyons que l'effet $a$ s'exprime simplement en fonction de la covariance
+
+$$
+a = \frac{{\rm cov}[x,y]}{{\rm var}[x]} .
+$$
+L'effet est nul lorsqu'il n'y a pas de dépendance entre $y$ et $x$.
 
 ###  Valeurs empiriques, loi des grands nombres
 
@@ -107,6 +173,21 @@ La loi des grands nombres, énoncée sous des hypothèses raisonnables (tirages 
 $$
 \mathbb{E} [f(x)] \approx \frac1n \sum_{i=1}^n f(x_i) \, .
 $$
+
+Pour bien comprendre le sens de cette relation, appliquons la à la fonction $f(x) = x$. Nous avons alors
+
+$$
+\mathbb{E} [x] \approx \frac1n \sum_{i=1}^n x_i \, .
+$$
+
+L'espérance s'interprète ainsi comme la valeur moyenne des tirages successifs. Pout comprendre pourquoi, supposons un instant que la variable $x$ prenne un nombre fini de valeurs. La somme porte sur l'indice des tirages, et peut réorganisée en portant sur l'ensemble des valeurs possibles. Nous voyons alors apparaître la formule de l'espérance en approchant la fréquence d'apparition de chaque valeur par la probabilité de cette valeur
+
+$$
+\frac1n \sum_{i=1}^n x_i =  \sum_{x} x \frac{\# \{i; \, x_i = x \}}n \approx \sum_{x} x p(x)  \, .
+$$
+
+
+
 
 Cette approximation permet de remplacer les valeurs théoriques des espérances par des valeurs empiriques, faciles à calculer en général. En supposant les tirages indépendants et de même loi, il est possible évaluer l'erreur d'approximation effectuée en moyenne. Cette erreur, élevée au carré, correspond à la variance de la variable aléatoire $\frac1n \sum_{i=1}^n f(x_i)$ (plus la variance est petite, meilleure est l'approximation)
 
@@ -159,7 +240,7 @@ plot(x, dnorm(x, 0, 1), type = 'l', lwd = 2, col = "orange", main = "Loi de Gaus
 ```
 
 
-La loi normale $N(m,\sigma^2)$ est la loi de la variable $x = m + \sigma z$ où $z$ est de loi $N(0,1)$. On obtient immédiatement que son espérance est égale à $m$ et que sa variance est égale à $\sigma^2$. La densité de la loi normale $N(m,\sigma^2)$ est donnée par la formule suivante
+La loi normale $N(m,\sigma^2)$ est la loi de la variable $x = m + \sigma z$ où $z$ est de loi $N(0,1)$. On obtient immédiatement que l'espérance de la loi $N(m,\sigma^2)$ est égale à $m$ et que sa variance est égale à $\sigma^2$. La densité de la loi normale $N(m,\sigma^2)$ est donnée par la formule suivante
 
 $$
 p(x) = \frac{1}{\sqrt{2\pi \sigma^2}} e^{-\frac{(x-m)^2}{2\sigma^2}} \, , \quad  x \in \mathbb{R} . 
@@ -173,35 +254,42 @@ x <- rnorm(n = 1000, m = 10, sd = 2)
 cat("moyenne =", mean(x),"\n")
 cat("variance =", var(x),"\n")
 ```
-Nous observons que les erreurs sont de l'ordre de $1/\sqrt{1000} = 0.03$.  Nous pouvons aussi calculer la probabilité que la variable se trouve entre 10 et 11. Pour cet événement, la valeur empirique de la probabilité est égale à 
+
+Nous observons que les erreurs sont de l'ordre de $1/\sqrt{1000} = 0.03$.  Nous pouvons aussi calculer la probabilité que la variable se trouve entre 10 et 11. Pour cet événement, la valeur empirique de la probabilité est égale à
+
 ```{r}
 mean(x > 10 & x < 11)
 ```
+
 la valeur théorique est égale à 
 ```{r}
 pnorm(11, m = 10, sd = 2) - pnorm(10, m = 10, sd = 2) 
 ```
-La fonction **pnorm(t)** correspond à la fonction de répartition de la loi normale, égale à $p(x \leq t)$.  Cette fonction n'a pas d'expression analytique connue. Elle est calculée numériquement par le logiciel.
+
+La fonction `pnorm(t) correspond à la fonction de répartition de la loi normale, égale à $p(x \leq t)$.  Cette fonction n'a pas d'expression analytique connue. Elle est calculée numériquement par le logiciel.
 
 
-Profitons de cet exemple pour analyser la particularité de la manipulation des vecteurs en R. La condition (*x > 10 & x < 11*) correspond en fait à un vecteur booléen de longueur $n$. La commande **mean** effectue la moyenne des valeurs de ce vecteur et calcule ainsi la probabilité empirique de la condition. Le calcul des probabilité en R est donc simplifié. L'expression 
-```{r, include = FALSE}
+Profitons de cet exemple pour analyser la particularité de la manipulation des vecteurs en R. La condition `(x > 10 & x < 11)` correspond en fait à un vecteur booléen de longueur $n$. La commande `mean` effectue la moyenne des valeurs de ce vecteur et calcule ainsi la probabilité empirique de la condition. Le calcul des probabilité en R est donc simplifié. L'expression 
+
+```{r}
 mean(x > 10 & x < 11)
 ```
 calcule donc une valeur approchée de la probabilité
 $$
 p(x > 10 {\rm ~ et ~} x < 11).
 $$
-Elle est equivalente au code suivant, qui est plus long à exécuter,
+Elle est equivalente au code suivant, plus long à exécuter,
 
 ```{r}
 n <- length(x)
 somme <- 0
-for (i in 1:n){
-  if (x[i] > 10 & x[i] < 11) {
-    somme <- somme + 1
-  } 
-}
+
+  for (i in 1:n){
+    if (x[i] > 10 & x[i] < 11) {
+      somme <- somme + 1
+   } 
+  }
+
 somme/n
 ```
 
@@ -233,7 +321,7 @@ $$
 Cette relation établit le lien existant entre l'entropie de Shannon et la variance. Nous verrons plus loin que la moyenne ne porte pas d'information dans la loi de Gauss.  Nous retiendrons que, pour de nombreuses applications en science des données, information et variance sont des concepts synomymes. 
 
 
-Le calcul théorique d'une espérance est rassurant, mais en général, calculer une telle intégrale de manière explicite est difficile. Nous devons garder à l'esprit que la notion signifie "valeur moyenne" la fonction $-\log p(x)$, lorsque les tirages sont de loi de densité $p(x)$. Dans les algorithmes, cette grandeur sera souvent évaluée empiriquement 
+Le calcul théorique d'une espérance est rassurant, mais en général, calculer une telle intégrale de manière explicite est très difficile. Nous devons garder à l'esprit que la notion signifie "valeur moyenne" la fonction $-\log p(x)$, lorsque les tirages sont de loi de densité $p(x)$. Dans les algorithmes, cette grandeur sera souvent évaluée empiriquement de la manière suivante 
 
 $$
 h(p) \approx - \frac1n \sum_{i = 1}^n \log p(x_i) , \quad {\rm où } \quad x_i \sim N(0, \sigma^2) \,.
@@ -245,7 +333,7 @@ Avec R, cela peut se calculer très facilement. Supposons par exemple que $\sigm
  x <- rnorm(n = 1000000, sd = 1)
 ```
 
-et en utilisons la fonction `dnorm()` pour calculer la densité de la loi normale. L'entropie est estimée de la manière suivante
+En utilisant la fonction `dnorm()` pour calculer la densité de la loi normale, l'entropie est estimée de la manière suivante
 
 ```{r, include = FALSE}
 library(magrittr)
@@ -302,7 +390,7 @@ m + geom_density_2d()
 Lorsque les espérances des variables sont bien définies, on appelle _espérance_ de ${\bf x}$ le vecteur des espérances prises coordonnée par coordonnée. Formellement, l'espérance est le vecteur défini de la manière suivante
 
 $$
-\mathbb{E}[{\bf x}] = \int {\bf x} p({\bf x}) d{\bf x} \, .
+\mathbb{E}[{\bf x}] = \int {\bf x} p({\bf x}) d{\bf x}  =  \left(  \int_{\mathbb{R}} x_i p( x_i) dx_i \right)_{i = 1,\dots,D}^T \, .
 $$
 
 Lorsqu'elle est bien définie, on appelle _matrice de covariance_ de ${\bf x}$ la matrice égale à
@@ -339,7 +427,7 @@ m + geom_density()
 
 
 De même, il est possible de définir la loi marginale d'un sous-vecteur de ${\bf x}$ de taille $k$. Nous notons le résultat de la projection de ${\bf x}$ sur les $k$ premières coordonnées ${\bf x}_{(1:k)}$. De même que précédemment, le résultat de la projection de ${\bf x}$ sur les $(D-k)$ dernières coordonnées
-est noté ${\bf x}_{(k+1):D)}$. Il est obtenu par omission des $k$ premières coordonnées. Nous avons
+est noté ${\bf x}_{(k+1):D}$. Il est obtenu par omission des $k$ premières coordonnées. Nous avons
 
 
 $$
@@ -362,7 +450,7 @@ $$
 
 On vérifie facilement que la fonction ainsi définie est bien positive et d'intégrale égale à 1. Nous remarquons également que cette formule est similaire à la définition de la probabilité conditionnelle d'un événement. Une différence entre les formules pour les densités et pour les probabilités conditionnelles est que les fonctions de densité ne sont pas nécessairement plus petites que 1.    
 
-En dimension $D \geq 2$, considérons $(x_1,\dots,x_D)\in \mathbb{R}^D$ un vecteur de variables aléatoires de densité $p({\bf x})$. Supposons $x_1$ fixés tel que $p({\bf x}_{1:(D-1)}) > 0$. La densité de la loi conditionnelle de la variable $x_D$ sachant les autres variables, ${\bf x}_{1:(D-1)}$, est obtenue de la manière suivante
+En dimension $D \geq 2$, considérons $(x_1,\dots,x_D)\in \mathbb{R}^D$ un vecteur de variables aléatoires de densité $p({\bf x})$. Supposons  $(x_1,\dots,x_{D-1})$ fixés tels que $p({\bf x}_{1:(D-1)}) > 0$. La densité de la loi conditionnelle de la variable $x_D$ sachant les autres variables, ${\bf x}_{1:(D-1)}$, est obtenue de la manière suivante
 
 $$
  p_{\sf x_D | x_{-D}} (x_D| x_1, \dots, x_{D-1}) \equiv p(x_D| x_1, \dots, x_{D-1}) = \frac{p(x_1,x_2, \dots, x_D )}{p(x_1, \dots, x_{D-1})} \, .
@@ -378,7 +466,7 @@ $$
 
 ### Indépendance
 
-Les coordonnées du vecteur ${\bf x}$ sont *indépendantes* si et seulement si nous avons
+Les **coordonnées du vecteur ${\bf x}$ sont indépendantes** si et seulement si nous avons
 
 $$
 p(x_1, x_2, \dots, x_D ) = p_{\sf x_1} (x_1) \cdots p_{\sf x_D}(x_D) \equiv  p(x_1) \cdots p(x_D)  \, .
@@ -426,12 +514,12 @@ $$
  \mathbb{cov}[{\bf x}]  = {\bf U} {\bf \Lambda} {\bf U}^{T} \, .
 $$
 
-Cette propriété implique en particulier que les valeurs propres de la matrice de covariance sont strictement positives (ainsi que le déterminant de la matrice de covariance). En effet, les valeurs propres sont les élements diagonaux de la matrice ${\bf \Lambda}$. De plus, nous avons
+Cette propriété implique en particulier que les valeurs propres de la matrice de covariance sont strictement positives, ainsi que le déterminant de la matrice de covariance. En effet, les valeurs propres sont les élements diagonaux de la matrice ${\bf \Lambda}$. De plus, nous avons
 
 $$
   {\bf \Lambda}  =  {\bf U}^{T} \mathbb{cov}[{\bf x}] {\bf U}  =   \mathbb{cov}[{\bf {\bf U}^{T} x}] \, .
 $$
-Nous voyons donc que ${\bf \Lambda}$ est elle même une matrice de covariance. Ceci implique que ces termes diagonaux sont des variances, et donc strictement positifs.
+Nous voyons donc que ${\bf \Lambda}$ est elle même une matrice de covariance. Ceci implique que ces termes diagonaux sont des variances (et donc strictement positifs, comme énoncé).
 
 
 ### Définition de la loi gaussienne $N({\bf m},{\bf C})$ : sujet du cours 2.
@@ -439,7 +527,7 @@ Nous voyons donc que ${\bf \Lambda}$ est elle même une matrice de covariance. C
 Soit ${\bf C}$ une matrice de covariance de dimension $D \times D$ et ${\bf m}$ un vecteur de dimension $D$. La loi gaussienne $N({\bf m},{\bf C})$ est la loi de densité 
 
 $$
-p({\bf x}) = \frac{1}{(2\pi \det{\bf C} )^{D/2}} 
+p({\bf x}) = \frac{1}{(2\pi)^{D/2}(\det{\bf C})^{1/2}} 
 \exp(-\frac12 ({\bf x} - {\bf m})^T {\bf C}^{-1} ({\bf x}- {\bf m}) ) \, , \quad {\bf x} \in \mathbb{R}^D.
 $$
 

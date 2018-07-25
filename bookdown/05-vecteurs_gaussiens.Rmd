@@ -12,7 +12,7 @@
 Soit ${\bf C}$ une matrice de covariance de dimension $D \times D$ et ${\bf m}$ un vecteur de dimension $D$. La loi gaussienne $N({\bf m},{\bf C})$ est la loi de densité suivante
 
 $$
-p({\bf x}) = \frac{1}{(2\pi \det{\bf C})^{D/2}} 
+p({\bf x}) = \frac{1}{(2\pi)^{D/2} (\det{\bf C})^{1/2}} 
 \exp(-\frac12 ({\bf x} - {\bf m})^T {\bf C}^{-1} ({\bf x}- {\bf m}) ) \, , \quad {\bf x} \in \mathbb{R}^D.
 $$
 
