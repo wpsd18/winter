@@ -12,9 +12,12 @@ output:
 
 - Liste des [fonctions de base](https://stat.ethz.ch/R-manual/R-devel/library/base/html/00Index.html).
 
-- Livre en français de [Vincent Goulet](https://cran.r-project.org/doc/contrib/Goulet_introduction_programmation_R.pdf)
+- Introduction à la programmation en R [Vincent Goulet](https://cran.r-project.org/doc/contrib/Goulet_introduction_programmation_R.pdf)
 
 - R pour les débutants [Emmanuel Paradis](https://cran.r-project.org/doc/contrib/Paradis-rdebuts_fr.pdf)
+
+- [Introduction à R](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf) 
+
 
 
 ** **

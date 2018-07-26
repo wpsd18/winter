@@ -1,3 +1,15 @@
 `r if (knitr:::is_html_output()) '
 # References {-}
 '`
+
+- Bishop, C. M., (2006). Pattern Recognition and Machine Learning. Information Science and Statistics, Springer Nature, Switzerland.
+
+- Friedman, J., Hastie, T., R Tibshirani, R. (2001). [The Elements of Statistical Learning: Data Mining, Inference, and Prediction](https://web.stanford.edu/~hastie/Papers/ESLII.pdf), Springer series in statistics, Springer, New-York, USA. 
+
+- Goulet, V. (2016). [Introduction à la
+Programmation en R, Cinquième édition](https://cran.r-project.org/doc/contrib/Goulet_introduction_programmation_R.pdf) . Ecole d'actuariat, Université Laval, Québec, Canada.
+
+- Murphy, K. (2016). Machine Learning: A Probabilistic Perspective. MIT press Boston, Massachussets, USA.
+
+- Paradis E. (2005). [R pour les Débutants](https://cran.r-project.org/doc/contrib/Paradis-rdebuts_fr.pdf). Université de Montpellier, France. 
+

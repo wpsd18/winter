@@ -10,15 +10,21 @@ L'objectif de cette séance de travaux dirigés est de comprendre concrètement 
 L'objectif de cet exercice est de montrer comment l'analyse spectrale de la matrice de covariance d'un ensemble de données permet de prendre une décision concernant la provenance de ces données (classification binaire). Nous montrons que cette analyse conduit à une décision effectuée par un neurone artificiel, c'est à dire une fonction décrite de la manière suivante 
 
 $$
-\forall {\bf x} \in \mathbb{R}^D, \quad g({\bf x}) = \varphi( \sum_{j = 1}^D w_{j} x_j - \theta) = \varphi( {\bf w}^T {\bf x} - \theta) \, ,
+\forall {\bf x} \in \mathbb{R}^D, \quad g({\bf x}) = \varphi( \sum_{j = 1}^D w_{j} x_j - b) = \varphi( {\bf w}^T {\bf x} - b) \, ,
 $$
-où $\varphi(t)$ est une fonction de décision. Les fonctions de décision les plus courantes sont la fonction sigmoide ($\varphi(t) = 1/(1 + e^{-t})$) et la fonction de Heavyside ($\varphi(t) = 1_{\mathbb{R}_+}(t)$). 
+où $\varphi(t)$ est une fonction de décision, ${\bf w}$ est un vecteur de poids (weights) et $b$ un seuil (bias). 
+
+Les fonctions de décision les plus courantes pour définir un neurone artificiel sont la fonction sigmoide ($\varphi(t) = 1/(1 + e^{-t})$) et la fonction de Heavyside ($\varphi(t) = 1_{\mathbb{R}_+}(t)$). 
 
 ![Neurone artificiel (source wikipedia).](./figures/ArtificialNeuronModel.png)
 
 
 
 Nous utiliserons un jeu de données constitué de 699 échantillons de tissus provenant de tumeurs du sein, comportant neuf descripteurs des tumeurs et une classification binaire ("benign", "malignant"). Les descripteurs seront détaillés plus précisement lors d'une séance de travaux pratiques. 
+
+```{r, include = FALSE}
+  library(magrittr)
+```
 
 
 ### Question 1
@@ -27,19 +33,21 @@ Nous chargeons les données et éliminons 16 lignes où apparaissent des donnée
 
 ```{r}
 library('mlbench')
-data(BreastCancer)
+  data(BreastCancer)
 
 # eliminer les lignes avec des données manquantes
-boo.na <- ! apply(BreastCancer, 1, anyNA)
+  boo.na <- ! apply(BreastCancer, 1, anyNA)
 
-# créer une matrice de données
-x <- data.matrix(BreastCancer[boo.na,-c(1,11)])
-type <- BreastCancer[boo.na,11]
-dim(x)
+# créer une matrice de données et récupérer le diagnostic
+  x <- data.matrix(BreastCancer[boo.na,-c(1,11)])
+  diagnosis <- BreastCancer[boo.na,11]
+
+# entete de la matrice de données 
+  head(x)
 ```
 
 
-La matrice de données comporte neuf mesures effectuées sur 683 femmes. Nous calculons de la matrice de covariance empirique de ces mesures de la manière suivante 
+La matrice de données comporte neuf mesures effectuées sur 683 femmes. Nous calculons de la matrice de covariance empirique de ces mesures, $\Sigma$, de la manière suivante 
 
 ```{r}
 Sigma <- cov(x)
@@ -49,50 +57,50 @@ Quelles sont les dimensions de la matrice de covariance ?
 
 ### Question 2
 
-Ecrire la décomposition spectrale de la matrice $\Sigma$. Comment interpreter la rotation $U$ et les valeurs propres associées à chaque axe ? (Raisonner comme si le vecteur de mesures était gaussien.)
+Ecrire la décomposition spectrale de la matrice $\Sigma$. Comment interpreter la rotation ${\bf U}$ et les valeurs propres associées à chaque axe ? (Raisonner comme si le vecteur de mesures était gaussien.)
 
 ### Question 3
 
 Les valeurs propres de la matrice de covariance sont calculées de la manière suivante
 
 ```{r}
-lambda <- eigen(Sigma)$values
-lambda
-cumsum(lambda) # somme cumulée des valeurs propres
+  lambda <- eigen(Sigma)$values
+  lambda %>% round(2)
+  cumsum(lambda) %>% round(2) # somme cumulée des valeurs propres
 ```
 
 Quel(s) axe(s) porte(nt) le plus d'information ? Pourquoi ?
 
 
+
 ### Question 4
 
-Après avoir centré les mesures observées, on souhaite calculer les projections de ces mesures sur les axes propres. Vérifier que la solution donnée par le code suivant est correcte et interpréter le résultat du code.
+Après avoir centré les mesures observées, on souhaite calculer les projections de ces mesures sur les axes propres. Vérifier que la solution donnée par le code suivant est correcte. Commenter le code suivant et interpréter le résultat.
 
 
 ```{r}
-U <- eigen(Sigma)$vectors
+  # comment 1: 
+  U <- eigen(Sigma)$vectors
 
-m <- apply(x, 2, mean)
+  # calcule les valeurs moyennes des 9 variables
+  m <- apply(x, 2, mean)
 
-projection <- (x - m) %*% U
+  # comment 3:
+  projection <- (x - m) %*% U
 
-col <- c("grey","orange")
+  # comment 3:
+  col <- c("grey","orange")
+  plot(projection, pch = 19, col = col[1 + (diagnosis == "malignant")])
 
-plot(projection, 
-     pch = 19, 
-     col = col[1 + (type == "malignant")])
-
- mean((projection[,1]<0) == (type == "malignant"))
+  mean((projection[,1] < 0) == (diagnosis == "malignant"))
 ```
-
-_Note_: la fonction _scale(,scale = FALSE)_ centre les données. 
 
 
 
 
 ### Question 5
 
-Proposer une méthode simple, s'appuyant sur la décomposition spectrale de la matrice $\sigma$, pour classer les types "malins" et "bénins".
+Proposer une méthode simple, s'appuyant sur la décomposition spectrale de la matrice $\sigma$, pour classer les diagnositics "malins" (`malignant`) et "bénins" (`benign`).
 
 _Indication_: Tout d'abord, on calcule les moyennes ${\bf m}$ des mesures observées, puis on centre l'observation ${\bf x}$. Vérifier ensuite, que pour prendre la décision, on peut calculer le produit scalaire entre ${\bf x - m}$ et le premier axe de la rotation. Si la valeur est positive, le diagnostic sera bénin (1), sinon malin (0).
 
@@ -112,20 +120,22 @@ $$
 
 ### Conclusion
 
-Nous avons ainsi construit un neurone logique pour lequel les paramètres, parfois appelés coefficients synaptiques, sont "appris" à partir des données par la décomposition spectrale de la matrice de covariance. Nous pouvons voir comment ce neurone diagnostique la patiente de caractéristiques $x.681$. 
+Nous avons ainsi construit un neurone logique pour lequel les paramètres, parfois appelés coefficients synaptiques, sont "appris" à partir des données par la décomposition spectrale de la matrice de covariance. Nous pouvons voir comment ce neurone diagnostique la patiente dont les mesures observées sont contenues dans le vecteur $x_{681}$. 
 
 ```{r}
-x.681 <- x[681,]
+  x.681 <- x[681,]
+  x.681
+  
+  u.diagnosis <-  c("benign", "malignant")
 
-m <- apply(log(x), 2, mean)
+  # projection puis prediction 
+  pred <- u.diagnosis[ 1 + ((x.681 - m) %*% U[,1] < 0) ]
 
-u.type <- unique(type)
-
-x.681
-pred <- u.type[ 1 + ((log(x.681) - m) %*% U[,1] < 0) ]
-
-#La prédiction est 
-pred
+  # la prédiction est 
+  pred
+  
+  # la diagnostic réel est
+  diagnosis[681]
 ```
 
 
@@ -150,7 +160,7 @@ Pour cela, nous proposons un processus de construction d'un vecteur gaussien ${\
 
 Rappeler une condition nécessaire et suffisante pour que la matrice $\Sigma$ soit une matrice de covariance.
 
-### Question 2 : Cas particulier $K = 2$. 
+### Question 2 : Cas particulier $K = 1$. 
 
 On considère une variable aléatoire $x_1$ de loi $N(0, \sigma^2_1)$. On pose ensuite  
 $$
@@ -182,7 +192,7 @@ $$
 x_{K+1} = \sum_{k=1}^K \beta_k x_k + \epsilon \, .
 $$
 
-où $\epsilon$ est indépendante des $x_k$ et de loi $N(0, \sigma^2)$. Trouver les valeurs des coefficients $\beta_k$ et $\sigma^2$ permettant de définir un vecteur gaussien de matrice de covariance $\Sigma$.
+où $\epsilon$ est une variable aléatoire indépendante des $x_k$ et de loi $N(0, \sigma^2)$. Trouver les valeurs des coefficients $\beta_k$ et $\sigma^2$ permettant de définir un vecteur gaussien de matrice de covariance $\Sigma$.
 
 
 ### Question 6

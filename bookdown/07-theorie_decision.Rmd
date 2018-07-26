@@ -1,17 +1,26 @@
 # Théorie de la décision
 
-## Introduction et objectifs (à compléter)
+```{r, include= FALSE}
+library(magrittr)
+```
+
+
+## Introduction et objectifs 
+
+Ce chapitre et le chapitre suivant forment le coeur de ce cours. Trois séances d'amphi seront consacrées à ces deux chapitres. 
+
+En apprentissage automatique, un prédicteur probabiliste sera défini comme une fonction calculant des probabilités conditionnelles pour chaque observation à classer.  Un algorithme d'apprentissage ajustera le modèle de prédiction en  minimisant une fonction de perte calculée à partir des données observées. Les fonctions de perte les plus utilisées sont l'erreur de classification et la perte d'information. 
+
+Nous verrons comment utiliser la formule de Bayes pour déterminer le prédicteur probabiliste optimal, en supposant un échantillon de taille infinie. Nous verrons aussi que le phénomène de surapprentissage apparaît lorsque la taille de l'échantillon d'apprentissage est petite devant le nombre de paramètres du modèle de prédiction et nous verrons comment traiter ce problème en calculant la fonction de perte sur un ensemble de données n'ayant pas servi lors de la phase apprentissage.  
 
 * Formule de Bayes 
-* Erreur de classification moyenne (_accuracy_) et perte d'information (_logloss_)
+* Taux de bonne classification (_accuracy_) et perte d'information (_logloss_)
 * Classifieur optimal 
-* Surapprentissage et ensemble de test 
-
-Ce chapitre et le suivant (apprentissage supervisé) forment le coeur de ce cours. Trois séances d'amphi y seront consacrées. 
+* Problème du sur-apprentissage et recours à un ensemble de test 
 
 ## Quelques notions probabilistes supplémentaires
 
-Nous définissons les notions d'espérance conditionnelle, et de formule de Bayes, ainsi que les formules de conditionnement. Ces notions élémentaires seront très utiles pour la bonne compréhension des méthodes employées par la suite.    
+Nous définissons les notions d'espérance conditionnelle, la formule de Bayes, ainsi que les formules de conditionnement. Ces notions élémentaires seront très utiles pour la bonne compréhension des méthodes employées par la suite.    
 
 ### Espérance conditionnelle
 
@@ -39,8 +48,14 @@ $$
 $$
 \mathbb{E}[z]  =  \int  \mathbb{E}[z | {\bf x} ] p({\bf x}) d {\bf x} .
 $$
+En utilisant la formule de transfert (cours 1), nous pouvons écrire cette formule de manière probabiliste
 
-Pour comprendre la logique de cette formule, on pourra retenir l'exemple suivant. Supposons qu'un cours  comporte deux groupes, ayant respectivement 12 et 28 inscrits. À l'examen, la moyenne du premier groupe est égale à 12 et la moyenne du second groupe est égale à 14. On se demande alors quelle est la moyenne globale des inscrits. Une mauvaise réponse (égale à 13) consiste à faire la moyenne des deux notes. La bonne réponse prend en compte la probabilté de se trouver dans chaque groupe et elle est égale à $12 \times 12/40 + 13 \times 28/40 = 13.4$.
+$$
+\mathbb{E}[z]  =   \mathbb{E}[  \mathbb{E}[z | {\bf x} ]].
+$$
+
+
+Pour comprendre la logique de cette formule, on pourrait retenir l'exemple suivant. Supposons qu'un cours  comporte deux groupes, ayant respectivement 12 et 28 inscrits. À l'examen, la moyenne du premier groupe est égale à 12 et la moyenne du second groupe est égale à 14. On se demande alors quelle est la moyenne globale des inscrits. Une mauvaise réponse (égale à 13) consiste à faire la moyenne des deux notes. La bonne réponse prend en compte la probabilté de se trouver dans chaque groupe et elle est égale à $12 \times 12/40 + 13 \times 28/40 = 13.4$. La formule est analogue à la formule des probabilités totales, appliquée au calcul l'espérance directement.
 
 ### Formule de Bayes
 
@@ -55,7 +70,9 @@ $$
 
 ### Classification dure ou probabiliste (douce)
 
-Les fonctions d'évaluation de classification, aussi appelées _fonctions de perte_ (loss function), permettent de mesurer la pertinence des classements effectués par des méthodes automatiques (appelées *machines*). Les fonctions d'évaluation sont essentielles pour définir les algorithmes d'apprentissage automatique et pour évaluer les performances des "machines" apprennantes. Dans ce cours, les algorithmes d'apprentissage supervisés sont essentiellement des algorithmes de minimisation d'une fonction de perte. Il existe de nombreuses fonctions de perte. Dans les algorithmes classiques, les fonctions les plus souvent utilisées sont les fonctions _accuracy_ et _logloss_ dont nous verrons les définitions un peu plus loin. 
+Les fonctions d'évaluation de classification, aussi appelées _fonctions de perte_ (loss function), permettent de mesurer la pertinence des classements effectués par des méthodes automatiques, appelées *machines*. Les fonctions d'évaluation, _ou fonctions de perte_, sont essentielles pour définir les algorithmes d'apprentissage automatique et pour évaluer les performances des "machines" apprennantes. 
+
+Dans ce cours, les algorithmes d'apprentissage supervisés sont essentiellement des algorithmes de minimisation d'une fonction de perte. Il existe de nombreuses fonctions de perte. Dans les algorithmes classiques, les fonctions les plus souvent utilisées sont les fonctions _accuracy_ et _logloss_ dont nous verrons les définitions un peu plus loin. 
 
 
 En apprentissage supervisé, on distingue deux types d'évaluation selon que l'on s'intéresse à une classification *dure* (_hard classifier_) ou *probabiliste* (_soft classifier_).  On parle de *classification dure* lorsque l'on construit une fonction (ou "machine") classant un vecteur de mesures observées ${\bf x}$ dans une catégorie choisie parmi $K$ possibles
@@ -73,12 +90,12 @@ $$
 $$
 
 
-Lorsque le classifieur est probabiliste, il est courant de convertir la valeur $y$ comprise entre 1 et $K$ en un vecteur unitaire de longueur $K$, dont les coordonnées sont toutes nulles sauf celle qui la $y$-ème. Cette dernière est égale à 1. Une fonction de perte est alors une fonction $L(q({\bf x}), y)$ mesurant l'erreur (ou la perte d'information) induite par l'approximation du vecteur unitaire par $q({\bf x})$.  
+Lorsque le classifieur est probabiliste, il est courant de convertir la valeur $y$ comprise entre 1 et $K$ en un vecteur unitaire de longueur $K$, dont les coordonnées sont toutes nulles sauf la $y$-ème coordonnée. Cette dernière est égale à 1. Une fonction de perte est alors une fonction $L(q({\bf x}), y)$ mesurant l'erreur ou la perte d'information induite par l'approximation du vecteur unitaire par $q({\bf x})$.  
 
 
 ### Erreur de classification (01-loss)
 
-La plus simple des fonctions de perte consiste à compter les erreurs de classification commises par une machine dure. Nous verrons que la machine dure minimisant cette erreur s'appuie directement sur une machine probabiliste. Les machines considérées par la suite seront donc des machines probabilistes.
+La plus simple des fonctions de perte consiste à compter les erreurs de classification commises par une machine dure. Nous verrons que la machine dure minimisant cette erreur s'appuie directement sur une machine probabiliste. Les machines considérées par la suite seront donc essentiellement des machines probabilistes.
 
 L'erreur de classification d'une machine dure, $c({\bf x})$, est définie par
 
@@ -112,9 +129,9 @@ Considérant la valeur 1 comme une classification positive et la valeur 0 comme 
 Des fonctions de perte plus générales que l'erreur de classification simple peuvent tenir compte de la nature des erreurs de classification en pondérant les contributions respectives des grandeurs FP et FN dans le calcul de la perte.
 
 
-## Machines optimales
-
 ## Règle de classification dure optimale
+
+Le résultat concernant la machine dure optimale s'énonce de la manière suivante.
 
 **Résultat.** Considérons la fonction de perte définie par l'erreur de classification (perte 01). Pour cette fonction de perte, la machine dure optimale est donnée par le calcul des probabilités conditionnelles des classes sachant les variables observées
 
@@ -158,7 +175,7 @@ et
 $$
 p(x|y = 1) = \lambda_1 \exp(-\lambda_1 x ) \, .
 $$
-Dans ce cas, nous pouvons appliquer la formule de Bayes pour définir le classifieur optimal. Puisque la variable de classe prend les valeurs $0$ ou $1$, il suffit de calculer la probabilité conditionnelle $p(y = 1 |x)$. La probabilité $p(y = 0 |x)$ s'obtient par complémentaire, $p(y = 0 |x) = 1 - p(y = 1 |x)$.
+Dans ce cas, nous pouvons appliquer la formule de Bayes pour définir le classifieur optimal. Puisque la variable de classe prend la valeur $0$ ou $1$, il suffit de calculer la probabilité conditionnelle $p(y = 1 |x)$. La probabilité $p(y = 0 |x)$ s'obtient par complémentaire, $p(y = 0 |x) = 1 - p(y = 1 |x)$.
 
 D'après la formule de Bayes, nous avons
 
@@ -188,22 +205,28 @@ L'exemple précédent peut être simulé très facilement et nous renseigner sur
 
 Dans ce cas, la frontière de décision est donnée par l'équation $x = 4.02$, équivalente à $\log(x) = 1.39$. On attend donc que l'histogramme des valeurs de la variable $\log(x)$ soit séparé par le seuil $\log(x) = 1.39$ marquant la frontière entre les deux classes.
 
-Le script de simulation de cet histogramme peut s'écrire de la manière suivante
+La simulation de cet histogramme peut s'écrire de la manière suivante
 
 ```{r}
-n <- 10000
-y <- rep(0:1, each = n)
-x <- c(rexp(n, rate = .1), rexp(n, rate = .5))
-hist(log(x), prob = TRUE)
-s <- (log(0.1) - log(0.5))/(0.1 - 0.5)
-points(log(s), 10, type = 'h', lwd = 3, col = 2)
+  # nombre de simulations, taille de l'échantillon
+  n <- 10000
+
+  # simulation des variables x et y
+  x <- c(rexp(n, rate = .1), rexp(n, rate = .5))
+  y <- rep(0:1, each = n)
+  
+  # on passe en échelle log pour mieux voir les variations d'echelles
+  hist(log(x), prob = TRUE)
+  
+  s <- (log(0.1) - log(0.5))/(0.1 - 0.5)
+  points(log(s), 10, type = 'h', lwd = 3, col = 2)
 ```
 
-Nous voyons ainsi que la frontière de décision optimale n'est pas intuitive. Dans cet exemple, la valeur de l'erreur de classification moyenne réalisée par le classifieur optimal n'est **pas égale à zéro**. Elle peut être estimée assez précisement en augmentant le nombre de simulation ($n$). Nous obtenons une valeur approchée, située autour de 23\% de la manière suivante  
+Nous voyons ainsi que la frontière de décision optimale n'est pas intuitive. Dans cet exemple, la valeur de l'erreur de classification moyenne réalisée par le classifieur optimal n'est **pas égale à zéro**. Elle peut être estimée assez précisement en augmentant le nombre de simulation ($n \to \infty$). Nous obtenons une valeur approchée, située autour de 23\% de la manière suivante  
 
 ```{r}
 # Erreur de classification minimale 
-mean(y != (x < s))
+  mean(y != (x < s))
 ```
 
 
@@ -219,9 +242,9 @@ $$
 La plupart des algorithmes d'apprentissage définissent directement un classifieur probabiliste.  Pour cela, d'autres fonctions de perte que l'erreur de classification peuvent être proposées. Les fonctions de perte les plus courantes sont l'entropie-croisée, aussi appelée _logloss_ ou tout simplement _entropie_, et l'erreur quadratique moyenne, aussi appelée erreur $L^2$.   
 
 
-### Erreur log-loss (entropie croisée)
+### Perte log-loss (entropie croisée)
 
-La fonction de perte appelée _logloss_  est fréquemment considérée par les algorithmes d'apprentissage probabiliste. Elle est définie de la manière suivante  
+La fonction de perte _log-loss_  est très fréquemment considérée par les algorithmes d'apprentissage probabiliste. Elle est définie de la manière suivante  
 
 $$
 L(q({\bf x}), y) = - \log q_y({\bf x}) \, , \quad y \in 1, \dots, K.
@@ -231,13 +254,23 @@ Lorsque la variable $y$ est binaire, la fonction s'écrit aussi de la manière s
 $$
 L(q({\bf x}), y) = - y \log q({\bf x}) - (1-y)\log (1 - q({\bf x})) \, ,
 $$
-où $q({\bf x})$ s'identifie à la probabilité de la classe 1, $q({\bf x}) = q_1({\bf x})$.
+où $q({\bf x})$ est identifié à la probabilité de la classe 1, $q({\bf x}) = q_1({\bf x})$.
 
-Nous allons montrer que minimiser l'erreur log-loss moyenne (_entropie_) revient à minimiser l'information perdue lorsque l'on approche la loi cible $p(y|{\bf x})$ par une machine probabiliste $q({\bf x})$. L'erreur moyenne associée à la fonction de perte log-loss est égale à
+
+La perte moyenne associée à la fonction de perte **log-loss** est égale à
 
 $$
 \mathbb{E}[L(q({\bf x}), y )] =  \int \mathbb{E}[L(q({\bf x}), y) | {\bf x}] p({\bf x}) d{\bf x} \, .
 $$
+
+Pour ce critère, nous obtenons que la machine probabiliste optimale calcule la probabilité conditionnelle de chaque catégorie.
+
+**Résultat :** L'espérance de la perte log-loss est minimale si et seulement, 
+
+$$
+q_k({\bf x}) = p(y = k|{\bf x}) \, , \quad k = 1, \dots, K.
+$$
+Nous allons démontrer ce résultat très important pour le cours. Nous verrons aussi que minimiser la perte moyenne log-loss revient à minimiser l'information perdue lorsque l'on approche la loi cible $p(y|{\bf x})$ par une machine probabiliste $q({\bf x})$. 
 
 Pour minimiser la fonction de perte moyenne définie ci-dessus, il suffit de minimiser le terme intervenant à l'intérieur de l'intégrale. Cela revient à rechercher une machine probabiliste $q({\bf x})$ minimisant l'espérance conditionnelle suivante
 
@@ -246,10 +279,16 @@ $$
 $$
 
  
-La grandeur qui apparaît dans le terme de droite de cette expression correspond à l'_entropie croisée_ des lois $p(y = k|{\bf x})$ et $q_k({\bf x})$, définies sur l'ensemble des K classes, $\{1,\dots,K\}$, de la manière suivante
+Rappelons que pour deux lois de probabilité $p_1$ et $p_2$ sur l'ensemble $\{1,\dots,K\}$, l'entropie croisée est définie de la manière suivante
 
 $$
-h( p , q ) = - \sum_{k = 1}^K p(k) \log q(k) \, .
+h( p_1 , p_2 ) = - \sum_{k = 1}^K p_1(k) \log p_2(k) \, .
+$$
+
+Ainsi, la grandeur qui apparaît dans le terme de droite de l'expression précédente correspond à l'_entropie croisée_ des lois $p(y = k|{\bf x})$ et $q_k({\bf x})$.
+
+$$
+h( p_1 , p_2 ) = - \sum_{k = 1}^K p_1(k) \log p_2(k) \, .
 $$
 
 Nous pouvons comparer cette grandeur à l'entropie de la loi conditionnelle $p(y = k|{\bf x})$
@@ -270,15 +309,16 @@ $$
 h(p_{\sf y|{\bf x}}) = h(p_{\sf y|{\bf x}} , p_{\sf y|{\bf x}})  \leq  h(p_{\sf y|{\bf x}} , q({\bf x})) .
 $$
 
-**Résultat:** L'erreur logloss moyenne est minimale si et seulement, 
+En conclusion, la perte moyenne log-loss est minimale si et seulement, 
 
 $$
 q_k({\bf x}) = p(y = k|{\bf x}) \, , \quad k = 1, \dots, K.
 $$
 
-Minimiser l'erreur moyenne log-loss revient à minimiser l'information perdue lorsque l'on approche la loi cible $p(y|{\bf x})$ par une machine probabiliste $q({\bf x})$. Pour ce critère, nous obtenons la machine probabiliste optimale calcule la probabilité conditionnelle de chaque catégorie.
+De plus, minimiser l'espérance conditionnelle $\mathbb{E}[L(q({\bf x}), y) | {\bf x} ]$ revient à minimiser la divergence $D_{KL}(  p_{\sf y|{\bf x}} \| q({\bf x}) )$. Ainsi, nous pouvons affirmer que minimiser la perte moyenne log-loss revient à minimiser l'information perdue lorsque l'on approche la loi cible $p(y|{\bf x})$ par un modèle probabiliste $q({\bf x})$. 
 
-En pratique, l'erreur log-loss moyenne est calculée à partir des données d'apprentissage de la manière suivante 
+
+En pratique, la perte log-loss moyenne est calculée à partir des données d'apprentissage de la manière suivante 
 
 $$
 {\rm log~loss} \approx - \frac1n \sum_{i=1}^n \log( q_{y_i}({ \bf x}_i) )  \, .
@@ -300,19 +340,22 @@ L(q({\bf x}), y) = ( y - q_y({\bf x}) )^2 \, .
 $$
 Pour une raison évidente, cette erreur est appelée perte quadratique ou perte $L^2$. 
 
-Pour simplifier les notations, nous nous plaçons dans le cas d'une classification binaire. Lorsque la variable $y$ est binaire (0 ou 1), la fonction s'écrit tout simplement $L(q({\bf x}), y) = ( y - q({\bf x}) )^2$, où $q({\bf x})$ s'identifie à la probabilité de la classe 1. Pour minimiser la perte quadratique moyenne, il suffit de trouver la machine probabiliste $q({\bf x})$ minimisant l'espérance conditionnelle suivante
+Pour simplifier les notations, nous nous plaçons dans le cas d'une classification binaire. Lorsque la variable $y$ est binaire (0 ou 1), la fonction s'écrit plus simplement 
+
+$$L(q({\bf x}), y) = ( y - q({\bf x}) )^2 ,$$
+où $q({\bf x})$ s'identifie à la probabilité de la classe 1. Pour minimiser la perte quadratique moyenne, il suffit de trouver la machine probabiliste $q({\bf x})$ minimisant l'espérance conditionnelle suivante
 
 $$
 \mathbb{E}[L(q({\bf x}),y) | {\bf x} ] = \mathbb{E}[(y - q({\bf x}))^2 | {\bf x} ]  \, .
 $$
 
-Faisons apparaître la probabilité conditionnelle de la classe 1, notée $p(y = 1 | {\bf x})$. Nous avons 
+Pour cela, faisons apparaître la probabilité conditionnelle de la classe 1, notée $p(y = 1 | {\bf x})$. Nous avons alors
 
 $$
 \mathbb{E}[(y - q({\bf x}))^2 | {\bf x} ]  =  \mathbb{E}[(y - p(y = 1 | {\bf x})) - (q({\bf x}) - p(y = 1 | {\bf x})) )^2 | {\bf x} ]   \, .
 $$
 
-En developpant le carré, le terme du double produit est nul. Nous avons 
+En développant le carré, il est facile de voir que le terme correspondant au double produit est nul. Nous avons donc
 
 $$
 \mathbb{E}[(y - q({\bf x}))^2 | {\bf x} ]  =  \mathbb{E}[(y - p(y = 1 | {\bf x}))^2 | {\bf x} ]  + C({\bf x})^2  \, ,
@@ -323,14 +366,15 @@ $$
 \mathbb{E}[(y - q({\bf x}))^2 | {\bf x} ]  \geq  \mathbb{E}[(y - p(y = 1 | {\bf x}))^2 | {\bf x} ]  \, .
 $$
 
-**Résultat:** Cela démontre que, pour l'erreur quadratique moyenne, la machine probabiliste optimale correspond à nouveau à calculer la probabilité conditionnelle de chaque classe,
+
+L'inégalité ci-dessus est valide pour tout modèle probabiliste $q({\bf x})$. Pour l'erreur quadratique moyenne, la machine probabiliste optimale correspond donc à nouveau à calculer la probabilité conditionnelle de chaque classe,
 
 $$
 q({\bf x}) =  p(y = 1 | {\bf x}) \, .
 $$
 
 
-Minimiser l'erreur quadratique moyenne revient donc à minimiser l'erreur log-loss. Ce résultat justifie l'utilisation fréquence de l'erreur quadratique moyenne par les algorithmes d'apprentissage. En pratique, cette erreur est calculée à partir des données empiriques de la manière suivante
+Minimiser l'erreur quadratique moyenne conduit au même résultat que pour la perte log-loss. Ce résultat justifie l'utilisation fréquence de l'erreur quadratique moyenne par les algorithmes d'apprentissage. En pratique, cette erreur est calculée à partir des données empiriques de la manière suivante
 
 $$
 {\rm EQM} \approx  \frac1n \sum_{i=1}^n (y_i - q_{y_i}({\bf x}_i))^2  \, .
@@ -345,8 +389,7 @@ $$
 
 ## Erreur d'apprentissage et erreur de prédiction
 
-L'apprentissage automatique concerne essentiellement des machines (ou prédicteurs) probabilistes. Elle  
-consiste en la minimisation d'un critère de perte à partir d'observations répétées du couple classe/variables $(y_i,{\bf x}_i)_{i = 1, \dots, n}$, supposées indépendantes les uns des autres.   
+L'apprentissage automatique concerne donc essentiellement des machines (ou des prédicteurs) probabilistes. Il consiste en la minimisation d'un critère de perte à partir d'observations répétées du couple (variables, classe)  $({\bf x}_i, y_i)_{i = 1, \dots, n}$, supposées indépendantes les unes des autres.   
 
 Un algorithme d'apprentissage peut prendre des formes très diverses. De nombreux algorithmes s'appuient sur la miminisation numérique des erreurs empiriques _log loss_ ou  _quadratique_, mais ce n'est pas le cas de toutes les méthodes. En général, un algorithme correspond à la construction d'une machine probabiliste, représentée par une fonction, $\hat q({ \bf x})$, telle que
 
@@ -354,12 +397,12 @@ $$
 \hat q({ \bf x}) = \arg\min_q \frac1n \sum_{i = 1}^n L(q({\bf x}_i) , y_i) \,.
 $$
 
-Nous appelerons parfois telle machine probabiliste un _modèle de prédiction_.
+Nous appelerons une telle machine probabiliste un _modèle de prédiction_.
 
 
 ### Modèles paramétriques 
 
-Il y a deux grandes écoles de pensée pour la construction des _modèles de prédiction_ : les approches **paramétriques** et les approches **non-paramétriques**. Les premières regroupent des approches telles que les modèles gaussiens, la regression logistique, les réseaux de neurones, etc. Les secondes regroupent des approches telles que les méthodes de plus proches voisins, de distances, les méthodes à noyaux, les machines à vecteurs de support, etc. Ce cours met plutôt l'accent sur les méthodes paramétriques, tout en mentionnnant quelques approches non-paramétriques telles que les plus proches voisins.
+Il y a deux grandes écoles de pensée pour la construction des _modèles de prédiction_ : les approches **paramétriques** et les approches **non-paramétriques**. Les premières regroupent des approches telles que les modèles gaussiens, la régression logistique, les réseaux de neurones, etc. Les secondes regroupent des approches telles que les méthodes de plus proches voisins, de distances, les méthodes à noyaux, les machines à vecteurs de support, etc. Ce cours met plutôt l'accent sur les méthodes paramétriques, tout en mentionnnant quelques approches non-paramétriques telles que les plus proches voisins.
 
 Les _méthodes paramétriques_ utilisent un ensemble de valeurs numériques, $\theta$, pour paramétrer le modèle de prédiction. Elles supposent que le modèle est une fonction de ${\bf x}$ et $\theta$ 
 
@@ -367,12 +410,12 @@ $$
 q({\bf x}) = q({\bf x}, \theta) \,. 
 $$
 
-Recherche la machine optimale par un algorithme d'apprentissage consiste alors à rechercher le paramètre $\theta$ minimisant la fonction $L(\theta)$ suivante
+Rechercher la machine optimale par un algorithme d'apprentissage consiste alors à rechercher le paramètre $\theta$ minimisant la fonction $L(\theta)$ suivante
 
 $$
 L(\theta) = \frac1n \sum_{i = 1}^n L(q({\bf x}_i, \theta), y_i) \,.
 $$
-Le minimum optenu sera noté $\hat \theta$ 
+Le minimum obtenu sera noté $\hat \theta$ 
 
 $$
 \hat \theta = \arg\min_\theta L(\theta) \,.
@@ -384,10 +427,12 @@ $$
 \hat q({\bf x}) = q({\bf x}, \hat \theta) \, .
 $$ 
 
-Si la fonction de perte et le modèle de prédiction sont (plusieurs fois) différentiables, il est possible d'utiliser des algorithmes d'optimisation tels que l'_algorithme du gradient_ ou des _méthodes de Newton_ pour trouver des minima de la fonction de perte. Dans ce cours, nous utiliserons des algorithmes d'optimisation implantés dans des bibliothèques numériques. L'étude de ces méthodes n'est pas le sujet du cours, mais il faut retenir qu'il est très important de bien les choisir.  
+Lorsque la fonction de perte et le modèle de prédiction sont (plusieurs fois) différentiables, il est possible d'utiliser des algorithmes d'optimisation numériques tels que l'_algorithme du gradient_ ou des _méthodes de Newton_ pour trouver les minima de la fonction de perte empirique. 
+
+Dans ce cours, nous utiliserons des algorithmes d'optimisation implantés dans des bibliothèques numériques. L'étude des méthodes d'optimisation n'est pas le sujet du cours, mais il faut retenir qu'il est très important de bien les choisir et qu'il s'agit d'un point important à approfondir si l'on s'intéresse au domaine de l'intelligence artificielle.  
 
 
-Pour illustrer la démarche d'optimisation, considérons à nouveau les données unidimensionnelles générées par des lois exponentielles pour une classification binaire introduites dans une section précédente. Pour cet exemple, définissons le modèle de prédiction suivant 
+Pour illustrer la démarche d'optimisation, considérons à nouveau les données unidimensionnelles générées par des lois exponentielles pour une classification binaire, introduites dans une section précédente. Pour cet exemple, définissons le modèle de prédiction suivant 
 
 $$
 q(x, \theta_1, \theta_2) = \frac{1}{ 1 + \exp(-\theta_1x-\theta_2) } \, .
@@ -407,14 +452,14 @@ L <- function(theta){
 }
 ```
 
-Il est possible de minimiser cette fonction en utilisant la commande _optim()_ de R. Cette fonction constitue un exemple de programmation fonctionnelle. Pour cela nous utilisons un algorithme d'optimsation numérique classique, appelé méthode "BFGS",
+Il est possible de minimiser cette fonction en utilisant la commande _optim()_ de R. Cette fonction constitue un exemple de programmation fonctionnelle. Pour cela nous utilisons un algorithme d'optimisation numérique assez classique, appelé ["méthode BFGS"](https://fr.wikipedia.org/wiki/BFGS), que vous étudierez peut être dans un autre cours,
 
 ```{r}
-# minimisation de la fonction L(theta)
-# condition initiale theta1 = -1, theta2 = 2
-  obj <- optim(c(-1,2), fn = L, method = "BFGS")
-# solution
-  obj$par
+  # minimisation de la fonction L(theta)
+  # condition initiale theta1 = -1, theta2 = 2
+    objet <- optim(par = c(-1,2), fn = L, method = "BFGS")
+  # solution dans l'attribut "par"
+   objet$par %>% round(2)
 ```
 
  Le calcul théorique de la probabilité $p(y = 1 |x)$ a été effectué dans la section précédente. Il nous indique que la solution optimale est $\theta_1 = - 0.4$ et $\theta_2 = \log(5) = 1.60$. Les valeurs numériques obtenue ci-dessus sont donc proches des valeurs obtenues théoriquement en considérant un échantillon de taille $n = \infty$.
@@ -425,7 +470,7 @@ Les méthodes non-paramétriques tentent d'estimer les probabilités conditionne
 
 ![Méthode des k plus proches voisins : Les variables observées pour deux catégories "bleues" et "rouges" correspondent aux carrés et aux triangles. On détermine la probabilité de la classe au point vert par un sondage des points voisins du point vert. La probabilité d'appartenir à la catégorie "rouge" est 2/3 pour le premier cercle, 2/5 pour le second cercle. Le nombre de voisins considérés est un paramètre du modèle. La méthode s'avère inefficace en grande dimension à cause du fléau de la dimension.](./figures/Knn.png)
 
-Dans la méthode des plus proches voisins, on décide du calcul d'une distance entre les variables. On détermine alors la probabilité pour qu'un vecteur ${\bf x}$ appartienne à une catégorie donnée en sondant les $k$ vecteurs de l'échantillon les proches de ${\bf x}$. La méthode de sondage peut parfois introduire des pondérations des votes en fonction de la distance au vecteur cible ${\bf x}$. Cette pondération est appelée _noyau_ et plusieurs formes de noyaux peuvent être proposées dans les méthodes d'apprentissage automatique.
+Dans la méthode des plus proches voisins, on décide du calcul d'une distance entre les variables. On détermine alors la probabilité pour qu'un vecteur ${\bf x}$ appartienne à une catégorie donnée en sondant les $k$ vecteurs de l'échantillon les proches de ${\bf x}$. La méthode de sondage peut parfois introduire des pondérations des votes en fonction de la distance au vecteur cible ${\bf x}$. Cette pondération est appelée _noyau_ et plusieurs formes de noyau peuvent être proposées dans les méthodes d'apprentissage automatique.
 
 ### Malédiction de la dimension (à développer)
 
@@ -433,7 +478,7 @@ Donner l'exemple du cube unité. Calculer la longueur du coté, $a$, nécessaire
 
 ### Ensemble test
 
-Nous revenons aux modèles paramétriques qui constituent le coeur de ce cours, et nous abordons le problème de l'_ensemble test_. Jusqu'à maintenant nous avons considéré que les données pouvaient être utilisées pour l'apprentissage des machines. Dans cette section, nous allons voir qu'une partie des données disponibles doit être réservée pour évaluer la fonction de perte indépendamment de l'ensemble ayant servi pour ajuster le modèle (apprentissage).
+Nous revenons aux modèles paramétriques qui constituent la cible de ce cours, et nous abordons le problème de l'_ensemble test_. Jusqu'à maintenant nous avons considéré que les données observées pouvaient être utilisées pour l'apprentissage des machines. Dans cette section, nous allons voir qu'une partie des données disponibles doit être réservée pour évaluer la fonction de perte indépendamment de l'ensemble ayant servi pour ajuster le modèle (apprentissage).
 
 
 Les modèles paramétriques peuvent nécessiter d'ajuster un très grand nombre de paramètres. Nous verrons dans la suite que ce nombre peut être gigantesque pour les réseaux de neurones multicouches. Dans ce cas, la taille de l'échantillon peut être insuffisante pour correctement évaluer la valeur moyenne de la fonction de perte et le phénomène de sur-apprentissage ou sur-paramétrage (overfitting) apparait. 
@@ -448,7 +493,13 @@ $$
 q(x, \theta) = \sum_{i = 1}^n \theta_{1,i} \delta_{\theta_{2,i} } (x) \,  .
 $$
 
-Pour ajuster ce modèle, nul besoin d'algorithme numérique. La solution évidente consiste à poser $\hat\theta_{1,i} = y_i$ et $\hat\theta_{2,i} = x_i$, pour tout $i$ de 1 à $n$. Les erreurs de classification, de log-loss et de moindres carrés sont alors toutes égales à zéro, la valeur minimale absolue, pour l'ensemble d'apprentissage constitués des $n$ observations.
+Pour ajuster ce modèle, nul besoin d'algorithme numérique. La solution évidente consiste à poser $\hat\theta_{1,i} = y_i$ et $\hat\theta_{2,i} = x_i$, pour tout $i$ de 1 à $n$. Dans ce cas, nous avons
+
+$$
+q(x_j, \theta) = \sum_{i = 1}^n \theta_{1,i} \delta_{\theta_{2,i} } (x_j)  = y_j \, , \quad j = 1, \dots, n.
+$$
+
+La classification est donc parfaite. Les erreurs de classification et de moindres carrés et la perte log loss sont égales à zéro, la valeur minimale absolue, pour l'ensemble d'apprentissage constitués des $n$ observations.
 
 Cette machine (inutile) montre qu'il est toujours possible de construire un algorithme obtenant une erreur nulle sur l'ensemble d'apprentissage en considèrant suffisamment de paramètres dans un modèle. Certains modèles, dits flexibles ou peu contraints, pourront montrer des problèmes similaires, comme illustré dans l'image ci-dessus. Sauf si l'ensemble d'apprentissage est infiniment grand, nous comprenons qu'il faut être vigilant lors de l'évaluation un prédicteur sur l'ensemble d'apprentissage. 
 
@@ -458,9 +509,9 @@ $$
 E = \mathbb{E}[ L( q(x) , y )] \,.
 $$
 
-Pour la machine que nous venons de construire, l'espérance $E$ est calculable théoriquement. Le résultat est égal à la probabilité $p(y = 1)$ pour la perte quadratique moyenne ou pour l'erreur de classification moyenne. Il est égal $+\infty$ pour l'erreur log-loss moyenne. Nous voyons donc que l'erreur moyenne n'est pas égale à zéro (sauf si $p(y = 0) = 1$). Si les classes sont équiprobables, les performances théoriques de l'algorithme d'apprentissage défini préédemment sont très mauvaises. Nous pouvons aussi vérifier ce résultat avec une erreur calculée empiriquement sur un échantillon test indépendant de l'échantillon d'apprentissage. 
+Pour la machine que nous venons de construire, l'espérance $E$ est calculable théoriquement. Le résultat est égal à la probabilité $p(y = 1)$ pour la perte quadratique moyenne ou pour l'erreur de classification moyenne. Il est égal $+\infty$ pour l'erreur log-loss moyenne. Nous voyons donc que l'erreur moyenne n'est pas égale à zéro (sauf si $p(y = 0) = 1$). Si les classes sont équiprobables, les performances théoriques de l'algorithme d'apprentissage sont très mauvaises. Nous pouvons aussi vérifier ce résultat avec une erreur calculée empiriquement sur un échantillon test indépendant de l'échantillon d'apprentissage. 
 
-**Règle importante:** En général, on réservera un sous echantillon pour minimiser l'erreur d'apprentissage et un second sous-echantillon, composé de données non-utilisées pendant l'apprentissage, pour évaluer l'erreur cible, $E$. Selon la taille du problème, on peut se permettre de réserver un pourcentage plus ou moins élevé de données pour l'ensemble de test (20$\%$ semble être un compromis moderne acceptable). Il sera alors important de faire varier la complexité du modèle et de choisir le modèle produisant la plus petite erreur moyenne sur l'ensemble test.  
+**Règle importante :** En général, on réservera un sous echantillon pour minimiser l'erreur d'apprentissage et un second sous-echantillon, composé de données non-utilisées pendant l'apprentissage, pour évaluer l'erreur ou la perte $E$. Selon la taille du problème, on peut se permettre de réserver un pourcentage plus ou moins élevé de données pour l'ensemble de test (20$\%$ semble être un compromis moderne acceptable). Il sera alors important de faire varier la complexité du modèle et de choisir le modèle produisant la plus petite erreur moyenne sur l'ensemble test.  
 
 ![Erreurs d'apprentissage vs erreur de test en fonction de la complexité d'un modèle. L'erreur calculée sur l'ensemble test (courbe rouge) est en général plus élevée que l'erreur calculée sur l'ensemble d'apprentissage. Le meilleur choix de modèle correspond au minimum de l'erreur calculée sur l'ensemble test. Source de l'image: wikipedia.](./figures/Overfitting2_1.png)
 
@@ -475,7 +526,10 @@ Pour la machine que nous venons de construire, l'espérance $E$ est calculable t
 
 ### Exemple de séparation linéaire
 
-On considère un vecteur de mesures, ${\bf x}$, de dimension $D = 2$. On suppose que les données se répartissent en deux classes, $y = 0$ et $y = 1$. On suppose de plus que les données ont été générées en proportions égales dans chacune des deux classes, $p(y = 0) = p(y = 1)$.
+On considère un vecteur de mesures, ${\bf x}$, de dimension $D = 2$. On suppose que les données se répartissent en deux classes, $y = 0$ et $y = 1$. On suppose de plus que les données ont été générées en proportions égales dans chacune des deux classes, 
+$$
+p(y = 0) = p(y = 1).
+$$
 
 Nous étudions un modèle génératif reposant sur des lois conditionnelles gaussiennes de moyenne respectives $\mu_0 = (1,0)$ pour la classe 0 et $\mu_1 = (0,1)$ pour la classe 1. La matrice de covariance $\Sigma$ est supposée identique pour les deux classes. Dans notre exemple, cette matrice est égale à 
 
@@ -491,7 +545,7 @@ $$
 p( {\bf x}  | y = k ) = N( {\bf x}  | \mu_k, \Sigma ) \, , \quad  \forall k = 0, 1, \quad {\bf x} \in \mathbb{R}^2.
 $$
 
-Supposons que les moyennes $\mu_k$ et la matrice $\Sigma$ sont connus ou estimés sans erreur. Pour ce modèle génératif, comme pour l'exemple exponentiel vu précédemment, nous pouvons déterminer exactement la probabilité conditionnelle de chaque classe. Le calcul conduit à la formule suivante, que nous retrouverons en travaux dirigés,
+Supposons que les moyennes $\mu_k$ et la matrice $\Sigma$ sont connues ou estimées sans erreur. Pour ce modèle génératif, comme pour l'exemple exponentiel vu précédemment, nous pouvons déterminer exactement la probabilité conditionnelle de chaque classe. Le calcul conduit à la formule suivante, que nous retrouverons en travaux dirigés,
 
 $$
 p( y = 1 | {\bf x} ) = \frac{1}{1 + \exp( - {\bf w}^T  ( {\bf x} - {\bf x}_0) )}  \, ,
@@ -506,7 +560,12 @@ $$
 {\bf x}_0 = (\mu_0 + \mu_1)/2 .
 $$
 
-Avec les valeurs choisies pour exemple, la frontière de décision optimale est la droite d'équation $x_2 = -3/2 + 5 x_1/2$. Nous pouvons visualiser la séparation des classes à l'aide d'une simulation comportant 200 données
+Avec les valeurs choisies pour exemple, la frontière de décision optimale est la droite d'équation $x_2 = -3/4 + 5 x_1/2$, correspondant à
+
+$$
+{\bf w}^T ({\bf x}  - {\bf x}_0) = 0.
+$$
+Nous pouvons visualiser la séparation des classes à l'aide d'une simulation comportant 200 données
 
 ```{r, include=FALSE}
 library(magrittr)
@@ -533,19 +592,19 @@ Nous voyons que les données de la catégorie "bleue" sont séparées des donné
 
 ```{r, echo = FALSE}
   plot(x, pch = 19, col = y)  
-  abline(-3/2, 5/2, lwd = 2, col = "green3") ## trace x_2 = -3/2 + 5/2 x_1
+  abline(-3/4, 5/2, lwd = 2, col = "green3") ## trace x_2 = -3/4 + 5/2 x_1
 ```
 
 Les erreurs de classification peuvent être représentée par la matrice de confusion suivante
 ```{r}
 # matrice de confusion (predictions dures en ligne)
-table(2*x[,2] > -3 + 5*x[,1], y == "orange")
+  table(2*x[,2] > -3/2 + 5*x[,1], y == "orange")
 ```
 
 L'erreur de classification peut être estimée de la manière suivante
 ```{r}
 # 1 - accuracy
-mean((2*x[,2] > -3 + 5*x[,1]) != (y == "orange"))
+  mean((2*x[,2] > -3/2 + 5*x[,1]) != (y == "orange"))
 ```
 et l'erreur moyenne logloss peut être calculée de la  manière suivante
 ```{r}
@@ -604,13 +663,15 @@ plot_ly(z = matrix(pred, nrow = 100), type = "contour")
 Lorsque l'on cherche à évaluer le modèle sur l'ensemble de données d'apprentissage, les performances semblent bien supérieures à celles de la machine optimale linéaire. 
 
 ```{r}
-pred <- predict(mod)
-# accuracy
-mean( (pred > 0.5) == (y == "orange"))
-#logloss
-pred[pred == 1] <-  0.999999
-pred[pred == 0] <-  0.000001
-- mean((y=="orange")*log(pred) + (y=="bleu")*log(1-pred))
+  pred <- predict(mod)
+  
+  # accuracy
+  mean( (pred > 0.5) == (y == "orange"))
+  
+  #logloss
+  pred[pred == 1] <-  0.999999
+  pred[pred == 0] <-  0.000001
+  - mean((y=="orange")*log(pred) + (y=="bleu")*log(1-pred))
 ##overfit!
 ```
 
@@ -626,16 +687,19 @@ Toutefois, en considérant un ensemble de données tests indépendant de l'ensem
 ```
 
 ```{r}
-# accuracy
-mean( (pred > 0.5) == (y == "orange"))
-#logloss
-pred[pred == 1] <-  0.9999999999999
-pred[pred == 0] <-  0.0000000000001
-- mean((y=="orange")*log(pred) + (y=="bleu")*log(1-pred))
+  # accuracy
+    mean( (pred > 0.5) == (y == "orange"))
+
+  #logloss
+    pred[pred == 1] <-  0.9999999999999
+    pred[pred == 0] <-  0.0000000000001
+    
+  - mean((y=="orange")*log(pred) + (y=="bleu")*log(1-pred))
 ```
 
 
-## Principales notions à retenir
+## Principales notions à retenir et à savoir définir
+
 
 Dans cette séance, nous avons vu les points suivants.
 
