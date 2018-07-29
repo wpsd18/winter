@@ -4,11 +4,11 @@
 
 ## Objectif de la séance
 
-On suppose que l'on effectue une classification binaire à partir du vecteur ${\bf x} \in \mathbb{R}^D$. On note $y \in \{0,1\}$ une classe associée à un tel vecteur et on appelle _classifieur dur_ (_hard classifier_) toute une fonction $c({\bf x})$ retournant 0 ou 1, supposée prédire la classe du vecteur ${\bf x}$. 
+On suppose que l'on effectue une classification binaire à partir du vecteur ${\bf x} \in \mathbb{R}^D$. On note $y \in \{0,1\}$ la classe associée au vecteur ${\bf x}$ et on appelle _classifieur dur_ (_hard classifier_) toute une fonction $c({\bf x})$ retournant 0 ou 1, supposée prédire la classe du vecteur ${\bf x}$. 
 
-On suppose de plus que les données ont été générées en proportions égales dans deux classes
+On suppose de plus que les données ont été générées en proportions égales dans les deux classes
 $$
-p(y = 0) = p(y = 1) \,.
+p(y = 0) = p(y = 1) = \frac12\,.
 $$
 
 L'objectif de cette séance de travaux dirigés est de vérifier que le prédicteur optimal minimisant fonction de perte 01 (ou erreur de classification) est lié au calcul des probabilités conditionnelles d'appartenance aux classes sachant ${\bf x}$. 
@@ -17,17 +17,18 @@ Nous calculerons le classifieur optimal dans un cas gaussien, et vérifierons qu
 
 
 
-## Exercice 1.  Erreur 0-1 (accuracy) et prédiction dure.
+## Exercice 1.  Perte 0-1 (accuracy) et prédiction dure.
 
-On considère la fonction de perte 01 (accuracy) pénalisant un mauvais classement. Cette fonction est définie de la manière suivante 
+On considère la fonction de perte 01 pénalisant un mauvais classement. Cette fonction est définie de la manière suivante 
 
 $$
-L(c({\bf x}), y) =  \mathbb{1}_{(y \neq c({\bf x}))}  \, .
+\forall {\bf x} \in \mathbb{R}^D \,, \, y \in \{0,1\} \,, \quad  L(c({\bf x}), y) =  \mathbb{1}_{(c({\bf x}) \neq y)} \, .
 $$
+En d'autres termes, la perte est égale à 1 si $c({\bf x}) \neq y$, 0 sinon.
 
 ### Question 1 
 
-Justifier que la perte moyenne correspond à la proportion de mauvais classements
+Justifier que la perte moyenne correspond au taux de mauvais classement
 
 $$
 \mathbb{E}[ L(c({\bf x}), y)] = p(y \neq c({\bf x})) \, .
@@ -35,7 +36,7 @@ $$
 
 ### Question 2 
  
-Vérifier très rapidement que, si $c({\bf x}) = 1$, nous avons 
+Vérifier rapidement que, si $c({\bf x}) = 1$, nous avons 
 
 $$
 p(y \neq c({\bf x}) | {\bf x}) = p(y = 0 | {\bf x}) \, ,
@@ -67,52 +68,59 @@ $$
 s'appelle la _frontière de décision_. 
 
 
-### Question 3bis (facultative)
-
-On suppose que les données n'ont pas nécessairement été générées en proportion égale dans deux classes ($p(y = 1) \neq  p(y = 0)$). Déterminer le _classifieur optimal_.
-
 
 ### Question 4 
 
-Dans cette question, on suppose que $x$ est une variable réelle ($D = 1$). On suppose  que les données ont été générées en proportion égale dans deux classes selon des lois normales
+Dans cette question, on suppose que $D = 1$ et que l'observation est une variable réelle, $x \in \mathbb{R}$. Pour chacune des deux classes, on suppose que les données ont été générées selon une loi normale de moyenne $m_0$ ou $m_1$ et de variance 1 de la manière suivante
 
 $$
 p( x | y = k ) = N(x | m_k, 1 ) \, , \quad  k = 0, 1.
 $$
 
-Appliquer la formule de Bayes pour montrer que la règle de classification optimale au sens de la fonction de perte "01" est donnée par la fonction suivante
+Appliquer la formule de Bayes pour montrer que la règle de classification optimale au sens de la fonction de perte 01 est donnée par la fonction suivante
 
 $$
 c_{\rm opt}(x) = \left\{ 
 \begin{array}{cl}
 1 & {\rm si~~} d(x,m_1) < d(x,m_0)  \\
-0 & {\rm sinon.}  \\
+0 & {\rm sinon,}  \\
 \end{array}
 \right.
 $$
+où $d(x,m)$ désigne la distance (euclidienne) entre $x$ et $m$. Donner une interprétation simple de cette règle de classification en décrivant la frontière de décision. 
 
-### Question 5  : décision neuronale
 
-Montrer que la fonction $c_{\rm opt}(x)$ correspond à la définition d'un neurone artificiel logique de la forme
+### Question facultative 4bis 
+
+On suppose que les données n'ont pas nécessairement été générées en proportion égale dans deux classes 
+
+$$p(y = 1) \neq  p(y = 0).$$ 
+
+Déterminer le _classifieur optimal_ et l'équation de la frontière de décision. Pour cela, on pose $\pi_0 = p(y = 0)$ et $\pi_1= p(y = 1)$.
+
+
+### Question 5 : Décision neuronale
+
+Montrer que la fonction $c_{\rm opt}(x)$ de la question 4 correspond à la définition d'un neurone artificiel logique de la forme
 
 $$
 n(x) = \left\{ 
 \begin{array}{cl}
-1 & {\rm si~~} wx - s > 0 \\
-0 & {\rm sinon.}  \\
+1 & {\rm si~~} wx - b > 0 \\
+0 & {\rm sinon,}  \\
 \end{array}
 \right.
 $$
 
-où $w = (m_1 - m_0)$ et $s = w(m_0 + m_1)/2$. 
+où $w = (m_1 - m_0)$ et $b = w(m_0 + m_1)/2$. Symboliser graphiquement le neurone logique ainsi défini.
 
 
-### Question 6 (Classification probabiliste - _soft classifier_) 
+### Question 6 : Classification probabiliste - _soft classifier_ 
 
 En utilisant la formule de Bayes, montrer que la probabilité conditionnelle de $y = 1$ sachant $x$ est décrite par la formule suivante
 
 $$
-p(y = 1 | x) = {\rm sigmoid}(wx - s)
+p(y = 1 | x) = {\rm sigmoid}(wx - b)
 $$
 où la fonction **sigmoid**$(x)$ est définie par
 
@@ -127,14 +135,14 @@ Vérifier cette probabilité conditionnelle correspond à la définition d'un ne
 
 ### Question 1
 
-En dimension $D$ quelconque, on dispose d'un échantillon d'apprentissage constitué de $n$ observations vectorielles, $({\bf x}_i)_{i=1,\dots,n}$. 
+En dimension $D$ quelconque, on dispose d'un échantillon d'apprentissage constitué de $n$ observations vectorielles $({\bf x}_i)_{i=1,\dots,n}$ et de $n$ valeurs binaires $(y_i)_{i=1,\dots,n}$, correspondant à la classification des observations. 
 
-Pour un vecteur test ${\bf x}$, on considère l'ensemble des $k$ plus proches voisins de ${\bf x}$ dans l'échantillon. Une définition plus formelle de $V({\bf x})$ peut être trouvée ci-dessous 
+Pour un vecteur test ${\bf x}$, on considère l'ensemble des $k$ plus proches voisins de ${\bf x}$ dans l'échantillon. Une définition formelle de $V({\bf x})$ peut être trouvée ci-dessous 
 
 $$
 V({\bf x}) = \{  {\bf x}_{(j)} ,  j = 1, \dots, k, {\rm ~t.q.~} \max_{j = 1, \dots, k } d({\bf x}_{(j)}, {\bf x})  < \min_{j = k+1, \dots, n } d({\bf x}_{(j)}, {\bf x}) \} 
 $$
-où $(j)$ désigne la permutation des éléments de l'échantillon d'apprentissage ordonnant les distances à ${\bf x}$.
+où $d$ désigne la distance euclidienne et  $(j)$ désigne la permutation des éléments de l'échantillon d'apprentissage ordonnant les distances à ${\bf x}$.
 
 On considère l'algorithme de classification appelé $k$-NN s'appuyant sur une règle de vote local selon élection au suffrage universel direct par mode de scrutin majoritaire  
 
@@ -147,75 +155,86 @@ $$
 \right.
 $$
 
-On suppose que l'échantillon est de taille arbitrairement grande ($n \to \infty$). Sous quelle condition pourrait-on justifier l'approximation suivante ? (Justifier par un graphique)
+On suppose que l'échantillon est de taille arbitrairement grande ($n \to \infty$). Sous quelles conditions portant sur $k$ et la taille du voisinage $V({\bf x})$ pourrait-on justifier l'approximation suivante 
 
 $$
 \frac1k \sum_{i \in V({\bf x})}  y_i  \approx p(y = 1 | {\bf x}) . 
 $$
 
+Justifier votre argument par un graphique et par la loi des grands nombres. 
+
 ### Question 2 
 
- L'algorithme de construction du classifieur $\hat{c}({\bf x})$ implémente-t-il la règle de classification  de Bayes ? Justifier la réponse.
+ L'algorithme de construction du classifieur $\hat{c}({\bf x})$ implémente-t-il la règle de classification de Bayes ? Justifier la réponse.
 
 ### Question 3
 
-Une petite valeur de $k$ augmente-t-elle ou diminue-t-elle la variance de $\hat{c}({\bf x})$ ? Justifier la réponse.
+On suppose à nouveau que $n$ est très grand, et on considère le classifieur probabiliste décrit par 
+
+$$
+\hat q({\bf x}; k)  = \frac1k \sum_{i \in V({\bf x})}  y_i \,  . 
+$$
+Pour les cas extrêmes $k = 1$ et $k = n$, donner une approximation de l'espérance conditionnelle de $\hat q({\bf x};k)$ sachant ${\bf x}$. 
+
+Quelle est prédicteur vous paraît le plus exact ? (On suppose que ${\bf x}$ est indépendant de l'échantillon d'apprentissage).
 
 ### Question 4
 
-Une grande valeur de $k$ augmente-t-elle ou diminue-t-elle la variance de $\hat{c}({\bf x})$ ? Quel problème voyez vous apparaître si la valeur de $k$ est trop grande ?
+Pour les cas extrêmes $k = 1$ et $k = n$, calculer une approximation de la variance de $\hat q({\bf x};k)$ dans chacun des deux cas.
+
+Quelle est prédicteur vous paraît le moins variable ? Comment peut on choisir $k$ ?
 
 
 ### Question 5. Application au modèle de Hastie et Tibshirani.
 
-Le modèle HT (de Hastie et Tibshirani) consiste à simuler un feu d'artifice gaussien. La première classe est centrée en $(1,0)$ et *n.subclass* $= 10$ sous-classes sont générées selon la loi $N((0,1), {\bf I})$. Les données sont alors simulées en choisissant une sous-classe $m_k$ au hasard parmi les 10 selon une loi de variance (*sigma2*) plus faible, $N(m_k, \sigma^2{\bf I})$. La seconde classe obéit au même modèle génératif, mais à partir du point central $(0,1)$.
+Le modèle HT (de Hastie et Tibshirani) consiste à simuler un feu d'artifice gaussien. La première classe est centrée en $(1,0)$ et $10$ sous-classes sont générées selon la loi $N((0,1), {\bf I})$. Les observations sont alors simulées en choisissant une sous-classe $m_k$ au hasard parmi les 10 sous-classes puis en générant des données selon une loi de variance (*sigma2*), $N(m_k, \sigma^2{\bf I})$. La seconde classe obéit au même modèle génératif, mais à partir du point central $(0,1)$.
 
 
 ```{r include = FALSE}
-source("./codes/TP3.r")
+ library(isd)
 ```
 
-Simulons un jeu de données en utilisant le générateur `rhastib()', disponible dans le package du cours, et affichons les données colorées par classe
+Simulons un jeu de données en utilisant le générateur `rhastib()`, disponible dans le package du cours, et affichons les données colorées par classe
 
 
 ```{r}
-x <- rhastib(400, 400, sigma2 = 0.2)
+  x <- rhastib(400, 400, sigma2 = 0.2)
 
-summary(x)
+  summary(x)
 
-plot(x$train, pch = 19, col = x$class.train)
-plot(x$test, pch = 19, col = x$class.test)
+  plot(x$train, pch = 19, col = x$class_train)
+  plot(x$test, pch = 19, col = x$class_test)
 ```
 
-Où vous semble passer la frontière de décision ?
+Où vous semble passer la frontière de décision ? Vous parait-elle être linéaire ?
 
 ### Question 6
 
-On entraine un classifieur $k$-NN sur les données du modèle _hastib_ tout en évaluant son erreur de classification sur un ensemble test de même taille. On effectue ceci pour $k = 1, \dots, 50$. Commenter le code suivant (4 lignes de commentaires à compléter).
+On entraîne un classifieur $k$-NN sur les données du modèle _hastib_ tout en évaluant son erreur de classification sur un ensemble test de même taille. On effectue ceci pour $k = 1, \dots, 50$. Commenter le code suivant (4 lignes de commentaires à compléter).
 
 ```{r}
-acc.train <- NULL
-acc.test <- NULL
+acc_train <- NULL
+acc_test <- NULL
 
 for (k in 1:50){
-  # comment 1
-  mod.knn <- class::knn(x$train, 
+  # comment 1:
+  mod_knn <- class::knn(x$train, 
                         x$train, 
-                        x$class.train, 
+                        x$class_train, 
                         k = k, 
                         prob = FALSE)
 
-  # comment 2  
-  acc.train[k] <- mean(mod.knn == x$class.train)
+  # comment 2: 
+  acc_train[k] <- mean(mod_knn == x$class_train)
   
   # comment 3
-  mod.knn <- class::knn(x$train, 
+  mod_knn <- class::knn(x$train, 
                         x$test, 
-                        x$class.train, 
+                        x$class_train, 
                         k = k, 
                         prob = FALSE)
   # comment 4 
- acc.test[k] <- mean(mod.knn == x$class.test)
+  acc_test[k] <- mean(mod_knn == x$class_test)
 }
 ```
 
@@ -223,16 +242,16 @@ for (k in 1:50){
 
 On affiche les résultats de la manière suivante.
 
-```{r}
+```{r, echo = FALSE}
 plot(c(0,50),
-     c(min(c(acc.train,acc.test)), 
-                max(c(acc.train,acc.test))), 
-     xlab = "Nb voisins (k)",
+     c(min(c(acc_train, acc_test)), 
+                max(c(acc_train, acc_test))), 
+     xlab = "Number of neighbors (k)",
      ylab = "Accurary",
      type = "n")
 
-points(acc.train, col = "blue", type = "l", lwd = 3)
-points(acc.test, col = "red", type = "l", lwd = 3)
+points(acc_train, col = "blue", type = "l", lwd = 3)
+points(acc_test, col = "red", type = "l", lwd = 3)
 
 legend(x = 42, y = 0.95,
        legend = c("train", "test"), 
@@ -241,71 +260,78 @@ legend(x = 42, y = 0.95,
 
 Commenter la courbe obtenue ci-dessus. Quel choix de $k$ vous apparait être justifié pour des prédictions futures concernant des tirages identiques et indépendants de ceux effectués dans la simulation ?
 
-Commenter l'effet de $k$ sur le biais et de variance des prédictions.
+Commenter l'effet de $k$ sur ces courbes.
 
 
 ### Question 8
 
-Commenter le code correspondant à l'experience suivante: _visualiser la frontière de décision_. Utiliser l'aide de R pour les commandes inconnues.
+Commenter les codes correspondant à l'experience suivante: _visualiser la frontière de décision_. Utiliser l'aide de R pour les commandes inconnues.
 
 
 ```{r}
 ####################################################################
-x.coord <- seq(min(x$train[,1]), max(x$train[,1]), length = 100)
-y.coord <- seq(min(x$train[,2]) ,max(x$train[,2]), length =  100)
+x_coord <- seq(min(x$train[,1]), max(x$train[,1]), length = 100)
+y_coord <- seq(min(x$train[,2]) ,max(x$train[,2]), length =  100)
 
-## comment 1
-matrice.test <- cbind(rep(x.coord, length = 100), 
-                      rep(y.coord, each = 100))
+  ## comment 1
+  matrice_test <- cbind(rep(x_coord, length = 100), 
+                        rep(y_coord, each = 100))
 
-## comment 2
-mod.knn <- class::knn(x$train, matrice.test, 
-                      x$class.train, 
-                      k = 30, prob = TRUE)
+  ## comment 2
+  mod_knn <- class::knn(x$train, matrice_test, 
+                        x$class_train, 
+                        k = 30, 
+                        prob = TRUE)
 
-## Recupère les probabilités des classes calculées dans les modèle (objet mod.knn)  
-pred <- attr(mod.knn,"prob")
+  ## Récupère les probabilités des 2 classes calculées par le modèle (objet mod_knn)  
+  pred <- attr(mod_knn,"prob")
 
-## comment 3
-pred[mod.knn != "orange"] <- 1 - pred[mod.knn != "orange"]
-proba <- matrix(pred, nrow = 100)
+  ## comment 3
+  pred[mod_knn != "orange"] <- 1 - pred[mod_knn != "orange"]
+  proba <- matrix(pred, nrow = 100)
 
-## comment 4
-image(x.coord, y.coord, proba, col = grey.colors(10), main = "k = 30")
-points(x$train, col = x$class.train)
+  ## comment 4
+  image(x_coord, y_coord, proba, col = grey.colors(10), main = "k = 30")
+  points(x$train, col = x$class_train)
 ```
 
 
 A quoi correspond la carte générée dans l'image ci-dessus ? Interpréter les lignes de niveau de cette carte. 
 
 ```{r}
-##
-image(x.coord, y.coord,  matrix(pred > 0.5, nrow = 100), col = grey.colors(2), main = "k = 30")
-points(x$train, col = x$class.train)
+## comment 
+  image(x_coord, y_coord, 
+        matrix(pred > 0.5, nrow = 100), 
+        col = grey.colors(2), 
+        main = "k = 30")
+
+  points(x$train, col = x$class_train)
 ```
 
 A quoi correspond la frontière de décision dans la carte ci-dessus ? Comment est elle obtenue ? 
 
 
 ```{r}
-##
-mod.knn <- class::knn(x$train, matrice.test, 
-                      x$class.train, 
-                      k = 2, prob = TRUE)
+  ## comment 1
+  mod_knn <- class::knn(x$train, matrice_test, 
+                        x$class_train, 
+                        k = 2, 
+                        prob = TRUE)
 
-##
-pred <- attr(mod.knn,"prob")
+  ## Récupère les probabilités des 2 classes calculées par le modèle (objet mod_knn)
+  pred <- attr(mod_knn,"prob")
 
-##
-pred[mod.knn != "orange"] <- 1 - pred[mod.knn != "orange"]
+  ## comment 2
+  pred[mod_knn != "orange"] <- 1 - pred[mod_knn != "orange"]
 
-##
-image(x.coord, y.coord,  
+  ## comment 3
+  image(x_coord, y_coord,  
       matrix(pred > 0.5, nrow = 100), 
-      col = grey.colors(2), main = "k = 2")
+      col = grey.colors(2), 
+      main = "k = 2")
 
-##
-points(x$train, col = x$class.train)
+  ## comment 4
+  points(x$train, col = x$class_train)
 ```
 
 Commenter le résultat affiché ci-dessus. Commenter le code. 
