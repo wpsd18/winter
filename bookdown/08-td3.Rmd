@@ -174,15 +174,30 @@ On suppose à nouveau que $n$ est très grand, et on considère le classifieur p
 $$
 \hat q({\bf x}; k)  = \frac1k \sum_{i \in V({\bf x})}  y_i \,  . 
 $$
-Pour les cas extrêmes $k = 1$ et $k = n$, donner une approximation de l'espérance conditionnelle de $\hat q({\bf x};k)$ sachant ${\bf x}$. 
+Pour les cas extrêmes $k = 1$ et $k = n$, justifier les valeurs de l'espérance conditionnelle ci-dessous (on suppose que ${\bf x}$ est indépendant de l'échantillon d'apprentissage)
 
-Quelle est prédicteur vous paraît le plus exact ? (On suppose que ${\bf x}$ est indépendant de l'échantillon d'apprentissage).
+$$
+\mathbb{E}[\hat q({\bf x}; k=1) | {\bf x}] \approx  p(y=1|{\bf x}) \, ,
+$$
+$$
+\mathbb{E}[\hat q({\bf x}; k=n) | {\bf x}] =  p(y=1) \, .
+$$
+
+Quel prédicteur vous paraît le plus exact ? 
 
 ### Question 4
 
-Pour les cas extrêmes $k = 1$ et $k = n$, calculer une approximation de la variance de $\hat q({\bf x};k)$ dans chacun des deux cas.
+Pour les cas extrêmes $k = 1$ et $k = n$, justifier les approximations de la variance de $\hat q({\bf x};k)$
 
-Quelle est prédicteur vous paraît le moins variable ? Comment peut on choisir $k$ ?
+$$
+{\rm Var}[\hat q({\bf x}; k=1) ] \approx  {\rm Var}[ y ]  \, ,
+$$
+$$
+{\rm Var}[\hat q({\bf x}; k=n) ] \approx  \frac{{\rm Var}[ y ]}{n}  \,  .
+$$
+
+
+Quel prédicteur vous paraît le plus variable ? Comment les résultats précédents influent-ils le choix de $k$ ?
 
 
 ### Question 5. Application au modèle de Hastie et Tibshirani.
