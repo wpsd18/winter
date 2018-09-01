@@ -60,20 +60,20 @@ $$
 
 Proposer une manière simple d'estimer les moyennes de classe ($\mu_0$ et $\mu_1$), la matrice de covariance $\Sigma^{-1}$ et les vecteurs ${\bf w}$ et ${\bf x}_0$. Commenter le code R ci-dessous pour cela.
 
-```{r}
+```{r td4_lda}
 sigmoid <- function(x) {1/(1 + exp(-x))}
 
 # Simulation de données en deux classes selon le modèle HT (300 observations par classes) 
-source("./codes/TP3.r") 
-x <- rhastib(300, 300, sigma2 = 0.1)
+
+x <- isd::rhastib(300, 300, sigma2 = 0.1)
 
 # comment 1
-mu0 <- apply(x$train[x$class.train == "orange",], 2, mean)
-mu1 <- apply(x$train[x$class.train == "lightblue",], 2, mean)
+mu0 <- apply(x$train[x$class_train == "orange",], 2, mean)
+mu1 <- apply(x$train[x$class_train == "lightblue",], 2, mean)
 
 # comment 2
-Sigma0 <- cov(x$train[x$class.train == "orange",]) 
-Sigma1 <- cov(x$train[x$class.train == "lightblue",])
+Sigma0 <- cov(x$train[x$class_train == "orange",]) 
+Sigma1 <- cov(x$train[x$class_train == "lightblue",])
 Sigma <- (Sigma0 + Sigma1)/2
 
 # comment 3
@@ -88,8 +88,8 @@ pred <- sigmoid(t(w) %*% t(x$test - x0))
 
 Comparer le résultat à la fonction `lda()` de R. Cette fonction cherche le plan séparant deux classes. Commenter le code R suivant. 
 
-```{r}
-mod.lda <-  MASS::lda(x$class.train ~ ., data = data.frame(x$train))
+```{r td4_lda_mass}
+mod.lda <-  MASS::lda(x$class_train ~ ., data = data.frame(x$train))
 
 # comment 1
 pred.lda <- predict(mod.lda, data.frame(x$test))$posterior[,1]
@@ -104,15 +104,15 @@ plot(as.numeric(pred), pred.lda)
 Calculer les valeurs des fonctions d'erreur logloss et 01 sur l'ensemble test à l'aide d'un code R.
 
 
-### Solution à la question 8
+### Réponse à la question 8
 
 
 ```{r}
 # log-loss
-- mean((x$class.test == "orange")*log(1 - pred) + (x$class.test == "lightblue")*log(pred))
+- mean((x$class_test == "orange")*log(1 - pred) + (x$class_test == "lightblue")*log(pred))
 
 # 0-1 loss
-table(pred < 0.5, x$class.test)
+table(pred < 0.5, x$class_test)
 ```
 
 

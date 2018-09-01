@@ -105,19 +105,19 @@ Ainsi, pour obtenir l'argument animal, on peut faire
 mes_betes$animal 
 ```
 
-On pourra alors corriger les erreurs éventuelles. Si le second animal est un perroquet, il suffit de modifier l'argument de la liste  
+On pourra alors corriger les erreurs éventuelles. Si le second animal est un raton laveur, il suffit de modifier l'argument de la liste  
 
 ```{r}
-mes_betes$animal[2] <- "perroquet"
+mes_betes$animal[2] <- "raton laveur"
 mes_betes
 ```
 
 Remarquons que tous les attributs ont la même longueur. Plutôt que le format de liste, nous pouvons organiser  les données sous la forme d'un tableau (`data.frame`). Un objet de type `data.frame` est une liste particulière organisée en colonnes. Un `data.frame` peut être créé de la manière suivante.
 
 
-```{r}
+```{r cm1_data_frame}
 # les noms sont donnés aux colonnes du tableau de données
-mes_betes <- data.frame(animal = c("chat", "perroquet"), 
+mes_betes <- data.frame(animal = c("chat", "raton laveur"), 
                         sex = c("M", "F"), 
                         age = c(2, 8), 
                         vaccine = c(TRUE, TRUE))
@@ -197,7 +197,7 @@ M
 La bibiothèque *'mlbench'* ("machine learning benchmarks") contient des jeux de données que nous pouvons analyser et à partir desquels nous pourrons faire des prédictions. L'exemple **BreastCancer** contient des données biomédicales concernant le cancer du sein (les données concernent 699 patientes). La fonction `data` permet de charger les données en mémoire sous forme de tableau (`data.frame`). Avec la fonction `head` nous pouvons visualiser les premières lignes du tableau `BreastCancer.
 
 
-```{r}
+```{r cm1_mlbench_bc}
 library('mlbench')
 data(BreastCancer)
 head(BreastCancer)
@@ -260,7 +260,7 @@ Pour effectuer des tirages aléatoires, nous pouvons utiliser les fonctions suiv
 * `rnorm()` pour un tirage de loi normale,
 * `runif()` pour un tirage de loi uniforme, etc.
 
-La fonction **apply()** est particulièrement importante car elle permet d'appliquer une fonction aux lignes ou aux colonnes d'une matrice ou d'un tableau, évitant ainsi le recours à une boucle `for()`. Par exemple, nous souhaitons calculer la somme des valeurs de chaque colonne de la matrice `M. 
+La fonction `apply()` est particulièrement importante car elle permet d'appliquer une fonction aux lignes ou aux colonnes d'une matrice ou d'un tableau, évitant ainsi le recours à une boucle `for()`. Par exemple, nous souhaitons calculer la somme des valeurs de chaque colonne de la matrice `M. 
 
 ```{r}
 apply(M, MARGIN = 2, FUN = sum)
@@ -281,19 +281,19 @@ library(magrittr)
 M %>% colSums() # M est passée en argument à la fonction colSums
 ```
 
-Si on souhaite calculer la moyenne du sinus de 10000 nombres aléatoires pris entre 0 et 2, il suffit de lire la phrase à l'envers et d'écrire
+Si on souhaite calculer la moyenne du sinus de 10000 nombres aléatoires pris entre 0 et 2 et arrondir le résultat à la troisième décimale, il suffit de lire la phrase à l'envers et d'écrire
 
 ```{r}
-runif(10000, 0, 2) %>% sin() %>% mean()
+runif(10000, 0, 2) %>% sin() %>% mean() %>% round(3)
 ```
 
 Cette opération évite les appels imbriqués et rend le code plus lisible. Elle est équivalente à la commande suivante. 
 
 ```{r}
-mean(sin(runif(10000, 0, 2)))
+round(mean(sin(runif(10000, 0, 2))), digit = 3)
 ```
 
-Remarquons que le résultat produit est un peu différent.
+Remarquons que le résultat produit peut être un peu différent de celui de la ligne précédente, car il est dépendant de valeurs aléatoires.
 
 
 ### Bonnes pratiques pour les travaux pratiques
@@ -311,7 +311,7 @@ Il est de plus très important de respecter quelques recommendations en matière
 
 Les codes étant en général très courts, on s'efforcera de commenter systématiquement les instructions des programmes à l'aide d'un symbole dièse. Pour les noms de variables, nous utiliserons la convention "Wickham" utilisant des mots en lettres minuscules séparés par des tirets. Par exemple, pour nommer une fonction permettant de dire "Coucou", on écrira
 
-```{r}
+```{r cm1_fct_coucou}
 dire_coucou <- function(){
   cat("Coucou \n")
 }

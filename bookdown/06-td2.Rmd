@@ -31,7 +31,7 @@ Nous utiliserons un jeu de données constitué de 699 échantillons de tissus pr
 
 Nous chargeons les données et éliminons 16 lignes où apparaissent des données manquantes.
 
-```{r}
+```{r td2_mlbench_bc}
 library('mlbench')
   data(BreastCancer)
 
@@ -78,7 +78,7 @@ Quel(s) axe(s) porte(nt) le plus d'information ? Pourquoi ?
 Après avoir centré les mesures observées, on souhaite calculer les projections de ces mesures sur les axes propres. Vérifier que la solution donnée par le code suivant est correcte. Commenter le code suivant et interpréter le résultat.
 
 
-```{r}
+```{r td2_pca_12}
   # comment 1: 
   U <- eigen(Sigma)$vectors
 
@@ -90,7 +90,8 @@ Après avoir centré les mesures observées, on souhaite calculer les projection
 
   # comment 3:
   col <- c("grey","orange")
-  plot(projection, pch = 19, col = col[1 + (diagnosis == "malignant")])
+  plot(projection[,1:2], pch = 19, col = col[1 + (diagnosis == "malignant")])
+  abline(v=0, col = "grey", lty = 2)
 
   mean((projection[,1] < 0) == (diagnosis == "malignant"))
 ```

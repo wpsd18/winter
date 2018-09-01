@@ -152,7 +152,7 @@ $$
 est décrite par la densité dont les lignes de niveau elliptiques et l'orientation des axes sont montrés ci-dessous.  Les points représentent un échantillon de $n = 200$ tirages de cette loi. 
 
 
-```{r, echo = FALSE}
+```{r cm3_density_gauss_2D, echo = FALSE}
   #Code to construct plot
   mu <- c(1,1)
   sigma <- matrix(c(2,1,1,1),nrow=2)
@@ -178,7 +178,7 @@ est décrite par la densité dont les lignes de niveau elliptiques et l'orientat
  
 La même densité peut se représenter sous forme topographique de la manière suivante.  
  
-```{r, echo = FALSE}
+```{r cm3_density_contour, echo = FALSE}
   image(x_points, y_points, z, col = terrain.colors(20))
   contour(x_points, y_points, z, col = "darkblue", lwd = 2, add = T)
 ```
@@ -202,8 +202,8 @@ p({\bf x})  = \frac12 N({\bf x}| {\bf m}_0, { \bf I}) + \frac12 N({\bf x}| {\bf 
 $$
 
 Une simulation permet de visualiser 200 vecteurs générés par le modèle de mélange
-
-```{r}
+_
+```{r cm3_mixture}
   # Simulation d'un échantillon de taille n de matrice de covariance Id
     n <- 200
     Id <- diag(2)
@@ -226,7 +226,7 @@ Dans cette simulation, la classe 0 est donc représentée en bleu, tandis que la
 
 $${\bf z}_i  =  {\bf U}^T {\bf x}_i \, \quad   i = 1, \dots, n. $$
 
-```{r}
+```{r cm3_pca}
 library(magrittr)
 
   # Calcule la decomposition spectrale de la matrice de covariance empirique
@@ -238,7 +238,7 @@ library(magrittr)
   
   # on affiche les classes et la ligne 0
   z %>% plot(col = classes, pch = 19, xlab = "z1", ylab = "z2")
-  abline(v = 0)
+  abline(v = 0, lty = 2, col = "grey")
 ```
 
 

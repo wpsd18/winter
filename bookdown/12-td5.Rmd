@@ -160,26 +160,26 @@ En considérant une grande valeur de $\lambda$, discuter l'effet de ce paramètr
 
 Commenter les codes et les résultats des expériences  suivantes où l'on fait varier les valeurs de $H$ et de $\lambda$
 
-```{r}
+```{r td5_hastib_nnet}
 
 # Simulation selon de la modèle HT. 400 données sont équiréparties en 2 classes
-  source("./codes/TP3.r")
+#  source("./codes/TP3.r")
   
-  x <- rhastib(200, 200, sigma2 = 0.1)
+  x <- isd::rhastib(200, 200, sigma2 = 0.1)
 
 # Création d'une grille de valeurs tests pour les prédictions d'un 
 # modèle probabiliste 
 ####################################################################
-  x.coord <- seq(min(x$train[,1]), max(x$train[,1]), length = 100)
-  y.coord <- seq(min(x$train[,2]), max(x$train[,2]), length = 100)
+  x_coord <- seq(min(x$train[,1]), max(x$train[,1]), length = 100)
+  y_coord <- seq(min(x$train[,2]), max(x$train[,2]), length = 100)
 
-  matrice.test <- cbind(rep(x.coord, length = 100), 
-                        rep(y.coord, each = 100))
+  matrice_test <- cbind(rep(x_coord, length = 100), 
+                        rep(y_coord, each = 100))
 ####################################################################
 
 # comment 1
  mod_nnet <- nnet::nnet(x$train, 
-                        x$class.train == "orange", 
+                        x$class_train == "orange", 
                         size = 50,   #size = H
                         decay = 0.0, #decay = lambda
                         maxit = 500,
@@ -187,21 +187,21 @@ Commenter les codes et les résultats des expériences  suivantes où l'on fait 
                         entropy = TRUE)
 
 # prediction sur toute la zone d'étude 
-  pred <- predict(mod_nnet, matrice.test)
+  pred <- predict(mod_nnet, matrice_test)
 
 # comment 2  
-  image(x.coord, y.coord,  
+  image(x_coord, y_coord,  
         matrix(pred > 0.5, nrow = 100), 
         col = grey.colors(2), 
         main = "size = 50 - decay = 0.0")
 
-  points(x$train, col = x$class.train)
+  points(x$train, col = x$class_train)
 ```
 
-```{r}
+```{r td5_nnet_size_1}
   # comment 3
   mod_nnet <- nnet::nnet(x$train, 
-                       x$class.train == "orange", 
+                       x$class_train == "orange", 
                        size = 1,   # size = H
                        decay = 0.1, #decay = lambda
                        maxit = 500,
@@ -209,13 +209,13 @@ Commenter les codes et les résultats des expériences  suivantes où l'on fait 
                        entropy = TRUE)
 
   # comment 4
-  pred <- predict(mod_nnet, matrice.test)
+  pred <- predict(mod_nnet, matrice_test)
 
-  image(x.coord, y.coord,  
+  image(x_coord, y_coord,  
         matrix(pred > 0.5, nrow = 100), 
         col = grey.colors(2), main = "size = 1 - decay = 0.1")
 
-  points(x$train, col = x$class.train)
+  points(x$train, col = x$class_train)
 ```
 
 
@@ -223,7 +223,7 @@ Commenter les codes et les résultats des expériences  suivantes où l'on fait 
 
 Commenter le code suivant permettant de tester les prédictions de plusieurs modèles. Nous privilégierons un choix de $\lambda$ entre $0.8$ et $10^{-3}$ pour un nombre de neurones important ($H = 40$).
 
-```{r}
+```{r td5_nnet_size_40}
 # comment 1
   logloss <- function(p, y){ 
       return(-y*log(p) - (1-y)*log(1-p))
@@ -238,7 +238,7 @@ Commenter le code suivant permettant de tester les prédictions de plusieurs mod
     
     # comment 3   
     mod_nnet <- nnet::nnet(x$train, 
-                       x$class.train == "orange", 
+                       x$class_train == "orange", 
                        size = 40, 
                        decay = l, 
                        trace = FALSE,
@@ -247,7 +247,7 @@ Commenter le code suivant permettant de tester les prédictions de plusieurs mod
     # comment 4  
     logloss_test <- c(logloss_test,
                     mean(logloss(predict(mod_nnet, x$test),  
-                                  (x$class.test == "orange")))
+                                  (x$class_test == "orange")))
                     )
   }
 
@@ -255,48 +255,48 @@ Commenter le code suivant permettant de tester les prédictions de plusieurs mod
   plot(lambda, logloss_test, log = "x")
 ```
 
-```{r}
+```{r td5_nnet_cv}
 # comment 6
-  lambda.cv <- lambda[which.min(logloss_test)]
+  lambda_cv <- lambda[which.min(logloss_test)]
 
 # comment 7
   mod_nnet <- nnet::nnet(x$train, 
-                       x$class.train == "orange", 
+                       x$class_train == "orange", 
                        size = 40,   #H
-                       decay = lambda.cv, #lambda optimisé
+                       decay = lambda_cv, #lambda optimisé
                        maxit = 500,
                        trace = FALSE,
                        entropy = TRUE)
 ```
 
 
-```{r}
+```{r td5_nnet_predict}
 # prediction sur toutes la zone
-  pred <- predict(mod_nnet, matrice.test)
+  pred <- predict(mod_nnet, matrice_test)
 
-  image(x.coord, y.coord,  
+  image(x_coord, y_coord,  
       matrix(pred > 0.5, nrow = 100), 
       col = grey.colors(2), main = "size = 40 - decay = 0.06")
 
-  points(x$train, col = x$class.train)
+  points(x$train, col = x$class_train)
 ```
 
 
 Lorsque l'on utilise le paramètre de régularisation optimal, un affichage interactif permettant de zoomer l'image nous montre les détails des prédictions.
 
 
-```{r}
-  image(x.coord, y.coord,  
+```{r td5_nnet_prob_map}
+  image(x_coord, y_coord,  
         matrix(pred, nrow = 100), 
         col = terrain.colors(10), main = "Carte de probabilité")
 
-  points(x$train, col = x$class.train)
+  points(x$train, col = x$class_train)
 ```
 
 
 
 
-```{r, echo = FALSE}
+```{r plotly, echo = FALSE}
 library(plotly)
 plot_ly(z = matrix(pred, nrow = 100), type = "contour")
 ```

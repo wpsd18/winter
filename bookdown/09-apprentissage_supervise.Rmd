@@ -184,7 +184,7 @@ Pour illustrer ce cas, considèrons un jeu de données unidimensionel dans leque
 
 #### Prédicteur optimal 
 
-```{r}
+```{r cm5_pred_optimal}
 # definition du taux alpha
   alpha <- 0.95
 
@@ -267,7 +267,7 @@ $$
 
 Cette fonction est construite à partir de deux fonctions de décision neuronales. Elle permet approcher arbitrairement (au sens $L^2$ par exemple) la fonction indicatrice de l'intervalle $(-1,+1)$.
 
-```{r, echo = FALSE}
+```{r cm5_approx_nnet, echo = FALSE}
   sigmoid <- function(x) 1/(1+exp(-x))
 
   I_eps <- function(x, epsilon = 0.01){ 
@@ -299,7 +299,7 @@ Ainsi, le prédicteur optimal peut être réalisé par un réseau de neurones ay
 
 La justification mathématique des réseaux de neurones est abstraite. On peut mentionner que théorèmes d'approximation universelle ont été établis afin de démontrer qu'une fonction suffisamment régulière peut être approchée de manière arbitraire par un prédicteur neuronal. Ces résultats ressemblent au célèbre théorème d'approximation de [Weierstrass](https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_Stone-Weierstrass).
 
-Les résultats théoriques ne contiennent pas de construction pratique de l'approximation d'un prédicteur arbitraire par un réseau de neurone. Une idée de preuve a été donnée dans la section précédente pour l'indicatrice d'un intervalle. Le principe peut être généralisé de la manière suivante.
+Les résultats théoriques ne contiennent pas de construction pratique de l'approximation d'un prédicteur arbitraire par un réseau de neurones. Une idée de preuve a été donnée dans la section précédente pour l'indicatrice d'un intervalle. Le principe peut être généralisé de la manière suivante.
 
 Considérons la fonction ${\rm logit}(q(x))$ où $q(x)$ est une fonction absolument continue de l'intervalle $(a,b)$. La fonction $f(x) = {\rm logit}(q(x))$ peut être approchée par une fonction constante par morceau
 

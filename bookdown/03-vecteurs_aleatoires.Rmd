@@ -234,7 +234,7 @@ p(z) = \frac{1}{\sqrt{2\pi}} \exp(-\frac{z^2}{2}) \, , \quad  z \in \mathbb{R} .
 $$
 Son espérance est égale à 0 et sa variance est égale à 1. Sa représentation graphique est donnée par la courbe de Gauss.
 
-```{r echo = FALSE}
+```{r cm2_dist_gauss, echo = FALSE}
 x <- seq(-4,4,length = 500)
 plot(x, dnorm(x, 0, 1), type = 'l', lwd = 2, col = "orange", main = "Loi de Gauss N(0,1)")
 ```
@@ -375,7 +375,7 @@ $$
 Un exemple de densité de probabilité est représentée ci-dessous en dimension $D=2$. Celle-ci décrit les éruptions du geyser "Old Faithful" (vieux fidèle) dans le parc national du Yellowstone (USA). Les variables $(x_1,x_2)$ correspondent respectivement à la durée d'une éruption (*eruptions*) et au temps d'attente entre deux éruptions (*waiting*).   
 
 
-```{r echo = FALSE}
+```{r cm2_faithful, echo = FALSE}
 library(ggplot2)
 m <- ggplot(faithful, aes(x = eruptions, y = waiting)) +
  geom_point() +
@@ -419,7 +419,7 @@ $$
 
 Par exemple, pour le geyser "Old Faithful", la loi marginale de la durée d'éruption peut être décrite par la densité suivante  
 
-```{r echo = FALSE}
+```{r cm2_eruption, echo = FALSE}
 m <- ggplot(faithful, aes(x = eruptions)) 
 
 m + geom_density()

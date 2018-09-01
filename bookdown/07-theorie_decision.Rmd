@@ -207,7 +207,7 @@ Dans ce cas, la frontière de décision est donnée par l'équation $x = 4.02$, 
 
 La simulation de cet histogramme peut s'écrire de la manière suivante
 
-```{r}
+```{r cm4_hist_log_x}
   # nombre de simulations, taille de l'échantillon
   n <- 10000
 
@@ -456,10 +456,12 @@ Il est possible de minimiser cette fonction en utilisant la commande _optim()_ d
 
 ```{r}
   # minimisation de la fonction L(theta)
+
   # condition initiale theta1 = -1, theta2 = 2
-    objet <- optim(par = c(-1,2), fn = L, method = "BFGS")
+    objet_optim <- optim(par = c(-1,2), fn = L, method = "BFGS")
+
   # solution dans l'attribut "par"
-   objet$par %>% round(2)
+    objet_optim$par %>% round(2)
 ```
 
  Le calcul théorique de la probabilité $p(y = 1 |x)$ a été effectué dans la section précédente. Il nous indique que la solution optimale est $\theta_1 = - 0.4$ et $\theta_2 = \log(5) = 1.60$. Les valeurs numériques obtenue ci-dessus sont donc proches des valeurs obtenues théoriquement en considérant un échantillon de taille $n = \infty$.
@@ -590,13 +592,13 @@ Nous voyons que les données de la catégorie "bleue" sont séparées des donné
 ```
 
 
-```{r, echo = FALSE}
+```{r cm4_gauss_class, echo = FALSE}
   plot(x, pch = 19, col = y)  
   abline(-3/4, 5/2, lwd = 2, col = "green3") ## trace x_2 = -3/4 + 5/2 x_1
 ```
 
 Les erreurs de classification peuvent être représentée par la matrice de confusion suivante
-```{r}
+```{r cm4_table}
 # matrice de confusion (predictions dures en ligne)
   table(2*x[,2] > -3/2 + 5*x[,1], y == "orange")
 ```
@@ -616,7 +618,7 @@ proba <- 1/(1 + exp(5/3*x[,1] - 2/3*x[,2] - 1/2))
 Envisageons maintenant l'utilisation d'un modèle paramétrique de complexité élevée. Pour cela, nous anticipons un peu le cours suivant en utilisant un réseau de neurones. Le paramètre _size_ controle la complexité du modèle, qui comportent 201 paramètres.
 
 
-```{r}
+```{r cm4_nnet}
 mod <- nnet::nnet(x, 
                   as.numeric(y == "orange"), 
                   size = 50, 
@@ -629,14 +631,14 @@ mod <- nnet::nnet(x,
 Pour ce réseau neuronal, nous pouvons tracer la frontière de prédiction obtenue et la comparer à la frontière optimale (ligne verte). La frontière calculée par le modèle sur-paramétré est extrêmement déchiquetée, et sensible à la variance des données. Il est fort possible que les ilôts mis en evidence par la méthode neuronale soient des artifices non-reproductibles, et qu'ils ne sont pas représentatifs d'un nouveau jeu de données. La frontière très irrégulière illustre le phénomène de sur-apprentissage. 
 
 
-```{r, echo = FALSE}
-x.coord <- seq(min(x[,1]), max(x[,1]), length = 100)
-y.coord <- seq(min(x[,2]), max(x[,2]), length = 100)
+```{r cm4_nnet_overfit, echo = FALSE}
+x_coord <- seq(min(x[,1]), max(x[,1]), length = 100)
+y_coord <- seq(min(x[,2]), max(x[,2]), length = 100)
 
-matrice.test <- cbind(rep(x.coord, length = 100), 
-                      rep(y.coord, each = 100))
+matrice_test <- cbind(rep(x_coord, length = 100), 
+                      rep(y_coord, each = 100))
 
-pred <-  predict(mod, matrice.test)
+pred <-  predict(mod, matrice_test)
 
 #image(x.coord, y.coord,  matrix(pred > 0.5, nrow = 100), 
 #      col = grey.colors(2), main = "Modèle neuronal sur-paramétré")
@@ -647,14 +649,14 @@ pred <-  predict(mod, matrice.test)
 
 plot(x, pch = 19, cex = 1.2, col = y, main = "Modèle neuronal sur-paramétré")
 #abline(-3/2, 5/2, lwd = 4, col = "yellow") ## trace x_2 = -3/2 + 5/2 x_1
-contour(x.coord,y.coord,
+contour(x_coord, y_coord,
         matrix(pred, nrow = 100), col = "green3", 
         levels = 0.5, lwd = 2, add = T)
 ```
 
 Un affichage interactif permettant de zoomer l'image nous montre les détails d'un paysage chahuté.
 
-```{r, echo = FALSE}
+```{r cm4_plotly, echo = FALSE}
 library(plotly)
 plot_ly(z = matrix(pred, nrow = 100), type = "contour")
 ```
@@ -679,11 +681,11 @@ Lorsque l'on cherche à évaluer le modèle sur l'ensemble de données d'apprent
 Toutefois, en considérant un ensemble de données tests indépendant de l'ensemble d'apprentissage, nous voyons que les performances du modèle sont nettement inférieures à celles du modèle optimal.
 
 ```{r, include = FALSE}
-  x.test0 <- MASS::mvrnorm(n, mu = c(1,0), Sigma = Sigma)
-  x.test1 <- MASS::mvrnorm(n, mu = c(0,1), Sigma = Sigma) 
-  x.test <- rbind(x.test0, x.test1)
+  x_test0 <- MASS::mvrnorm(n, mu = c(1,0), Sigma = Sigma)
+  x_test1 <- MASS::mvrnorm(n, mu = c(0,1), Sigma = Sigma) 
+  x_test <- rbind(x_test0, x_test1)
   
-  pred <- predict(mod, x.test)
+  pred <- predict(mod, x_test)
 ```
 
 ```{r}

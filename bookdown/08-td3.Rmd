@@ -212,7 +212,7 @@ Le modèle HT (de Hastie et Tibshirani) consiste à simuler un feu d'artifice ga
 Simulons un jeu de données en utilisant le générateur `rhastib()`, disponible dans le package du cours, et affichons les données d'apprentissage puis les données de test colorées par classe
 
 
-```{r}
+```{r td3_rhastib}
   x <- rhastib(400, 400, sigma2 = 0.2)
 
   summary(x)
@@ -227,7 +227,7 @@ Où vous semble passer la frontière de décision ? Vous parait-elle être liné
 
 On entraîne un classifieur $k$-NN sur les données du modèle _hastib_ tout en évaluant son erreur de classification sur un ensemble test de même taille. On effectue ceci pour $k = 1, \dots, 50$. Commenter le code suivant (4 lignes de commentaires à compléter).
 
-```{r}
+```{r td3_knn}
 acc_train <- NULL
 acc_test <- NULL
 
@@ -257,7 +257,7 @@ for (k in 1:50){
 
 On affiche les résultats de la manière suivante.
 
-```{r}
+```{r td3_knn_accuracy}
 plot(c(0,50),
      c(min(c(acc_train, acc_test)), 
                 max(c(acc_train, acc_test))), 
@@ -283,7 +283,7 @@ Commenter l'effet de $k$ sur ces courbes.
 Commenter les codes correspondant à l'experience suivante: _visualiser la frontière de décision_. Utiliser l'aide de R pour les commandes inconnues.
 
 
-```{r}
+```{r td3_knn_k_30}
 ####################################################################
 x_coord <- seq(min(x$train[,1]), max(x$train[,1]), length = 100)
 y_coord <- seq(min(x$train[,2]), max(x$train[,2]), length =  100)
@@ -314,7 +314,7 @@ y_coord <- seq(min(x$train[,2]), max(x$train[,2]), length =  100)
 
 A quoi correspond la carte générée dans l'image ci-dessus ? Interpréter les lignes de niveau de cette carte. 
 
-```{r}
+```{r td3_knn_k_30_frontier}
 ## comment 
   image(x_coord, y_coord, 
         matrix(pred > 0.5, nrow = 100), 
@@ -327,7 +327,7 @@ A quoi correspond la carte générée dans l'image ci-dessus ? Interpréter les 
 A quoi correspond la frontière de décision dans la carte ci-dessus ? Comment est elle obtenue ? 
 
 
-```{r}
+```{r td3_knn_k_2}
   ## comment 1
   mod_knn <- class::knn(x$train, matrice_test, 
                         x$class_train, 
