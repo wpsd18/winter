@@ -490,9 +490,9 @@ cat("Determinant de C = ", det(C))
 
 
 
-#### Exercice 3 : Distance de Mahanalobis (45 minutes)
+#### Exercice 3 : Distance de mahalanobis (45 minutes)
 
-Soit $C$ une matrice symétrique dont les valeurs propres sont positives. Soit ${\bf m}$ un vecteur arbitraire dans le plan $\mathbb{R}^2$. On définit la distance de Mahanalobis entre un vecteur ${\bf x}$ et le vecteur ${\bf m}$ de la manière suivante
+Soit $C$ une matrice symétrique dont les valeurs propres sont positives. Soit ${\bf m}$ un vecteur arbitraire dans le plan $\mathbb{R}^2$. On définit la distance de mahalanobis entre un vecteur ${\bf x}$ et le vecteur ${\bf m}$ de la manière suivante
 
 $$
 d_C({\bf x}, {\bf m}) = \sqrt{({\bf x} - {\bf m} )^T C^{-1} ({\bf x} - {\bf m} )} \, .
@@ -500,14 +500,14 @@ $$
 
 
  
-##### Valeur moyenne de la distance de Mahanalobis au carré. 
+##### Valeur moyenne de la distance de mahalanobis au carré. 
 
 
 Soit ${\bf C}$ une matrice symétrique ayant des valeurs propres strictement positives (matrice de covariance). On considère la décomposition spectrale de cette matrice, ${\bf C} = {\bf U} {\bf \Lambda} {\bf U^T}$, où ${\bf U}$ est une matrice unitaire et ${\bf \Lambda}$ est une matrice diagonale à terme positifs.  
 
 **Résultat provisoirement admis :** On suppose que ${\bf x_0}$ est un vecteur aléatoire de moyenne ${\bf m} = 0$ et de matrice de covariance ${\bf C}$ (la matrice de covariance généralise la notion de variance).
 
-On admet que la valeur moyenne de la distance de Mahanalobis au carré entre ${\bf x_0}$ et l'origine est égale à
+On admet que la valeur moyenne de la distance de mahalanobis au carré entre ${\bf x_0}$ et l'origine est égale à
 
 $$
 \mathbb{E}[d_C^2({\bf x_0}, {\bf m = 0})] = \mathbb{E}[ {\bf x_0}^T C^{-1} {\bf x_0}] = 2.
@@ -549,7 +549,7 @@ C
 
 
 
-* Ecrire une fonction calculant le carré de la distance de Mahanalobis entre un vecteur {\bf x} et le centre d'un ensemble de vecteurs, ${\bf X_0}$. Pour cela, on considère que le centre de l'ensemble de vecteurs ${\bf X_0}$ correspond à la moyenne (barycentre) de ces vecteurs. Par défaut, la matrice $C$ intervenant dans la distance sera la matrice de covariance empirique de ${\bf X_0}$. Commenter et compléter le code suivant. 
+* Ecrire une fonction calculant le carré de la distance de mahalanobis entre un vecteur {\bf x} et le centre d'un ensemble de vecteurs, ${\bf X_0}$. Pour cela, on considère que le centre de l'ensemble de vecteurs ${\bf X_0}$ correspond à la moyenne (barycentre) de ces vecteurs. Par défaut, la matrice $C$ intervenant dans la distance sera la matrice de covariance empirique de ${\bf X_0}$. Commenter et compléter le code suivant. 
 
 
 ```{r}
@@ -578,7 +578,7 @@ d2_maha <- function(x, x0, C = cov(x0)){
 
 
 
-* Calculer la valeur moyenne du carré de la distance de Mahanalobis entre chaque vecteur simulé dans l'objet `x0` et de centre de `x` (pour la matrice $C$). Compléter le code suivant
+* Calculer la valeur moyenne du carré de la distance de mahalanobis entre chaque vecteur simulé dans l'objet `x0` et de centre de `x` (pour la matrice $C$). Compléter le code suivant
 
 
 ```{r}
@@ -600,7 +600,7 @@ Dans cet exercice, on simule des observations en deux dimensions. Les observatio
 Nous disposons ainsi d'un ensemble d'apprentissage dont les classes sont connues. 
 
 
-Le but de l'exercice est de programmer puis d'évaluer une règle de décision permettant de classer automatiquement un vecteur dans l'une des deux catégories. Le classifieur assignera à un vecteur donné la classe dont le centre $m_1$ ou $m_2$ sera le plus proche de ce vecteur au sens de la distance de Mahanalobis.
+Le but de l'exercice est de programmer puis d'évaluer une règle de décision permettant de classer automatiquement un vecteur dans l'une des deux catégories. Le classifieur assignera à un vecteur donné la classe dont le centre $m_1$ ou $m_2$ sera le plus proche de ce vecteur au sens de la distance de mahalanobis.
 
 On utilise une loi gaussienne pour simuler les données de chaque classe. Dans cette simulation, la classe 1 est centrée autour du point de coordonnées $(4,0)$ tandis que la classe 2 est centrée autour du point de coordonnées (0,4). Les matrices de covariance intra-classe sont distinctes et définies ci-dessous.
 
@@ -641,7 +641,7 @@ On utilise une loi gaussienne pour simuler les données de chaque classe. Dans c
   points(0, 4, pch =  3, col = "green", lwd = 3, cex = 4)
 ```
 
-* Pour tout vecteur contenu dans l'objet `x`, calculer le carré de la distance de Mahanalobis séparant ce vecteur au centre de la classe à laquelle il appartient. Compléter le code suivant.
+* Pour tout vecteur contenu dans l'objet `x`, calculer le carré de la distance de mahalanobis séparant ce vecteur au centre de la classe à laquelle il appartient. Compléter le code suivant.
 
 ```{r}
   # distances au centre m1

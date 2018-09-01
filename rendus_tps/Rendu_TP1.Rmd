@@ -93,7 +93,7 @@ f <-function(x){
 * Calculer la matrice $M^{-1}$ et vérifier que $M^{-1} = U \Lambda^{-1} U^T$, où $\Lambda$ désigne une matrice diagonale contenant les valeurs propres de $M$ et $U$ une matrice unitaire correspondant aux vecteurs propres de $M$.
 
 
-#### Exercice 3 : Distance de Mahanalobis 
+#### Exercice 3 : Distance de mahalanobis 
 
 
 * Calculer la valeur $d_C^2((3,2),0)$ pour la matrice ${\bf C}$ définie ci-dessous
@@ -104,7 +104,7 @@ f <-function(x){
 ```
 
 
-* Pour tout vecteur contenu dans l'objet `x` ci-dessous, calculer le carré de la distance de Mahanalobis séparant ce vecteur au centre de la classe à laquelle il appartient. 
+* Pour tout vecteur contenu dans l'objet `x` ci-dessous, calculer le carré de la distance de mahalanobis séparant ce vecteur au centre de la classe à laquelle il appartient. 
 
 ```{r}
   # matrice de covariance de la classe 1

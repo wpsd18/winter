@@ -11,7 +11,7 @@ $$
 p(y = 0) = p(y = 1) = \frac12\,.
 $$
 
-L'objectif de cette séance de travaux dirigés est de vérifier que le prédicteur optimal minimisant fonction de perte 01 (ou erreur de classification) est lié au calcul des probabilités conditionnelles d'appartenance aux classes sachant ${\bf x}$. 
+L'objectif de cette séance de travaux dirigés est de vérifier que le prédicteur optimal minimisant la fonction de perte 01 (erreur de classification) est lié aux probabilités conditionnelles d'appartenance aux classes sachant les observations ${\bf x}$. 
 
 Nous calculerons le classifieur optimal dans un cas gaussien, et vérifierons qu'il s'agit d'un neurone formel. Dans la seconde partie, nous étudierons les propriétés d'un classifieur non-paramétrique.
 
@@ -24,7 +24,7 @@ On considère la fonction de perte 01 pénalisant un mauvais classement. Cette f
 $$
 \forall {\bf x} \in \mathbb{R}^D \,, \, y \in \{0,1\} \,, \quad  L(c({\bf x}), y) =  \mathbb{1}_{(c({\bf x}) \neq y)} \, .
 $$
-En d'autres termes, la perte est égale à 1 si $c({\bf x}) \neq y$, 0 sinon.
+En d'autres termes, la perte est égale à 1 si $c({\bf x})$ n'est pas égal à $y$. Elle est égale à 0 sinon.
 
 ### Question 1 
 
@@ -128,7 +128,7 @@ $$
 {\rm sigmoid}(x) = \frac{1}{1 + e^{-x}} \, , \quad x \in \mathbb{R}. 
 $$
 
-Vérifier cette probabilité conditionnelle correspond à la définition d'un neurone artificiel probabiliste.
+Vérifier cette probabilité conditionnelle correspond à la définition d'un neurone artificiel probabiliste (symboliser graphiquement le neurone probabiliste ainsi défini).
 
 
 ## Exercice 2. L'algorithme des $k$ plus proches voisins. 
@@ -155,10 +155,10 @@ $$
 \right.
 $$
 
-On suppose que l'échantillon est de taille arbitrairement grande ($n \to \infty$). Sous quelles conditions portant sur $k$ et la taille du voisinage $V({\bf x})$ pourrait-on justifier l'approximation suivante 
+On suppose que l'échantillon est de taille arbitrairement grande ($n \to \infty$). Sous quelles conditions portant sur $k$ et sur la taille (rayon) du voisinage $V({\bf x})$ pourrait-on justifier l'approximation suivante 
 
 $$
-\frac1k \sum_{i \in V({\bf x})}  y_i  \approx p(y = 1 | {\bf x}) . 
+\frac1k \sum_{i \in V({\bf x})}  y_i  \approx p(y = 1 | {\bf x}) \, ? 
 $$
 
 Justifier votre argument par un graphique et par la loi des grands nombres. 
@@ -197,19 +197,19 @@ $$
 $$
 
 
-Quel prédicteur vous paraît le plus variable ? Comment les résultats précédents influent-ils le choix de $k$ ?
+Quel prédicteur vous paraît le plus variable ? Comment les résultats précédents peuvent-ils influencer le choix de $k$ ?
 
 
 ### Question 5. Application au modèle de Hastie et Tibshirani.
 
-Le modèle HT (de Hastie et Tibshirani) consiste à simuler un feu d'artifice gaussien. La première classe est centrée en $(1,0)$ et $10$ sous-classes sont générées selon la loi $N((0,1), {\bf I})$. Les observations sont alors simulées en choisissant une sous-classe $m_k$ au hasard parmi les 10 sous-classes puis en générant des données selon une loi de variance (*sigma2*), $N(m_k, \sigma^2{\bf I})$. La seconde classe obéit au même modèle génératif, mais à partir du point central $(0,1)$.
+Le modèle HT (de Hastie et Tibshirani) consiste à simuler un feu d'artifice gaussien à deux classes. La première classe est centrée en $(1,0)$ et $10$ sous-classes sont générées selon la loi $N((1,0), {\bf I})$. Les observations sont alors simulées en choisissant une sous-classe $m_k$ au hasard parmi les 10 sous-classes puis en générant des données selon une loi de variance $\sigma^2$, $N(m_k, \sigma^2{\bf I})$. La seconde classe obéit au même modèle génératif, mais à partir du point central $(0,1)$.
 
 
 ```{r include = FALSE}
  library(isd)
 ```
 
-Simulons un jeu de données en utilisant le générateur `rhastib()`, disponible dans le package du cours, et affichons les données colorées par classe
+Simulons un jeu de données en utilisant le générateur `rhastib()`, disponible dans le package du cours, et affichons les données d'apprentissage puis les données de test colorées par classe
 
 
 ```{r}
@@ -257,7 +257,7 @@ for (k in 1:50){
 
 On affiche les résultats de la manière suivante.
 
-```{r, echo = FALSE}
+```{r}
 plot(c(0,50),
      c(min(c(acc_train, acc_test)), 
                 max(c(acc_train, acc_test))), 
@@ -273,7 +273,7 @@ legend(x = 42, y = 0.95,
        col = c("blue", "red"), lty = 1)
 ```
 
-Commenter la courbe obtenue ci-dessus. Quel choix de $k$ vous apparait être justifié pour des prédictions futures concernant des tirages identiques et indépendants de ceux effectués dans la simulation ?
+Commenter la courbe obtenue. Quel choix de $k$ vous apparait être justifié pour des prédictions futures concernant des tirages identiques et indépendants de ceux effectués dans la simulation ?
 
 Commenter l'effet de $k$ sur ces courbes.
 
@@ -286,19 +286,20 @@ Commenter les codes correspondant à l'experience suivante: _visualiser la front
 ```{r}
 ####################################################################
 x_coord <- seq(min(x$train[,1]), max(x$train[,1]), length = 100)
-y_coord <- seq(min(x$train[,2]) ,max(x$train[,2]), length =  100)
+y_coord <- seq(min(x$train[,2]), max(x$train[,2]), length =  100)
 
   ## comment 1
   matrice_test <- cbind(rep(x_coord, length = 100), 
                         rep(y_coord, each = 100))
 
   ## comment 2
-  mod_knn <- class::knn(x$train, matrice_test, 
+  mod_knn <- class::knn(x$train, 
+                        matrice_test, 
                         x$class_train, 
                         k = 30, 
                         prob = TRUE)
 
-  ## Récupère les probabilités des 2 classes calculées par le modèle (objet mod_knn)  
+  ## Récupère les probabilités conditionnelles des 2 classes calculées par le modèle (objet mod_knn)  
   pred <- attr(mod_knn,"prob")
 
   ## comment 3
