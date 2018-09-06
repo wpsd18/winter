@@ -245,10 +245,29 @@ $$
 L = - \frac1n \sum_{i =1}^n y_i \log(p_i) + (1 - y_i) \log(1-p_i) \, , 
 $$
 
-où $y_i$ et  $p_i$ représentent l'indicateur de survie et la probabilité de survie de l'individu $i$. Quelle valeur de $L$ correspond à une prédiction au hasard (pile ou face) ? Quelle valeur de $L$ correspond à une prédiction effectuée à partir de la probabilité globale de survie ? 
+où $y_i$ et  $p_i$ représentent l'indicateur de survie et la probabilité de survie de l'individu $i$. 
 
+* Quelle valeur de $L$ correspond à une prédiction au hasard (pile ou face) ?
 
-* Calculer la perte **logloss** associée aux prédictions précédentes (pour éviter les erreurs numériques, on pourra remplacer les valeurs de probabilités nulles par $10^{-10}$). 
+```{r}
+# logloss quand p =1/2
+# p = 1/2
+# L =
+  print("On tire la survie à pile ou face")
+  cat("logloss: ", L)
+```
+
+* Quelle valeur de $L$ correspond à une prédiction effectuée à partir de la probabilité globale de survie ? 
+
+```{r}
+#  logloss quand p est la probabilité globale de survie
+#  p = mean(compléter)
+#  L =
+    print("On tire la survie suivant la probabilité globale de survie")
+    cat("logloss: ", L)
+```
+
+* Calculer la perte **logloss** associée aux prédictions stockées dans la variable `pred`. 
 
 ```{r}
 # y = tit_train$survived
@@ -362,7 +381,7 @@ detach(tit_train)
 # commenter le code
   pred.nnet[pred.nnet == 1] <- 0.99999999
   L <- formule_log_loss
-  cat("logloss: ", L ))
+  cat("logloss: ", L )
 ```
 
 

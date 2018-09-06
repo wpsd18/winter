@@ -31,7 +31,7 @@ output: html_notebook
 
 * Calculer les probabilités de survie conditionnelles sachant les variables `gender` et `child` (4 cas).
 
-* Calculer le nombre de prédictions correctes effectuées dans l'ensemble `tit_train` en considérant les fréquences de survies conditionnelles aux variables `gender` et `child`. Représenter les résultats sous forme de matrice de confusion.
+* Calculer le nombre moyen de prédictions correctes effectuées dans l'ensemble `tit_train` en considérant les fréquences de survies conditionnelles aux variables `gender` et `child`. Représenter les résultats sous forme de matrice de confusion.
 
 * Calculer le nombre moyen de prédictions correctes et la perte logloss en considérant les fréquences de survies conditionnelles aux variables `gender`, `child` et `class3`.
 
