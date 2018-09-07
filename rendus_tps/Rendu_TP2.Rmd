@@ -31,17 +31,17 @@ output: html_notebook
 
 * Calculer les probabilités de survie conditionnelles sachant les variables `gender` et `child` (4 cas).
 
-* Calculer le nombre moyen de prédictions correctes effectuées dans l'ensemble `tit_train` en considérant les fréquences de survies conditionnelles aux variables `gender` et `child`. Représenter les résultats sous forme de matrice de confusion.
+* Calculer les nombres de prédictions correctes et incorrectes effectuées dans l'ensemble `tit_train` en considérant les fréquences de survie conditionnelles aux variables `gender` et `child`. Représenter les résultats sous forme de matrice de confusion.
 
-* Calculer le nombre moyen de prédictions correctes et la perte logloss en considérant les fréquences de survies conditionnelles aux variables `gender`, `child` et `class3`.
+* Calculer  les nombres de prédictions correctes et incorrectes effectuées dans l'ensemble `tit_train`, le taux de bons classement (accuracy) et la perte logloss en considérant les fréquences de survie conditionnelles aux variables `gender`, `child` et `class3`  (donner le script complet).
 
-* Pour l'ensemble de test, évaluer les performances du prédicteur fréquentiel s'appuyant sur les caractérisques `gender`, `child`, `class3` selon les critères *accuracy* et *log loss*.
+* Pour l'ensemble de test, évaluer les performances du prédicteur fréquentiel s'appuyant sur les caractéristiques `gender`, `child`, `class3` selon les critères *accuracy* et *log-loss*  (donner le script complet).
 
-* Pour l'ensemble de test, évaluer les predictions un prédicteur s'appuyant sur un modèle de réseau de neurones ayant 5 neurones cachés et utilisant le profil complet d'un passager.
+* Pour l'ensemble de test, évaluer les predictions un prédicteur s'appuyant sur un modèle de réseau de neurones ayant 5 neurones cachés et utilisant le profil complet d'un passager  selon les critères *accuracy* et *log-loss*  (donner le script complet).
 
 * Quelles prédictions vous semblent les meilleures ? Celles obtenues par les probabilités empiriques ou celles obtenues par le modèle neuronal ? Justifier votre réponse. 
 
-* Quelles sont les différences de prédiction entre les deux approches ? 
+* Pour quels individus de l'ensemble test observe-t-on des différences de prédiction entre les approches empiriques et neuronales (donner le script complet) ? 
 
 
 

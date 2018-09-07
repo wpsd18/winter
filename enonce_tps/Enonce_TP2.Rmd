@@ -427,7 +427,7 @@ head(tit_test)
 
 * Comparer les résultats précédents aux valeurs obtenues pour l'ensemble d'apprentissage.  
 
-* Quelles prédictions vous semblent les meilleures ? Celles obtenues par les probabilités empiriques ou celles obtenues par le modèle neuronal ? Quelles sont les différences de prédiction ? 
+* Quelles prédictions vous semblent les meilleures ? Celles obtenues par les probabilités empiriques ou celles obtenues par le modèle neuronal ? Pour quels individus de l'ensemble test observe-t-on des différences de prédiction ? 
 
 
 
