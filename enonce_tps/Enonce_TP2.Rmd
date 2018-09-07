@@ -194,7 +194,7 @@ detach(tit_train)
 
 
 
-* Calculer le nombre moyen de prédictions correctes effectuées sur l'ensemble d'apprentissage en considérant les probabilités de survies conditionnelles aux variables `gender` et `child`. Pour cela, on prédira *survie* lorsque la probabilité conditionnelle de survie est supérieure à 0.5.
+* Calculer le nombre moyen de prédictions correctes effectuées sur l'ensemble d'apprentissage en considérant les probabilités de survie conditionnelle aux variables `gender` et `child`. Pour cela, on prédit qu'un individu *survit* lorsque la probabilité conditionnelle de survie est supérieure à 0.5.
 
 
 
@@ -247,13 +247,12 @@ $$
 
 où $y_i$ et  $p_i$ représentent l'indicateur de survie et la probabilité de survie de l'individu $i$. 
 
-* Quelle valeur de $L$ correspond à une prédiction au hasard (pile ou face) ?
+* Quelle valeur de $L$ correspond à une prédiction au hasard ($p_i = 1/2$) ?
 
 ```{r}
-# logloss quand p =1/2
-# p = 1/2
+# logloss quand p_i = 1/2
 # L =
-  print("On tire la survie à pile ou face")
+  cat("On tire la survie à pile ou face.\n")
   cat("logloss: ", L)
 ```
 
@@ -261,9 +260,9 @@ où $y_i$ et  $p_i$ représentent l'indicateur de survie et la probabilité de s
 
 ```{r}
 #  logloss quand p est la probabilité globale de survie
-#  p = mean(compléter)
+#  p = mean(tit_train$survived)
 #  L =
-    print("On tire la survie suivant la probabilité globale de survie")
+    cat("On tire la survie suivant la probabilité globale de survie.\n")
     cat("logloss: ", L)
 ```
 
@@ -303,7 +302,7 @@ detach(tit_train)
 
 
 
-* Prédire la survie de chaque passager à partir des fréquences de survies conditionnelles aux variables `gender`, `child`, `class3` (repartir du code précédent).
+* Prédire la survie de chaque passager à partir des fréquences de survie conditionnelle aux variables `gender`, `child`, `class3` (repartir d'un code précédent).
 
 
 ```{r}
@@ -330,7 +329,7 @@ detach(tit_train)
 
 
 
-* Calculer le nombre moyen de prédictions correctes effectuées et la perte logloss en considérant les fréquences de survies conditionnelles aux variables `gender`, `child`, `class3` (prédicteur fréquentiel).
+* Calculer la proportion de prédictions correctes effectuées et la perte logloss en considérant les fréquences de survies conditionnelles aux variables `gender`, `child`, `class3` (prédicteur fréquentiel).
 
 ```{r}
 # accuracy
@@ -368,7 +367,7 @@ detach(tit_train)
 ```
 
 
-* À l'aide du vecteur `pred.nnet`, calculer le nombre moyen de prédictions correctes effectuées par le modèle neuronal que vous venez d'ajuster et la perte logloss associée à ce modèle.
+* À l'aide du vecteur `pred_nnet`, calculer les nombres de prédictions correctes et incorrectes effectuées par le modèle neuronal que vous venez d'ajuster, ainsi que la proportion de bons classements (accuracy) et la perte logloss associée à ce modèle.
 
 ```{r}
 # commenter
@@ -393,7 +392,7 @@ tit_test <- titanic_test
 head(tit_test)
 ```
 
-* Pour l'ensemble de test, evaluer le prédicteur fréquentiel s'appuyant sur les caractéristiques `gender`, `child`, `class3`. La fonction `eval_titanic` a accès aux données de survie pour les passagers de l'ensemble de test et renvoie les valeurs moyennes du taux de classification et de la perte logloss. Compléter les commentaires.
+* Pour l'ensemble de test, évaluer le prédicteur fréquentiel s'appuyant sur les caractéristiques `gender`, `child`, `class3`. La fonction `eval_titanic` a accès aux données de survie pour les passagers de l'ensemble de test et renvoie les valeurs moyennes du taux de classification et de la perte logloss. Compléter les commentaires.
 
 ```{r}
   pred <- NULL
@@ -419,10 +418,10 @@ head(tit_test)
 ```{r}
 # commenter
  #mod <- nnet::nnet(x,  y, size = 3)
- pred.nnet <- predict(mod, tit_test)
+ pred_nnet <- predict(mod, tit_test)
 
 # commenter
- isd::eval_titanic(pred.nnet)
+ isd::eval_titanic(pred_nnet)
 ```
 
 
@@ -432,7 +431,7 @@ head(tit_test)
 
 
 
-**Remarque :** Il est possible d'utiliser l'opérateur "pipe" pour la prediction
+**Remarque :** Il est possible d'utiliser l'opérateur "pipe" pour la prédiction
 
 
 ```{r}
@@ -443,6 +442,6 @@ mod %>% predict(tit_test) %>% isd::eval_titanic()
 
 #### Exercice 3: 0H30
 
-Compléter le document de rendu et le soumettre sur le site de dépot TEIDE au format *html*.
+Ouvrir et compléter le document de rendu et le soumettre sur le site de dépot TEIDE au format *html* (seul format accepté). Utiliser le bouton `Knit` pour la conversion en html. 
 
 
