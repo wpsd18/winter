@@ -17,7 +17,7 @@ output: html_notebook
 
 Le dépot comportera en plus du fichier intitulé "Rendu_TP5.html" 
 
-- un "objet" R sauvé sous forme compressée contenant le modèle choisi pour être évalué par l'enseignant sur l'ensemble test. Le fichier compressé devra être sauvé sous le format RDS ou sous le format hdf5. son intitulé devra être personnalisé sous la forme "my_login_bestmodel.RDS" ou ".hdf5".
+- un "objet" R sauvé sous forme compressée contenant le modèle choisi pour être évalué par l'enseignant sur l'ensemble test. Le fichier compressé devra être sauvé sous le format RDS ou sous le format hdf5. son intitulé devra être personnalisé sous la forme "my_login_bestmodel.RDS" ou "my_login_bestmodel.hdf5".
 
 - Un script R, contenant une fonction permettant d'évaluer le modèle.
  

@@ -23,7 +23,7 @@ Le rendu comportera en particulier
 
 - Un fichier intitulé "Rendu_TP5.html" correspond au document "Rendu_TP5.Rmd" complété et commenté. Ce fichier décrira le modèle de prédiction choisi pour le défi de classification. 
 
-- Un "objet" R sauvé sous forme compressée contenant le modèle choisi pour être évalué par l'enseignant sur l'ensemble test. Le fichier compressé devra être sauvé sous le format RDS ou hdf5. Son intitulé devra être personnalisé sous la forme "my_login_bestmodel.ext" (voir les exemples à la fin du TP).
+- Un "objet" R sauvé sous forme compressée contenant le modèle choisi pour être évalué par l'enseignant sur l'ensemble test. Le fichier compressé devra être sauvé sous le format RDS ou hdf5. Son intitulé devra être personnalisé sous la forme "my_login_bestmodel.ext" ("ext" désigne une extension particulière, "hdf5" ou "rds", voir les exemples à la fin du TP).
 
 - Un script R, contenant une fonction permettant d'évaluer le modèle (voir les exemples à la fin du TP).
  
@@ -32,7 +32,7 @@ Le rendu comportera en particulier
 
 L'objectif de cette séance de travaux pratiques est de répondre à un défi de classification portant sur l'analyse d'opinion à partir de documents textuels ("natural language processing"). 
 
-Les documents analysés sont des critiques de films écrites par des utilisateurs du site web "Internet Movie Data Base" (IMBD). À chaque critique est associée une note donnée par l'utilisateur du site. Seules les notes extrêmes on été conservées et  converties en valeurs binaires représentant des opinions positives ou négatives envers le film.  
+Les documents analysés sont des critiques de films écrites par des utilisateurs du site web "Internet Movie Data Base" (IMBD). À chaque critique est associée une note donnée par l'utilisateur du site. Seules les notes extrêmes ont été conservées et  converties en valeurs binaires représentant des opinions positives ou négatives envers le film.  
 
 La base de données comporte 50000 critiques de films. Chaque document est prétraité et représenté sous le format d'un _sac de mots_ ("bag of words") pour en faciliter l'analyse. Un sac de mots peut être vu comme une représentation des termes d'un document partir de leur fréquence d'occurrence.
  
@@ -50,9 +50,9 @@ library(keras)
 
 #### Index de termes et sacs de mots.
 
-À chaque terme d'un texte (aussi appelé _document_) est associé une fréquence d'apparition globale dans la base de données IMBD. Les termes sont référencés dans un index à l'aide d'un nombre indiquant leur rang d'apparition dans la base de données. Dans l'index, les termes sont triés du plus fréquent au moins fréquent. L'index est illustré ci-dessous. 
+À chaque terme d'un texte (aussi appelé _document_) est associé une fréquence d'apparition globale dans la base de données IMBD. Les termes sont référencés dans un index à l'aide d'un nombre indiquant leur rang d'apparition dans la base de données. Dans l'index, les termes sont triés du plus fréquent au moins fréquent.
 
-L'index peut être consulté à partir de la bibliothèque `keras, sous forme de liste dont les attributs sont les termes utilisés dans la base de données. Pour cela, on utlise la fonction `dataset_imdb_word_index()`.
+L'index peut être consulté à partir de la bibliothèque `keras`, sous forme de liste dont les attributs sont les termes utilisés dans la base de données. Pour cela, on utlise la fonction `dataset_imdb_word_index()`. L'index est illustré ci-dessous. 
 
 Le numéro trouvé dans l'index correspond au rang d'un terme donné. Pour trouver le mot le plus fréquemment utilisé dans l'IMDB, on peut chercher le terme dont la valeur est égale au rang 1. 
 
@@ -64,7 +64,7 @@ Le numéro trouvé dans l'index correspond au rang d'un terme donné. Pour trouv
 
 Sans surprise, le terme le plus fréquemment utilisé est l'article "the". Sa valeur dans l'index est donc égale à 1. 
 
-L'article "the" se retrouve à la position 85976 dans l'index. L'index n'est pas ordonné par la fréquence des termes, mais par une permutation arbitraire. Nous pouvons utiliser la fonction `order()` pour réordonner l'index et trouver les 10 termes les plus utilisés dans l'ensemble des critiques de films.
+L'article "the" se retrouve à la position 85976 dans l'index. L'index n'est donc pas ordonné par la fréquence des termes, mais par une permutation arbitraire. Nous pouvons utiliser la fonction `order()` pour réordonner l'index et trouver les 10 termes les plus utilisés dans l'ensemble des critiques de films.
 
 ```{r}
   o <- as.numeric(index) %>% order()
@@ -95,7 +95,7 @@ Par exemple le document numéro 13 dans l'ensemble d'apprentissage est lu de la 
   document13
 ```
 
-Nous voyons que le terme "and" (indice 2) n'a pas été filtré (nous l'enleverons plus tard). Les fréquences des termes apparaissant dans le document 13 peuvent être données  par la fonction `table()`. Cette fonction utilise l'ordre alphabétique pour représenter les comptages de chaque terme.  
+Nous voyons que le terme d'indice 2 n'a pas été filtré correctement (nous l'enlèverons plus tard). Les fréquences des termes apparaissant dans le document 13 peuvent être données par la fonction `table()`. Cette fonction utilise l'ordre alphabétique pour représenter les comptages de chaque terme.  
 
 ```{r}
   index[o[document13]] %>%  names() %>% table()
@@ -115,13 +115,13 @@ Pour la suite, c'est à vous de jouer.
 
 #### Lecture des données
 
-* Ecrire une ligne de commande R permettant convertir le document 13 en un vecteur de longueur 2000, indiquant le nombre d'apparition de chacun des indices allany de 49 à 2048 dans ce document.  
+* Ecrire une ligne de commande R permettant convertir le document 13 en un vecteur de longueur 2000, indiquant le nombre d'apparition de chacun des indices allant de 49 à 2048 dans ce document.  
 
 
 ```{r}
   # comment 1
   help(sapply)
-  sapply( 49:2048, FUN = function(x) cogito_ergo_sum )
+  sapply(49:2048, FUN = function(x) cogito_ergo_sum )
 ```
 
 
