@@ -174,16 +174,15 @@ On considère un jeu de données unidimensionel dans lequel les variables $x \in
 
 Cet exercice n'a pas d'autre prétention que de faire manipuler par l'exemple l'utilisation de la bibliothèque de programmes `keras`. Cette bibliothèque permet de définir des modèles de réseaux de neurones, de les ajuster aux données d'apprentissage et de les tester sur des ensembles choisis. L'exercice est donc un tutoriel dans lequel il suffit de suivre les instructions. Il a pour but de préparer la fin du TP (et la séance 5) où il s'agira de relever un défi d'apprentissage plus difficile. 
 
-On commentera les codes proposés dans les espaces laissés pour les commentaires (dièses).
+Pour cela, il est nécessaire d'installer localement la bibliothèque de programmes **Tensorflow** développée par la compagnie Google. Cette installation locale dans votre répertoire de travail (*../.virtualenvs*) occupera une place conséquente (0.5G). Pensez à faire le ménage en fin de semestre !
 
 ```{r}
 #install.packages("keras")
 library(keras)
-#install_keras(tensorflow = "https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.5.0-py2-none-any.whl")
-# Selon votre os, installer les modules python manquants
+install_keras()
 ```
 
-Nous utilisons des données simulées à l'aide du générateur aléatoire `rhastib`.  Simuler 200 données d'apprentissage, 200 données de tests en utilisant 10 sous-classes et une la variance interne aux sous-classes fixée à $\sigma^2 = 0.05$. Visualiser les données colorées par leurs valeurs de classe. 
+Nous utilisons des données simulées à l'aide du générateur aléatoire `rhastib`.  Simuler 200 données d'apprentissage, 200 données de tests en utilisant 10 sous-classes et une la variance interne aux sous-classes fixée à $\sigma^2 = 0.05$. Visualiser les données colorées par leurs valeurs de classe. On commentera les codes proposés dans les espaces laissés pour les commentaires (dièses).
 
 
 ```{r}
