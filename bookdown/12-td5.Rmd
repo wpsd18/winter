@@ -36,7 +36,7 @@ $$
 \mathbb{E}[L(\phi({\bf x}), y)| {\bf x} ] \geq \mathbb{E}[L(q({\bf x}), y)| {\bf x} ] 
 $$ 
 
-où q({\bf x}) = p(y = 1| {\bf x}) \, .
+où $q({\bf x}) = p(y = 1| {\bf x})$.
  
 
 *Indication* : Ajouter et retrancher l'espérance conditionnelle  $\mathbb{E}[ y | {\bf x} ]$. Calculer cette espérance conditionnelle.
