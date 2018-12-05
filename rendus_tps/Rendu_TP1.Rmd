@@ -106,7 +106,7 @@ f <-function(x){
 ```
 
 
-* Pour tout vecteur contenu dans l'objet `x` ci-dessous,  calculer deux vecteurs d1 et d2 dont les composantes sont le carré de la distance de Mahalanobis séparant le vecteur du centre de la classe 1 et de la classe 2 respectivement.
+* Pour toute ligne $i$ de la matrice `x` ci-dessous,  calculer un vecteur $(d_1, d_2)$ dont les composantes sont le carré de la distance de Mahalanobis séparant ${\bf x}_i$ du centre de la classe 1 et de la classe 2 respectivement.
 
 ```{r}
   # matrice de covariance de la classe 1
@@ -131,7 +131,7 @@ f <-function(x){
 $$
 d_{C_1}({\bf x}_i , m_1) < d_{C_2}({\bf x}_i , m_2)
 $$
-et dans la classe en 2 sinon.  Calculer le pourcentage d'observations qui ont été bien classées par cette procédure.
+et dans la classe 2 sinon.  Calculer le pourcentage d'observations qui ont été bien classées par cette procédure.
 
 
 
