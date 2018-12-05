@@ -106,7 +106,7 @@ f <-function(x){
 ```
 
 
-* Pour tout vecteur contenu dans l'objet `x` ci-dessous, calculer le carré de la distance de mahalanobis séparant ce vecteur au centre de la classe à laquelle il appartient. 
+* Pour tout vecteur contenu dans l'objet `x` ci-dessous,  calculer deux vecteurs d1 et d2 dont les composantes sont le carré de la distance de Mahalanobis séparant le vecteur du centre de la classe 1 et de la classe 2 respectivement.
 
 ```{r}
   # matrice de covariance de la classe 1

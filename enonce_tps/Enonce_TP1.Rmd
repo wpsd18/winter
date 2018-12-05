@@ -641,7 +641,7 @@ On utilise une loi gaussienne pour simuler les données de chaque classe. Dans c
   points(0, 4, pch =  3, col = "green", lwd = 3, cex = 4)
 ```
 
-* Pour tout vecteur contenu dans l'objet `x`, calculer le carré de la distance de mahalanobis séparant ce vecteur au centre de la classe à laquelle il appartient. Compléter le code suivant.
+* Pour tout vecteur contenu dans l'objet `x`, calculer deux vecteurs d1 et d2 dont les composantes sont le carré de la distance de Mahalanobis séparant le vecteur du centre de la classe 1 et de la classe 2 respectivement. Compléter le code suivant.
 
 ```{r}
   # distances au centre m1
