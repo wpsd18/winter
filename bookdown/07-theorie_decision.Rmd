@@ -329,21 +329,16 @@ Lorsque la classification est binaire, cela revient à calculer
 $$
 {\rm log~loss} \approx - \frac1n \sum_{i=1}^n  y_i \log q({\bf x}_i)   + (1 -y_i) \log(1 - q({ \bf x}_i) ) \, . 
 $$
-Le cas binaire sera le cas le plus fréquemment rencontré dans les exemples de ce cours.
+Le cas binaire sera le cas le plus fréquemment rencontré dans les exemples de ce cours. La perte log loss est minimisée numériquement par les algorithmes d'apprentissage neuronaux que nous étudions en TP. 
 
-### Erreur quadratique (reportée)
+### Erreur quadratique
 
-Une seconde fonction d'erreur fréquemment considérée par les algorithmes d'apprentissage probabiliste est la fonction de perte suivante
+Une seconde fonction d'erreur fréquemment considérée par les algorithmes d'apprentissage probabiliste est la fonction de perte quadratique ou perte $L^2$. 
 
-$$
-L(q({\bf x}), y) = ( y - q_y({\bf x}) )^2 \, .
-$$
-Pour une raison évidente, cette erreur est appelée perte quadratique ou perte $L^2$. 
-
-Pour simplifier les notations, nous nous plaçons dans le cas d'une classification binaire. Lorsque la variable $y$ est binaire (0 ou 1), la fonction s'écrit plus simplement 
+Pour simplifier les notations, nous nous plaçons dans le cas d'une classification binaire. Lorsque la variable $y$ est binaire (0 ou 1), la fonction de perte s'écrit 
 
 $$L(q({\bf x}), y) = ( y - q({\bf x}) )^2 ,$$
-où $q({\bf x})$ s'identifie à la probabilité de la classe 1. Pour minimiser la perte quadratique moyenne, il suffit de trouver la machine probabiliste $q({\bf x})$ minimisant l'espérance conditionnelle suivante
+où $q({\bf x})$ s'identifie à la valeur $q_1({\bf x})$ pour la classe 1. Pour minimiser la perte quadratique moyenne, il suffit de trouver la machine probabiliste $q({\bf x})$ minimisant l'espérance conditionnelle suivante
 
 $$
 \mathbb{E}[L(q({\bf x}),y) | {\bf x} ] = \mathbb{E}[(y - q({\bf x}))^2 | {\bf x} ]  \, .
@@ -376,11 +371,6 @@ $$
 
 Minimiser l'erreur quadratique moyenne conduit au même résultat que pour la perte log-loss. Ce résultat justifie l'utilisation fréquence de l'erreur quadratique moyenne par les algorithmes d'apprentissage. En pratique, cette erreur est calculée à partir des données empiriques de la manière suivante
 
-$$
-{\rm EQM} \approx  \frac1n \sum_{i=1}^n (y_i - q_{y_i}({\bf x}_i))^2  \, .
-$$
-
-Lorsque la classification est binaire, cela revient à calculer
 
 $$
 {\rm EQM} \approx  \frac1n \sum_{i=1}^n (y_i - q({\bf x}_i))^2 . 
