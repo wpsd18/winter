@@ -367,32 +367,37 @@ q({\bf x}) =  p(y = 1 | {\bf x}) \, .
 $$
 
 
-Minimiser l'erreur quadratique moyenne conduit au même résultat que pour la perte log-loss. Ce résultat justifie l'utilisation fréquence de l'erreur quadratique moyenne par les algorithmes d'apprentissage. En pratique, cette erreur est calculée à partir des données empiriques de la manière suivante
+Minimiser l'erreur quadratique moyenne conduit au même résultat que pour la perte log-loss. Ce résultat justifie l'utilisation de l'erreur quadratique moyenne par les algorithmes d'apprentissage. En pratique, cette erreur est calculée à partir des données empiriques de la manière suivante
 
 
 $$
 {\rm EQM} \approx  \frac1n \sum_{i=1}^n (y_i - q({\bf x}_i))^2 . 
 $$
 
-Pour généraliser ce résultat à $K$ classes, nous pouvons considérer un codage binaire de chaque classe. Ce type de codage est aussi appelé *factoriel* ou *categoriel* (en statistique), *dummy variable* ou *one-hot encoding* en apprentissage automatique. Toute classe est codée par un vecteur indicateur $e_k = (0,\dots, 1, \dots, 0)$, de dimension $K$ contenant des 0 et un (seul) 1 à la position $k$. Ainsi, $y = e_k$ indique que l'on se trouve dans la classe $k$.
+Pour généraliser ce résultat à $K$ classes, nous pouvons considérer un codage binaire de chaque classe. Ce type de codage est aussi appelé *factoriel* ou *catégoriel* (en statistique), *dummy variable* ou *one-hot encoding* en apprentissage automatique. La classe $k$ est codée par le vecteur  $(0,\dots, 1, \dots, 0)$  contenant des 0 et un (seul) 1 à la position $k$. Ce vecteur est de dimension $K$.
 
-A l'aide de ce codage des classes, nous pouvons définir la fonction de perte correspondant à l'erreur quadratique de la manière suivante 
+A l'aide du codage catégoriel, nous pouvons définir la fonction de perte correspondant à l'erreur quadratique de la manière suivante 
 
 
-$$L(q({\bf x}), y) = \sum_{k=1}^K ( y_k - q_k({\bf x}) )^2 ,$$
-où $y \in \{e_1, \dots, e_K\}$ represente l'une des $K$ classes possibles.  
+$$L(q({\bf x}), y) = L(q({\bf x}), (y_1,\dots, y_K)) =  \sum_{k=1}^K ( y_k - q_k({\bf x}) )^2 ,$$
+où $y_k \in \{0,1\}$ pour tout $k = 1, \dots, K$.  
 
-En suivant des arguments similaires à ceux utilisés pour deux classes,  la machine probabiliste optimale pour la fonction de perte moyenne correspond toujours à calculer la probabilité conditionnelle de chaque classe,
+En suivant des arguments similaires à ceux utilisés pour deux classes, nous pouvons montrer que  la machine probabiliste optimale pour la fonction de perte moyenne correspond toujours à calculer la probabilité conditionnelle de chaque classe,
 
 $$
 q_k({\bf x}) =  p(y_k = 1 | {\bf x}) \, , \quad \forall k = 1 , \dots, K.
 $$
 
+En pratique, cette erreur est calculée à partir des données empiriques de la manière suivante
 
+
+$$
+{\rm EQM} \approx  \frac1n \sum_{i=1}^n \sum_{k=1}^K ((y_i)_k - q_k({\bf x}_i))^2 . 
+$$
 
 ## Erreur d'apprentissage et erreur de prédiction
 
-L'apprentissage automatique concerne donc essentiellement des machines (ou des prédicteurs) probabilistes. Il consiste en la minimisation d'un critère de perte à partir d'observations répétées du couple (variables, classe)  $({\bf x}_i, y_i)_{i = 1, \dots, n}$, supposées indépendantes les unes des autres.   
+L'apprentissage automatique concerne essentiellement des machines ou des prédicteurs probabilistes. La phase d'apprentissage consiste en la minimisation d'un critère de perte à partir d'observations répétées du couple (variables, classe)  $({\bf x}_i, y_i)_{i = 1, \dots, n}$, supposées indépendantes les unes des autres.   
 
 Un algorithme d'apprentissage peut prendre des formes très diverses. De nombreux algorithmes s'appuient sur la miminisation numérique des erreurs empiriques _log loss_ ou  _quadratique_, mais ce n'est pas le cas de toutes les méthodes. En général, un algorithme correspond à la construction d'une machine probabiliste, représentée par une fonction, $\hat q({ \bf x})$, telle que
 
