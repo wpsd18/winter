@@ -333,9 +333,7 @@ Le cas binaire sera le cas le plus fréquemment rencontré dans les exemples de 
 
 ### Erreur quadratique
 
-Une seconde fonction d'erreur fréquemment considérée par les algorithmes d'apprentissage probabiliste est la fonction de perte quadratique ou perte $L^2$. 
-
-Pour simplifier les notations, nous nous plaçons dans le cas d'une classification binaire. Lorsque la variable $y$ est binaire (0 ou 1), la fonction de perte s'écrit 
+Une seconde fonction d'erreur fréquemment considérée par les algorithmes d'apprentissage probabiliste est la fonction de perte quadratique ou perte $L^2$. Pour simplifier les notations, nous nous plaçons dans le cas d'une classification binaire. Lorsque la variable $y$ est binaire (0 ou 1), la fonction de perte s'écrit 
 
 $$L(q({\bf x}), y) = ( y - q({\bf x}) )^2 ,$$
 où $q({\bf x})$ s'identifie à la valeur $q_1({\bf x})$ pour la classe 1. Pour minimiser la perte quadratique moyenne, il suffit de trouver la machine probabiliste $q({\bf x})$ minimisant l'espérance conditionnelle suivante
@@ -375,6 +373,21 @@ Minimiser l'erreur quadratique moyenne conduit au même résultat que pour la pe
 $$
 {\rm EQM} \approx  \frac1n \sum_{i=1}^n (y_i - q({\bf x}_i))^2 . 
 $$
+
+Pour généraliser ce résultat à $K$ classes, nous pouvons considérer un codage binaire de chaque classe. Ce type de codage est aussi appelé *factoriel* ou *categoriel* (en statistique), *dummy variable* ou *one-hot encoding* en apprentissage automatique. Toute classe est codée par un vecteur indicateur $e_k = (0,\dots, 1, \dots, 0)$, de dimension $K$ contenant des 0 et un (seul) 1 à la position $k$. Ainsi, $y = e_k$ indique que l'on se trouve dans la classe $k$.
+
+A l'aide de ce codage des classes, nous pouvons définir la fonction de perte correspondant à l'erreur quadratique de la manière suivante 
+
+
+$$L(q({\bf x}), y) = \sum_{k=1}^K ( y_k - q_k({\bf x}) )^2 ,$$
+où $y \in \{e_1, \dots, e_K\}$ represente l'une des $K$ classes possibles.  
+
+En suivant des arguments similaires à ceux utilisés pour deux classes,  la machine probabiliste optimale pour la fonction de perte moyenne correspond toujours à calculer la probabilité conditionnelle de chaque classe,
+
+$$
+q_k({\bf x}) =  p(y_k = 1 | {\bf x}) \, , \quad \forall k = 1 , \dots, K.
+$$
+
 
 
 ## Erreur d'apprentissage et erreur de prédiction
