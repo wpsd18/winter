@@ -59,10 +59,20 @@ Pour comprendre la logique de cette formule, on pourrait retenir l'exemple suiva
 
 ### Formule de Bayes
 
-Sous les mêmes conditions que dans la section précédente, supposons que $y$ est une variable discrète prenant $K$ valeurs. La *formule de Bayes* permet de calculer la probabilité conditionnelle $p(y = \ell|{\bf x})$  à partir de la loi conditionnelle du vecteur ${\bf x}$ sachant la valeur  $y = \ell$. La formule s'écrit de la manière suivante 
+Sous les mêmes conditions que dans la section précédente, supposons que $y$ est une variable discrète prenant $K$ valeurs. La *formule de Bayes* permet de calculer la probabilité conditionnelle $p(y = k|{\bf x})$  à partir de la loi conditionnelle du vecteur ${\bf x}$ sachant la valeur  $y = \ell$. La formule s'écrit de la manière suivante 
 
 $$
-p(y = \ell|{\bf x}) = \frac{p({\bf x} | y = \ell ) p(y = \ell)}{p({\bf x})} = \frac{p({\bf x} | y = \ell ) p(y = \ell)}{\sum_{k = 1}^K p({\bf x} | y = k ) p(y = k) } \, , \quad \ell = 1, \dots, K.
+p(y = k|{\bf x}) = \frac{p({\bf x} | y = k ) p(y = k)}{p({\bf x})} = \frac{p({\bf x} | y = k ) p(y = k)}{\sum_{\ell = 1}^K p({\bf x} | y = \ell ) p(y = \ell) } \, , \quad \forall k  = 1, \dots, K.
+$$
+Lorsque les valeurs de $y$ sont équiprobables, nous avons
+
+$$
+p(y = k) = \frac1K \, , \quad \forall k  = 1, \dots, K,
+$$
+et la formule se réduit à
+
+$$
+p(y = k|{\bf x})   = \frac{p({\bf x} | y = k )}{\sum_{\ell = 1}^K p({\bf x} | y = \ell )} \, , \quad \forall k  = 1, \dots, K.
 $$
 
 
@@ -86,7 +96,7 @@ On parle de *classification probabiliste* (ou douce) lorsque l'on construit une 
 
 
 $$
- { \bf x }  \mapsto q({ \bf x }) = (q_1({ \bf x }), \dots, q_K({ \bf x }))   \in [0,1]^K \, , \quad {\rm t.q.} \quad \sum_{k = 1} q_k({ \bf x }) = 1 \, .
+ { \bf x }  \mapsto q({ \bf x }) = (q_1({ \bf x }), \dots, q_K({ \bf x }))   \in [0,1]^K \, , \quad {\rm t.q.} \quad \sum_{k = 1}^K q_k({ \bf x }) = 1 \, .
 $$
 
 
@@ -270,25 +280,50 @@ Pour ce critère, nous obtenons que la machine probabiliste optimale calcule la 
 $$
 q_k({\bf x}) = p(y = k|{\bf x}) \, , \quad k = 1, \dots, K.
 $$
-Nous allons démontrer ce résultat très important pour le cours. Nous verrons aussi que minimiser la perte moyenne log-loss revient à minimiser l'information perdue lorsque l'on approche la loi cible $p(y|{\bf x})$ par une machine probabiliste $q({\bf x})$. 
+Nous verrons ainsi que minimiser la perte moyenne log-loss revient à **minimiser l'information perdue lorsque l'on approche la loi cible $p(y|{\bf x})$ par une machine probabiliste $q({\bf x})$**. 
 
-Pour minimiser la fonction de perte moyenne définie ci-dessus, il suffit de minimiser le terme intervenant à l'intérieur de l'intégrale. Cela revient à rechercher une machine probabiliste $q({\bf x})$ minimisant l'espérance conditionnelle suivante
+
+Nous allons démontrer ce résultat très important pour le cours. Dans un premier temps, montrons un résultat similaire pour une classification binaire, $y \in \{0,1\}$, où $q({\bf x})$ est identifié à la classe $q_1({\bf x})$. Lorsque la variable $y$ est binaire, la fonction de perte moyenne s'écrit de la manière suivante
+
+$$
+\mathbb{E}[L(q({\bf x}), y] = \mathbb{E}[ - y \log q({\bf x}) - (1-y)\log (1 - q({\bf x})) ] \, ,
+$$
+
+Pour minimiser la fonction de perte moyenne définie ci-dessus, il suffit de minimiser le terme $\mathbb{E}[L(q({\bf x}), y) | {\bf x}]$, intervenant à l'intérieur de l'intégrale suivante
+
+$$
+\mathbb{E}[L(q({\bf x}), y )] =  \int \mathbb{E}[L(q({\bf x}), y) | {\bf x}] p({\bf x}) d{\bf x} \, .
+$$
+
+Nous avons
+
+$$
+\mathbb{E}[L(q({\bf x}), y )|{\bf x}] =  - (1 - p(y=1|{\bf x})) \log(1 - q({\bf x})) -  p(y=1|{\bf x}) \log(q({\bf x})) \, .
+$$
+
+Pour tout $p \in (0,1)$,la fonction $q \in (0,1) \mapsto  - (1 - p) \log(1 - q) -  p \log(q)$ est minimale si et seulement si $q = p$ (par dérivation). Ceci démontre que la solution optimale est  
+
+$$
+q({\bf x}) = p(y = 1 | {\bf x}) \, .
+$$
+
+Démontrer le résultat pour $K$ classes s'appuie sur un principe similaire. Minimiser la perte moyenne revient à rechercher une machine probabiliste $q({\bf x})$ minimisant l'espérance conditionnelle suivante
 
 $$
 \mathbb{E}[L(q({\bf x}), y) | {\bf x} ] = - \sum_{k = 1}^K p(y = k|{\bf x}) \log q_k({\bf x}) \, .
 $$
 
- 
+
 Rappelons que pour deux lois de probabilité $p_1$ et $p_2$ sur l'ensemble $\{1,\dots,K\}$, l'entropie croisée est définie de la manière suivante
 
 $$
 h( p_1 , p_2 ) = - \sum_{k = 1}^K p_1(k) \log p_2(k) \, .
 $$
 
-Ainsi, la grandeur qui apparaît dans le terme de droite de l'expression précédente correspond à l'_entropie croisée_ des lois $p(y = k|{\bf x})$ et $q_k({\bf x})$.
+Ainsi, la grandeur qui apparaît dans le terme de droite de l'expression précédente correspond à l'_entropie croisée_ des lois $p(y = k|{\bf x})$ et $q_k({\bf x})$, 
 
 $$
-h( p_1 , p_2 ) = - \sum_{k = 1}^K p_1(k) \log p_2(k) \, .
+h( p_1 , p_2 ) =  - \sum_{k = 1}^K p(y = k|{\bf x}) \log q_k({\bf x}) .
 $$
 
 Nous pouvons comparer cette grandeur à l'entropie de la loi conditionnelle $p(y = k|{\bf x})$

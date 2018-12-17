@@ -58,7 +58,7 @@ library(isd)
 
 Le modèle de simulation de Hastie et Tibshirani (`rhastib`) consiste à simuler *n.train + n.test* données réparties en deux classes appelées "bleue" et "orange" selon un feu d'artifice gaussien en deux dimensions. 
 
-La classe "bleue" est centrée en $(1,0)$ et `n.subclass` sous-classes sont générées selon la loi gaussienne de moyenne $(0,1)$ et de covariance identité ${\bf Id}$. Les données sont simulées en choisissant une sous-classe $m_k$ au hasard parmi les `n.subclass` sous-classes selon une loi de variance `sigma2` plus petite que 1, $N(m_k, \sigma^2 {\bf I})$. 
+La classe "bleue" est centrée en $(0,1)$ et `n.subclass` sous-classes sont générées selon la loi gaussienne de moyenne $(0,1)$ et de covariance identité ${\bf Id}$. Les données sont simulées en choisissant une sous-classe $m_k$ au hasard parmi les `n.subclass` sous-classes selon une loi de variance `sigma2` plus petite que 1, $N(m_k, \sigma^2 {\bf I})$. 
 
 La classe "orange" obéit au même principe de génération à partir de la valeur moyenne $(1,0)$ plutôt que la valeur $(0,1)$ correspondant à la classe "bleue". Les deux classes sont supposées équilibrées.
 
@@ -71,6 +71,8 @@ help(rhastib)
 * Le code suivant simule 200 données d'apprentissage, 200 données de tests en utilisant 10 sous-classes. La variance des sous-classes est fixée à 0.05. Commenter le code et visualiser les données colorées selon leur classe. 
 
 ```{r}
+  set.seed(seed = 2143)
+
 #
   x <- isd::rhastib(n_train = 200,
                     n_test = 200,
@@ -462,11 +464,13 @@ data.frame(log_loss, accuracy) %>% round(2)
 * Charger en mémoire les jeux de données `cancer_train` et `cancer_test` de la bibliothèque `isd`. Le jeu d'apprentissage contient 413 profils de tumeurs, et la variable `Class` est enregistrée dans la dixième colonne du tableau. La classification n'est pas donnée pour le jeu de données test, qui contient 150 profils de tumeurs.
 
 ```{r}
+rm(cancer_test)
+rm(cancer_train)
 data(cancer_train)
 data(cancer_test)
 ```
 
-* Pour les méthodes `knn`, `lda`, `nnet`, calculer les probabilités de la classe "malignant" pour chaque élément de la l'ensemble test. On choisira les paramètres `k` et `decay` donnant les meilleures performances possibles.
+* Pour les méthodes `knn`, `lda`, `nnet`, calculer les probabilités de la classe "malignant" pour chaque élément de l'ensemble test. On choisira les paramètres `k` et `decay` donnant les meilleures performances possibles.
 
 ```{r}
 # entrainement d'un modèle à paramétrer

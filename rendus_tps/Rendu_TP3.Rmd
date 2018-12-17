@@ -20,12 +20,23 @@ output:
 
 ** **
 
+```{r}
+library(isd)
+library(magrittr)
+```
 
 
 
 #### Exercice 1 :  Données simulées (knn)
 
-* Méthode `knn` : Pour $k = 1,\dots, 30$, calculer l'erreur de classification et la perte log loss à partir de l'ensemble test (on modifiera 0 ou 1 les probabilités pour éviter les valeurs "Inf"). Représenter ces résultats sous la forme de graphes "accuracy" et "logloss" en fonction de $k$.
+Dans cet exercice, on fixera la graine du générateur aléatoire pour la simulation du modèle de Hastie. 
+
+```{r}
+set.seed(seed = 2149)
+```
+
+
+* Méthode `knn` : Pour $k = 1,\dots, 30$, calculer l'erreur de classification et la perte log loss à partir de l'ensemble test (on modifiera les probabilités 0 ou 1  pour éviter les valeurs "Inf"). Représenter ces résultats sous la forme de graphes "accuracy" et "logloss" en fonction de $k$.
 
 *  Quel choix de $k$ vous parait le plus pertinent pour la simulation effectuée ?
 
@@ -50,7 +61,14 @@ output:
 
 #### Défi "Wisconsin Breast Cancer Database" 
 
+```{r}
+rm(cancer_test)
+rm(cancer_train)
+data(cancer_train)
+data(cancer_test)
+```
 
-* Pour les méthodes `knn`, `lda`, `nnet`, calculer les probabilités de la classe "malignant" pour chaque élément de la l'ensemble test. On choisira les paramètres `k` et `decay` donnant les meilleures performances possibles.
+
+* Pour les méthodes `knn`, `lda`, `nnet`, calculer les probabilités de la classe "malignant" pour chaque élément de l'ensemble test. On choisira les paramètres `k` et `decay` donnant les meilleures performances possibles.
 
 * Pour les méthodes `knn`, `lda`, `nnet`, appliquer  la fonction `eval_cancer` et présenter les résultat sous forme de tableau (`data.frame`).

@@ -539,16 +539,15 @@ L'espérance de ${\bf x}$ est égale à ${\bf m}$ et la matrice de covariance es
 Dans cette séance, nous avons vu les points suivants.
 
 * La loi des vecteurs aléatoires peut être caractérisée par une fonction de densité multidimensionnelle. 
+* Les lois des variables d'un vecteur aléatoire s'appellent les lois *marginales*. 
 
-* Les lois des variables dans un vecteur aléatoire s'appellent les lois marginales. 
-
-* Dans un vecteur aléatoire, on peut calculer les lois des variables sachant d'autres variables. Ce sont les lois conditionnelles.
+* Dans un vecteur aléatoire, les lois de variables sachant d'autres variables sont des *lois conditionnelles*. Elle sont obtenues en faisant des rapports de lois marginales. 
 
 * L'espérance (valeur moyenne) d'une fonction d'un vecteur aléatoire est égale à l'intégrale de la fonction pondérée par la densité prise sur toutes les valeurs possibles de la variable considérée.
 
-* Les valeurs moyennes correspondent aux valeurs empiriques lorsque l'on dispose d'un échantillon de taille infinie (loi des grands nombres).
+* Les valeurs moyennes correspondent aux valeurs empiriques lorsque l'on dispose d'un échantillon de taille infinie (*loi des grands nombres*).
 
-* En dimension $D\geq 1$, la matrice de covariance résume la variabilité des observations dans leur ensemble. Cette matrice est symétrique et ces valeurs propres sont strictement positives (ce sont des variances). En dimension 1, la matrice de covariance correspond à la variance.
+* En dimension $D\geq 1$, la matrice de covariance résume la variabilité des observations dans leur ensemble. Cette matrice est symétrique et ses valeurs propres sont strictement positives. En dimension 1, la matrice de covariance correspond à la variance.
 
 
 

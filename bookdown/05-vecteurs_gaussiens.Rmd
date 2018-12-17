@@ -88,10 +88,10 @@ $$
 
 Une conséquence immédiate de la définition précédente est que **les variances, $\lambda_j$, correspondent aux valeurs propres de la matrice de covariance du vecteur ${\bf x}$ et que la matrice ${\bf U}$ correspond aux vecteurs propres de cette matrice**. 
 
-Pour prouver ce résultat, multiplions les termes de l'équation précédente à gauche par ${\bf U}$ et notons que ${\bf \Lambda}$ commute avec ${\bf U}$ (car elle est diagonale). Nous avons donc
+Pour prouver ce résultat, multiplions les termes de l'équation précédente à gauche par ${\bf U}$. Nous avons donc
 
 $$
- {\bf C} {\bf U}  = {\bf \Lambda} {\bf U} \, .
+ {\bf C} {\bf U}  = {\bf U} {\bf \Lambda} \, .
 $$
 Cette équation signifie que les vecteurs colonnes de la matrice ${\bf U}$ sont bien les vecteurs propres de la matrice ${\bf C}$ associés aux valeurs propres $(\lambda_j)$. Pour tout $j = 1, \dots, D$, nous avons en effet
 
