@@ -28,7 +28,7 @@ Le **rendu porte notamment sur les questions finales**. Il faut gérer son temps
 
 ** **
 
-L'objectif de cette séance de travaux pratiques est de comparer les performances de trois méthodes de classification supervisée : les méthodes des $k$-plus proches voisins, de l'analyse discriminante linéaire et un réseaux de neurones à une couche cachée. Il s'agit de bien comprendre le phénomène de sur-entrainement (overfitting) et de choisir les paramètres des classifieurs permettant de minimiser son effet.
+L'objectif de cette séance de travaux pratiques est de comparer les performances de trois méthodes de classification supervisée : les méthodes des $k$-plus proches voisins, de l'analyse discriminante linéaire et un réseaux de neurones à une couche cachée. Il s'agit d'aborder le phénomène de sur-entrainement (overfitting) et de choisir les paramètres des classifieurs permettant d'obtenir les meilleures perfromances sur l'ensemble test.
 
 Dans la première partie du TP, on utilisera des données simulées comportant 2 classes, de distribution conditionnelle non gaussienne. Cette simulation est inspirée de l'ouvrage de référence de Hastie, Tibshirani et Friedman intitulé [the Elements of Statistical Learning](https://web.stanford.edu/~hastie/Papers/ESLII.pdf) (les meilleurs ouvrages de référence sont écrits en anglais).
 
@@ -58,9 +58,9 @@ library(isd)
 
 Le modèle de simulation de Hastie et Tibshirani (`rhastib`) consiste à simuler *n.train + n.test* données réparties en deux classes appelées "bleue" et "orange" selon un feu d'artifice gaussien en deux dimensions. 
 
-La classe "bleue" est centrée en $(0,1)$ et `n.subclass` sous-classes sont générées selon la loi gaussienne de moyenne $(0,1)$ et de covariance identité ${\bf Id}$. Les données sont simulées en choisissant une sous-classe $m_k$ au hasard parmi les `n.subclass` sous-classes selon une loi de variance `sigma2` plus petite que 1, $N(m_k, \sigma^2 {\bf I})$. 
+La classe "bleue" est centrée en $(1,0)$ et `n.subclass` sous-classes sont générées selon la loi gaussienne de moyenne $(1,0)$ et de covariance identité ${\bf Id}$. Les données sont simulées en choisissant une sous-classe $m_k$ au hasard parmi les `n.subclass` sous-classes selon une loi de variance `sigma2` plus petite que 1, $N(m_k, \sigma^2 {\bf I})$. 
 
-La classe "orange" obéit au même principe de génération à partir de la valeur moyenne $(1,0)$ plutôt que la valeur $(0,1)$ correspondant à la classe "bleue". Les deux classes sont supposées équilibrées.
+La classe "orange" obéit au même principe de génération à partir de la valeur moyenne $(0,1)$ plutôt que la valeur $(1,0)$, correspondant à la classe "bleue". Les deux classes sont supposées équilibrées.
 
 La fonction `rhastib()` prend en arguments les variables `n_train`, `n_test` représentant les nombres d'échantillons des données d'apprentissage et de test,  `n_subclass` représentant la complexité des classes (nombre de sous-classes) et `sigma2` représentant la dispersion des observations à l'intérieur des sous-classes.
 
@@ -154,7 +154,7 @@ for (k in 1:30){
   accuracy[k] <- mean(class_pred == truck_mich)
   
   boo <- (class_pred == x$class_test)
-  log_loss[k] <- - mean(log(prob_class[boo])) - mean(log(1 - prob_class[!boo]))
+  log_loss[k] <- - mean(boo * log(prob_class) - (!boo) * log(1 - prob_class) )
 }
 
 par(mfrow = c(1, 2)) # divise la fenetre en 1 ligne 2 colonnes

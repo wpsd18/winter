@@ -48,16 +48,23 @@ set.seed(seed = 2149)
 
 #### Exercice 3 : Données simulées (nnet) 
 
-* Méthode `nnet` :  Pour `decay`$ = 0, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1$, calculer le taux de bonne classification et la perte log loss sur l'ensemble test. Représenter ces résultats sous forme de tableau (accuracy/logloss en fonction de `decay`).
+* Méthode `nnet` :  Pour `decay` = 0, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1, calculer le taux de bonne classification et la perte log loss sur l'ensemble test. Représenter ces résultats sous forme de tableau (accuracy/logloss en fonction du paramètre `decay`). Quel choix vous parait le plus pertinent pour la simulation effectuée ?
 
 
 #### Exercice 4 : "Wisconsin Breast Cancer Database" 
 
-* À l'aide de l'ensemble test, évaluer les taux de classification et de perte log loss pour les méthodes `lda`, `nnet` et `knn`. Pour `knn` et `nnet`, utiliser, dans un premier temps, les paramètres $k = 15$ et `decay`$=0.01$.
+Dans cet exercice, on fixera la graine du générateur aléatoire pour la création d'ensembles d'apprentissage et de test. 
+
+```{r}
+set.seed(seed = 5341)
+```
+
+
+* À l'aide de l'ensemble test, évaluer les taux de classification et de perte log loss pour les méthodes `lda`, `nnet` et `knn`. Pour `knn` et `nnet`, utiliser, dans un premier temps, les paramètres $k = 15$ et `decay` = 0.01.
 
 * Reporter sous forme de tableau avec des valeurs arrondies les valeurs des taux de classification et de perte log loss obtenues pour les méthodes `knn`, `lda`, `nnet` (dans cet ordre).  Quel choix de prédicteur vous parait être le meilleur ? Justifier.
 
-* Pour `knn` et `nnet`, explorer les paramètres de "complexité" ($k$ et `decay`) conduisant aux meilleures performances. Reporter les performances des modèles correspondant dans un tableau.
+* Pour `knn` et `nnet`, explorer les paramètres de "complexité" ($k$ et `decay`) conduisant aux meilleures performances. Reporter les performances des modèles correspondant à l'aide d'une courbe pour `knn` et dans un tableau pour `nnet`. Quels choix vous paraissent les plus pertinents pour la simulation effectuée ?
 
 #### Défi "Wisconsin Breast Cancer Database" 
 
@@ -69,6 +76,7 @@ data(cancer_test)
 ```
 
 
-* Pour les méthodes `knn`, `lda`, `nnet`, calculer les probabilités de la classe "malignant" pour chaque élément de l'ensemble test. On choisira les paramètres `k` et `decay` donnant les meilleures performances possibles.
+* Pour les méthodes `knn`, `lda`, `nnet`, calculer les probabilités de la classe "malignant" pour chaque élément de l'ensemble test. On choisira les paramètres `k` et `decay` donnant les meilleures performances lors de la question précédente.
 
-* Pour les méthodes `knn`, `lda`, `nnet`, appliquer  la fonction `eval_cancer` et présenter les résultat sous forme de tableau (`data.frame`).
+* Pour les méthodes `knn`, `lda`, `nnet`, appliquer  la fonction `eval_cancer` et présenter les résultats sous forme de tableau (`data.frame`). Quelle méthode obtient les meilleures performances ?
+

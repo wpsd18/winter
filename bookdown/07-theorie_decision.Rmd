@@ -286,7 +286,7 @@ Nous verrons ainsi que minimiser la perte moyenne log-loss revient à **minimise
 Nous allons démontrer ce résultat très important pour le cours. Dans un premier temps, montrons un résultat similaire pour une classification binaire, $y \in \{0,1\}$, où $q({\bf x})$ est identifié à la classe $q_1({\bf x})$. Lorsque la variable $y$ est binaire, la fonction de perte moyenne s'écrit de la manière suivante
 
 $$
-\mathbb{E}[L(q({\bf x}), y] = \mathbb{E}[ - y \log q({\bf x}) - (1-y)\log (1 - q({\bf x})) ] \, ,
+\mathbb{E}[L(q({\bf x}), y)] = \mathbb{E}[ - y \log q({\bf x}) - (1-y)\log (1 - q({\bf x})) ] \, ,
 $$
 
 Pour minimiser la fonction de perte moyenne définie ci-dessus, il suffit de minimiser le terme $\mathbb{E}[L(q({\bf x}), y) | {\bf x}]$, intervenant à l'intérieur de l'intégrale suivante

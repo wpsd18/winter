@@ -1,5 +1,5 @@
 --- 
-title: "Introduction à la Science des Données"
+title: "Introduction à la Science des Données (Ensimag 1A)"
 author: "Olivier François"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -14,19 +14,22 @@ description: "Ce manuscrit contient un résumé du cours ISD et les énoncés de
 
 # Préambule
 
-Ce document contient un résumé du cours d'Introduction à la Science des Données (ISD) et les énoncés des travaux dirigés. Il est accompagné de cinq séances de travaux pratiques notées, dont les énoncés et les formulaires de rendus sont disponibles sur l'intranet de l'école.
+Ce document contient un résumé du cours d'Introduction à la Science des Données (ISD) en tronc commun de l'Ensimag 1A, ainsi que des énoncés de travaux dirigés. Il est en cours d'élaboration et connait de régulières modifications. 
+
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />Ce(tte) œuvre est mise à disposition selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Licence Creative Commons Attribution - Pas d’Utilisation Commerciale 4.0 International</a>.
+
+
 
 ## Organisation de l'enseignement
 
+Le cours est organisé en séances de travaux pratiques, en séances en amphithéatre et en travaux dirigés. Les séances en amphithéatre et les travaux dirigés permettent d'appréhender les aspects théoriques des concepts abordés lors des travaux pratiques. Elles fournissent aussi des réponses aux questions posées dans les travaux pratiques. 
 
 
-### Cours magistral
+## Travaux pratiques (à destination des élèves Ensimag)
 
-### Travaux dirigés
+Le cours d'introduction à la science des données est accompagné de la réalisation de travaux pratiques (TP), donnant lieu à des rendus ayant un poids (très) important dans l'évaluation finale. Les énoncés des travaux pratique et les formulaires de rendus sont **privés** et modifiés chaque année. Ils ne sont pas destinés à être diffusés au delà de l'Ensimag.  
 
-### Travaux pratiques
-
-Le cours d'introduction à la science des données est accompagné de la réalisation de travaux pratiques (TP), donnant lieu à des rendus ayant un poids (très) important dans l'évaluation finale.
 
 Il est fortement conseillé - voire obligatoire - de **préparer les séances de TPs** pour **déposer le compte-rendu de TP** dans de bonnes conditions en fin de séance. Sans préparation, le temps nécessaire pour réaliser chaque TP pourra être très supérieur aux 3h réservées en salle-info. 
 
@@ -58,15 +61,12 @@ Les TP seront effectués en langage R. Les compétences demandées en programmat
 
 - Liste des [fonctions de base](https://stat.ethz.ch/R-manual/R-devel/library/base/html/00Index.html).
 
-### Utilisation des documents
+
 
 ## Evaluation 
 
-### Controle continu
+Le cours fait l'objet d'une évaluation de type controle continu (60%) et d'un examen écrit final (40%). 
 
-### Défis
-
-### Examen
 
 
 ```{r include=FALSE}
