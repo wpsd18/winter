@@ -149,7 +149,7 @@ On considère l'algorithme de classification appelé $k$-NN s'appuyant sur une r
 $$
 \hat{c}({\bf x}) = \left\{ 
 \begin{array}{cl}
-1 & {\rm si~~} \frac1k \sum_{i \in V({\bf x})}  y_i  > \frac12  \\
+1 & {\rm si~~} \frac1k \sum_{x_i \in V({\bf x})}  y_i  > \frac12  \\
 0 & {\rm sinon.}  \\
 \end{array}
 \right.
@@ -158,7 +158,7 @@ $$
 On suppose que l'échantillon est de taille arbitrairement grande ($n \to \infty$). Sous quelles conditions portant sur $k$ et sur la taille (rayon) du voisinage $V({\bf x})$ pourrait-on justifier l'approximation suivante 
 
 $$
-\frac1k \sum_{i \in V({\bf x})}  y_i  \approx p(y = 1 | {\bf x}) \, ? 
+\frac1k \sum_{i: x_i \in V({\bf x})}  y_i  \approx p(y = 1 | {\bf x}) \, ? 
 $$
 
 Justifier votre argument par un graphique et par la loi des grands nombres. 
@@ -172,7 +172,7 @@ Justifier votre argument par un graphique et par la loi des grands nombres.
 On suppose à nouveau que $n$ est très grand, et on considère le classifieur probabiliste décrit par 
 
 $$
-\hat q({\bf x}; k)  = \frac1k \sum_{i \in V({\bf x})}  y_i \,  . 
+\hat q({\bf x}; k)  = \frac1k \sum_{i:x_i \in V({\bf x})}  y_i \,  . 
 $$
 Pour les cas extrêmes $k = 1$ et $k = n$, justifier les valeurs de l'espérance conditionnelle ci-dessous (on suppose que ${\bf x}$ est indépendant de l'échantillon d'apprentissage)
 
