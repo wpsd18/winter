@@ -1,7 +1,5 @@
 # Travaux dirigés 4
 
-
-
 ## Objectif de la séance 
 
 L'objectif de cette séance de travaux dirigés est de construire un modèle de prédiction probabiliste lorsque les données de chaque catégorie sont échantillonnées selon des lois normales. Grâce à la formule de Bayes, nous établirons une correspondance entre ce modèle et un neurone formel probabiliste. 
@@ -58,44 +56,77 @@ $$
 
 ### Question 6
 
-Proposer une manière simple d'estimer les moyennes de classe ($\mu_0$ et $\mu_1$), la matrice de covariance $\Sigma^{-1}$ et les vecteurs ${\bf w}$ et ${\bf x}_0$. Commenter le code R ci-dessous pour cela.
+On effectue la simulation décrite ci-dessous. Le résultat est contenu dans le vecteur `x`.
 
-```{r td4_lda}
+```{r td4_lda_1}
+# Simulation d'un échantillon de données 
+    n = 200
+    C = matrix(c(1,1,1,2), nrow = 2)
+    
+# Tirage des classes equiprobables selon la loi binomiale
+    n_blue <- rbinom(1, size = n, prob = 1/2) 
+    class <- c(rep("blue", n_blue), rep("orange", n - n_blue))
+  
+# Tirages gaussiens à l'intérieur des classes  
+    x_0 <- mvtnorm::rmvnorm(n_blue, mean = c(1,0), sigma = C)
+    x_1 <- mvtnorm::rmvnorm(n - n_blue, mean = c(0,1), sigma = C)
+    
+    x <- rbind(x_0, x_1)
+    plot(x, col = class, cex = 1.2, pch = 19)
+```
+
+* Décrire en termes mathématiques les lois génératives de la simulation.  
+
+* Proposer un moyen simple pour estimer les moyennes de classe ($\mu_0$ et $\mu_1$), la matrice de covariance $\Sigma^{-1}$ à partir des données d'apprentissage. Commenter le code R ci-dessous (définissant aussi un ensemble test).
+
+```{r td4_lda_2}
+# comment 1 : 
+  samp = sample(1:n, n/2) 
+  x_train <- x[samp,] ; class_train <- class[samp]
+  x_test <- x[-samp,] ; class_test <- class[-samp]
+  
+# comment 2 : 
+   mu0 <- apply(x_train[class_train == "blue",], 2, mean)
+   mu1 <- apply(x_train[class_train == "orange",], 2, mean)
+
+# comment 3 : 
+   Sigma0 <- cov(x_train[class_train == "blue",]) 
+   Sigma1 <- cov(x_train[class_train == "orange",])
+```
+
+* Calculer les vecteurs ${\bf w}$ et ${\bf x}_0$ et calculer les prédictions optimales pour l'ensemble test à partir de l'ensemble d'apprentissage. 
+
+```{r td4_lda_3}
 sigmoid <- function(x) {1/(1 + exp(-x))}
 
-# Simulation de données en deux classes selon le modèle HT (300 observations par classes) 
+# comment 4 :
+  Sigma <- (Sigma0 + Sigma1)/2
+  w <- solve(Sigma) %*% (mu1 - mu0)
+  x0 <- (mu0 + mu1)/2
 
-x <- isd::rhastib(300, 300, sigma2 = 0.1)
+# comment 5 : (décommenter et remplacer)
+  # pred <- sigmoid(t(w) %*% t(change_moi))
+  # pred <- as.numeric(pred)
+```
 
-# comment 1
-mu0 <- apply(x$train[x$class_train == "orange",], 2, mean)
-mu1 <- apply(x$train[x$class_train == "lightblue",], 2, mean)
 
-# comment 2
-Sigma0 <- cov(x$train[x$class_train == "orange",]) 
-Sigma1 <- cov(x$train[x$class_train == "lightblue",])
-Sigma <- (Sigma0 + Sigma1)/2
-
-# comment 3
-w <- solve(Sigma) %*% (mu1 - mu0)
-x0 <- (mu0 + mu1)/2
-
-# comment 4 
-pred <- sigmoid(t(w) %*% t(x$test - x0))
+```{r include = FALSE}
+   pred <- as.numeric(sigmoid(t(w) %*% t(x_test - x0)))
 ```
 
 ### Question 7
 
-Comparer le résultat à la fonction `lda()` de R. Cette fonction cherche le plan séparant deux classes. Commenter le code R suivant. 
+Comparer le résultat à la fonction `lda()` de R. Cette fonction cherche un plan séparant les deux classes selon un critère d'optimisation statistique. Commenter le code R suivant. 
 
 ```{r td4_lda_mass}
-mod.lda <-  MASS::lda(x$class_train ~ ., data = data.frame(x$train))
+  mod.lda <-  MASS::lda(class_train ~ ., data = data.frame(x_train), prior = c(0.5, 0.5))
 
 # comment 1
-pred.lda <- predict(mod.lda, data.frame(x$test))$posterior[,1]
+  pred.lda <- predict(mod.lda, data.frame(x_test))$posterior[,2]
 
 # comment 2
-plot(as.numeric(pred), pred.lda)
+  plot(as.numeric(pred), pred.lda)
+  abline(0,1, col = 2, lwd = 3)
 ```
 
 
@@ -109,10 +140,13 @@ Calculer les valeurs des fonctions d'erreur logloss et 01 sur l'ensemble test à
 
 ```{r}
 # log-loss
-- mean((x$class_test == "orange")*log(1 - pred) + (x$class_test == "lightblue")*log(pred))
+  - mean((class_test == "blue")*log(1 - pred) + (class_test == "orange")*log(pred))
+```
 
-# 0-1 loss
-table(pred < 0.5, x$class_test)
+
+```{r}
+# Matrice de confusion :
+  table(pred > 0.5, class_test)
 ```
 
 
