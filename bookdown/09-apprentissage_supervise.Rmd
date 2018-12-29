@@ -58,6 +58,7 @@ Nous remarquons que la notation peut être simplifiée en ajoutant une variable 
 $$
  q({\bf x}, {\bf w}) =  {\rm sigmoid}( {\bf w}^T {\bf x} ) \, , \quad  {\bf x} \in \mathbb{R}^D.
 $$
+Dans cette notation (abusive), nous n'avons pas augmenté la dimension de ${\bf x}$ à $D+1$ pour bien mettre en évidence que l'espace des observation est resté identique.
 
 Le modèle neuronal précédent et sa version déterministe ([neurone formel](https://fr.wikipedia.org/wiki/Neurone_formel#Historique)) sont connus depuis les années 1950 sous le nom de [perceptron](https://en.wikipedia.org/wiki/Perceptron). L'intérêt pour les réseaux de neurones remonte en effete aux origines de l'informatique. 
 
@@ -68,7 +69,7 @@ Le modèle neuronal précédent et sa version déterministe ([neurone formel](ht
 
 Nous avons rencontré des modèles probabilistes neuronaux à plusieurs reprises, et notamment lors du calcul de certains algorithmes d'apprentissage optimaux. Par exemple, la forme mathématique d'un neurone probabiliste est apparue naturellement lorsque l'on a cherché à séparer (discriminer) deux classes gaussiennes ayant la même structure de dépendance interne (covariance). Cette forme mathématique est aussi apparue dans des exemples de loi exponentielle. Elle est en fait liée aux lois de la famille exponentielle, aussi appelées _lois de Boltzmann_. 
 
-**Loi de Boltzmann.** Remarquons qu'une loi de probabilité positive peut toujours être représentée sous la forme suivante 
+**Loi de Boltzmann-Gibbs.** Remarquons qu'une loi de probabilité strictement positive peut toujours être représentée sous la forme suivante 
 
 $$
 p({\bf x}) = \frac1Z e^{-h({\bf x})} \, , \quad  Z = \int e^{-h({\bf x})} d{\bf x} ,
@@ -78,7 +79,10 @@ où $h({\bf x})$ est appelée la _fonction d'énergie_. La représentation natur
 $$
 h({\bf x}) = -\log p({\bf x})  \, .
 $$
-Dans ce cas, nous avons $Z = 1$ et l'entropie $h(p)$ est égale à l'espérance de la fonction d'énergie $h(p) = \mathbb{E}[h(\bf x)]$ de la loi. 
+Dans ce cas, nous avons $Z = 1$ et l'entropie $h(p)$ est égale à l'espérance de la fonction d'énergie de la loi 
+$$
+h(p) = \mathbb{E}[h(\bf x)] .
+$$ 
 
 ![Parenthèse culturelle: Sur la tombe de Boltzmann, à Vienne, on peut lire la formule $S = k \log W$ exprimant l'entropie $S$ en fonction de la probabilité $W$ ("Wahrscheinlichkeit", probabilité en allemand) et la constante de Boltzmann, $k$.](./figures/Boltzmann.JPG)
 
@@ -174,7 +178,7 @@ Cette dernière correspond à la primitive de la fonction sigmoide.
 
 
 
-### Un neurone, c'est peu, deux neurones c'est mieux. 
+### Un neurone c'est peu, deux neurones c'est mieux. 
 
 Supposer que la matrice de covariance $C$ est constante ou que les variables observées sont gaussiennes peut être très restrictif pour les applications de l'intelligence artificielle. Il est en effet très simple de trouver un exemple dans lequelle une frontière de decision linéaire serait sous-optimale. Dans ce cas, le prédicteur optimal $q({\bf x})$ ne pourra pas être représenté par un unique neurone probabiliste.
 
@@ -205,7 +209,7 @@ Pour illustrer ce cas, considèrons un jeu de données unidimensionel dans leque
 En tirant 100 variables selon le modèle probabiliste défini ci-dessus, nous voyons clairement que la frontière optimale est proche des points $x = -1$ et $x = +1$. La séparation des données à l'aide d'un point unique est optimale lorsque l'on classe les points $x < 1$ en orange. Dans ce cas, l'erreur  moyenne de classification (01-loss) est égale à
 
 ```{r}
-mean((x < 1) != (cl == "orange"))
+mean((x < 1) & (cl == "blue")) + mean((x > 1) & (cl == "orange")) 
 ```
 
 Lorsque l'on classe les points $x < 1$ en orange, l'erreur moyenne de classification peut aussi être calculée théoriquement. Dans ce cas, considérons la fonction $c(x) = 1$ ("orange") si $x < 1$ et $c(x) = 0$ ("bleu") sinon. Nous avons 
@@ -224,7 +228,7 @@ $$
 Lorsque l'on classe les points $x \in (-1,+1)$ en orange, l'erreur moyenne de classification  peut aussi être calculée théoriquement et elle est égale à
 
 $$
-p(y \neq c_{\rm o}(x)) =  (1 - \alpha) \approx  0.05 \, .
+p(y \neq c_{\rm orange}(x)) =  (1 - \alpha) \approx  0.05 \, .
 $$
 
 Pour déterminer le prédicteur probabiliste optimal, il suffit de calculer le rapport des densités de probabilité $p_0(x)/p_1(x)$, car les classes sont équiprobables. Nous avons

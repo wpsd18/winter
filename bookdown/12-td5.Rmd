@@ -51,14 +51,14 @@ $$
 
 ### Question 3
 
-On dispose d'un échantillon de test. Quelle formule empirique permet de calculer l'erreur de prédiction (valeur moyenne de la fonction de perte ? On donnera une réponse pour $\phi({\bf x})$.
+On dispose d'un échantillon de test. Quelle formule empirique permet de calculer l'erreur de prédiction (définie comme la valeur moyenne de la fonction de perte) ? On donnera une réponse pour $\phi({\bf x})$.
 
 ### Question 4
 
 Ecrire des instructions R permettant le calcul des erreurs pour un modèle dont on dispose d'une fonction `predict()`. 
 
 
-## Exercice 2. Perte entropique ou logloss. 
+## Exercice 2. Perte entropique ou log-loss. 
 
 On définit la perte entropique ou log-loss de la façon suivante
 
@@ -116,13 +116,22 @@ Ecrire des instructions permettant le calcul des fonctions de perte pour un mod�
 
 ## Exercice 3.  Décomposition de l'erreur quadratique.
 
+Etant donné l'observation ${\bf x}$, on considère l'erreur quadratique moyenne entre un prédicteur calculé à l'aide d'un ensemble d'apprentissage, noté $\hat{q}({\bf x})$, et le prédicteur optimal $q({\bf x})$
+
+$$
+{\rm EQM} = \mathbb{E}[ (\hat{q}({\bf x})  - q({\bf x}))^2 \, | {\bf x}]
+$$
+
 ### Question 1 
 
-Montrer que l'erreur quadratique se décompose de la manière suivante. 
+Montrer que l'erreur quadratique moyenne se décompose de la manière suivante 
 
 $$
-\mathbb{E}[ (\hat{q}({\bf x})  - q({\bf x}))^2 ] = {\rm var}(\hat{q}({\bf x})) + (\mathbb{E}[\hat{q}({\bf x}) - q({\bf x})])^2 \, .
+{\rm EQM} = {\rm var}(\hat{q}({\bf x}) \, | {\bf x}) + (\mathbb{E}[\hat{q}({\bf x}) - q({\bf x}) \, | {\bf x}])^2 \, .
 $$
+
+Dans cette expression, l'incertitude ne porte que sur $\hat{q}({\bf x})$, variable aléatoire construite à partir d'un ensemble de données $({\bf x}_i, y_i)$ indépendantes de ${\bf x}$. Cette décomposition est souvent appelée **décomposition biais-variance**.
+
 
 Interpréter les deux termes de l'expression de droite, et expliquer ce qui pourrait agir sur chacun des termes (taille des échantillons, nombre de paramètres, complexité du modèle de prédiction). 
 
@@ -135,7 +144,7 @@ $$
  q({\bf x}, \theta) = {\rm sigmoid}( {\bf W_0^T}  \, {\rm sigmoid}( {\bf W_1^T} {\bf x}  - {\bf b_1} )  - {\bf b_0}) \, .
 $$
  
-Les matrices ${\bf W_0^T}$ et ${\bf W_1^T}$ sont de dimensions respectives $D \times H$ et $H \times 1$, où $H$ est le nombre de neurones de la couche cachée. Les vecteurs ${\bf b_0}$ et ${\bf b_1}$ sont de dimensions respectives $H$ et $1$. La fonction _sigmoide_ est appliquée à chaque coordonnée des vecteurs.
+Les matrices ${\bf W_0^T}$ et ${\bf W_1^T}$ sont de dimensions respectives $D \times H$ et $H \times 1$, où $H$ est le nombre de neurones de la couche cachée. Les vecteurs ${\bf b_0}$ et ${\bf b_1}$ sont de dimensions respectives $H$ et $1$. La fonction _sigmoid_ est appliquée à chaque coordonnée des vecteurs.
 
 Les coefficients des matrices ${\bf W}$ sont appelés les *poids* (weights) et les coefficients $b$ sont appelés les *seuils* (bias).    
 
@@ -163,8 +172,8 @@ Commenter les codes et les résultats des expériences  suivantes où l'on fait 
 
 ```{r td5_hastib_nnet}
 
-# Simulation selon de la modèle HT. 400 données sont équiréparties en 2 classes
-#  source("./codes/TP3.r")
+# Simulation selon de la modèle HT
+# 400 données sont équiréparties en 2 classes
   
   x <- isd::rhastib(200, 200, sigma2 = 0.1)
 
@@ -283,7 +292,7 @@ Commenter le code suivant permettant de tester les prédictions de plusieurs mod
 ```
 
 
-Lorsque l'on utilise le paramètre de régularisation optimal, un affichage interactif permettant de zoomer l'image nous montre les détails des prédictions.
+Lorsque l'on utilise le paramètre de régularisation optimal, un affichage sous forme de carte de probabilité montre les détails des prédictions.
 
 
 ```{r td5_nnet_prob_map}
@@ -295,10 +304,4 @@ Lorsque l'on utilise le paramètre de régularisation optimal, un affichage inte
 ```
 
 
-
-
-```{r plotly, echo = FALSE}
-library(plotly)
-plot_ly(z = matrix(pred, nrow = 100), type = "contour")
-```
 
