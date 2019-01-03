@@ -24,15 +24,61 @@ output:
 
 #### Exercice 1:  
 
+
+** **
+```{r}
+library(magrittr)
+```
+
+
+#### Exercice 1: 
+
+
+```{r}
+set.seed(seed = 10100101)
+
+# runif génere des points uniformément répartis entre -2 et 2
+  n <- 500 
+  x <- runif(n, -2, 2)
+
+# les valeurs 0 et 1 sont des valeurs logiques converties en couleurs
+  y <- x > -1  &  x < 1
+  color <- rep("blue", n)
+  color[y] <- "orange" 
+
+# affichage des classes
+  plot(x, y, pch = 19, cex = .3, col = color)
+```
+
 * Construire une fonction mathématique correspondant à un réseau ayant deux neurones cachés, permettant d'approcher la probabilité conditionnelle $p(y=1|x)$ de manière arbitrairement précise.
 
-* Vérifier le résultat en ajustant un réseau à deux neurones avec la bibliothèque `nnet`. Représenter graphiquement les valeurs prédites par le réseau de neurones et superposer la courbe de la fonction mathématique proposée.
+* Pour les données de l'exercice, vérifier le résultat en ajustant un réseau à deux neurones avec la bibliothèque `nnet`. Représenter graphiquement les valeurs prédites par le réseau de neurones et superposer la courbe de la fonction mathématique proposée.
 
 *  Pour l'échantillon d'apprentissage, calculer l'erreur de classification du réseau de neurones à 2 neurones cachés ajusté à la question précédente.
 
 #### Exercice 2: 
 
-* Visualiser un historique d'entrainement d'un réseau de neurones. On choisira 100 neurones par exemple.
+
+
+```{r}
+library(isd)
+library(keras)
+
+## on simule des données train et test
+  x <- rhastib(n_train = 200,
+               n_test = 200,
+               n_subclass = 10,
+               sigma2 = 0.05)
+
+  plot(x$train, pch = 19, col = x$class_train)
+  plot(x$test, pch = 19, col = x$class_test)
+```
+
+* Visualiser un historique d'entrainement d'un réseau de neurones keras. On choisira 100 neurones par exemple. 
+
+
+**Important :** Pour la lisibilité du rapport, on utilisera l'option de chunck *include = FALSE* pour l'entrainement du réseau de neurones.
+
 
 * Evaluer le modèle précédent en reportant les erreurs de classification et de perte log loss obtenues pour votre ensemble test.
 
@@ -40,6 +86,8 @@ output:
 
 
 #### Exercice 3:  Défi "MNIST 1-2-7" 
+
+**Important :** Pour la lisibilité du rapport, on utilisera l'option de chunck *include = FALSE* pour l'entrainement des réseaux de neurones.
 
 * Reporter dans un tableau 12x2, les valeurs des erreurs de classification et de logloss obtenues sur l'ensemble test pour 12 réseaux de neurones distincts dont on aura fait varier les paramètres (nombre de couches cachées : 1 à 3, nombre de neurones par couche cachée : 10 et 100, valeurs de dropout : 0.2 et 0.5)
 
