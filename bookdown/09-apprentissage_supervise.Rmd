@@ -384,23 +384,31 @@ Pour comprendre l'algorithme sans avoir à détailler des notations malcommodes,
 $$
  q(x,w_0,w_1) = {\rm sigmoid}( w_0{\rm sigmoid}( w_1 x )) \, , \quad x \in \mathbb{R} ,
 $$
- ainsi que l'erreur quadratique moyenne associée à ce prédicteur
+ainsi que l'erreur quadratique associée
+
+$$
+\ell(w_0,w_1) = (y - q(x, w_0, w_1))^2 
+$$
+
+et l'erreur quadratique moyenne associée à ce prédicteur
 
 $$
 L(w_0,w_1) = \mathbb{E}[(y - q(x, w_0, w_1))^2] .
 $$
 
-Dans ce cas, nous avons $\theta = (w_0,w_1)$ et il n'y a que deux paramètres à ajuster. Pour calculer le gradient de l'erreur, dérivons d'abord par rapport à $w_0$. Nous obtenons le résultat suivant
+Dans ce cas, nous avons $\theta = (w_0,w_1)$ et il n'y a que deux dérivées à calculer pour obtenir le gradient de $L(w_0,w_1)$. Nous pouvons dériver la fonction $\ell(w_0,w_1)$ puis prendre l'espérance de chaque dérivée.
+
+Pour calculer le gradient de l'erreur  $\ell(w_0,w_1)$, dérivons d'abord par rapport à $w_0$. Nous obtenons le résultat suivant
 
 $$
-\frac{\partial L}{\partial w_0} = 2 \, {\rm sigmoid} (w_1 x)  \, q(x, w_0, w_1) \, ( 1 - q(x, w_0, w_1)) \, \mathbb{E}[y - q(x, w_0, w_1)]  \, .
+\frac{\partial \ell}{\partial w_0} =  - 2 \, {\rm sigmoid} (w_1 x)  \, q(x, w_0, w_1) \, ( 1 - q(x, w_0, w_1)) \,( y - q(x, w_0, w_1) )  \, .
 $$
 Dérivons ensuite $L(\theta)$ par rapport à $w_1$. Nous obtenons le résultat suivant
 
 $$
-\frac{\partial L}{\partial w_1} = (1 - {\rm sigmoid} (w_1 x)) \frac{\partial L}{\partial w_0} \, .
+\frac{\partial \ell}{\partial w_1} = (1 - {\rm sigmoid} (w_1 x)) \frac{\partial \ell}{\partial w_0} \, .
 $$
-Ainsi, nous voyons que le calcul de la dérivée correspondant à la couche de sortie ($w_0$) peut être "rétropropagée" à la couche antérieure ($w_1$). Lorsqu'il y a plus de neurones et de couches, les calculs se généralisent suivant le même principe de rétropropagation.
+Ainsi, nous voyons que le calcul de la dérivée correspondant à la couche de sortie ($w_0$) peut être **rétropropagée** à la couche antérieure ($w_1$). Lorsqu'il y a plusieurs couches contenant plusieurs neurones, les calculs se généralisent suivant le même principe de rétropropagation.
 
 
 ### Critère d'optimisation et régularisation
