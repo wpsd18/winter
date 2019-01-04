@@ -697,13 +697,6 @@ contour(x_coord, y_coord,
         levels = 0.5, lwd = 2, add = T)
 ```
 
-Un affichage interactif permettant de zoomer l'image nous montre les détails d'un paysage chahuté.
-
-```{r cm4_plotly, echo = FALSE}
-library(plotly)
-plot_ly(z = matrix(pred, nrow = 100), type = "contour")
-```
-
 
 Lorsque l'on cherche à évaluer le modèle sur l'ensemble de données d'apprentissage, les performances semblent bien supérieures à celles de la machine optimale linéaire. 
 

@@ -17,6 +17,7 @@ $$
   L(\theta) = \mathbb{E}[L(q({\bf x}, \theta), y)] \, .
 $$
 
+Les coefficients du modèle sont appelés *paramètres* (ou *poids*). D'autres coefficients, tels que le nombre d'itérations de l'algorithme de minimisation, la dimension du modèle (nombre de neurones ou de couches de neurones), les paramètres de régularisation (decay), sont appelés *hyperparamètres*. 
 
 La valeur théorique de l'espérance étant difficile à calculer, la perte moyenne est généralement évaluée à partir d'un échantillon de données d'apprentissage $({\bf x}_i, y_i)$, $i = 1, \dots, n$, 
 
@@ -328,33 +329,40 @@ $$
 
 L'apprentissage est généralement réalisé par une méthode d'optimisation numérique. Il existe de nombreuses méthodes d'optimisation numérique permettant de trouver un minimum local de la fonction $L(\theta)$. 
 
-La méthode de prédilection des réseaux de neurones est la méthode du gradient. Il s'agit d'une méthode rudimentaire cherchant à suivre la ligne de plus grande pente afin de minimiser la fonction objectif $L(\theta)$. Il s'agit d'une méthode d'optimisation locale.
-
-La méthode du gradient repose sur le calcul des dérivées partielles de la fonction $L(\theta)$
+La méthode de prédilection des réseaux de neurones est la méthode du gradient. Il s'agit d'une méthode d'optimisation locale. La méthode du gradient repose sur le calcul des dérivées partielles de la fonction $L(\theta)$
 
 $$
 \nabla L = \left( \frac{\partial L}{\partial \theta_1} , \dots, \frac{\partial L}{\partial \theta_m} \right) \,.
 $$
 
-La méthode de gradient classique est une méthode itérative qui met à jour le paramètre $\theta$ de la manière suivante 
+D'après la formule de Taylor (ou d'après la définition de l'application différentielle), la fonction $L(\theta)$ peut être développée localement de la manière suivante
 
 $$
-\theta_{t+1} = \theta_t - \eta \nabla L(\theta_t) 
+L(\theta + d\theta) = L(\theta) + {\bf \nabla} L(\theta)^T d\theta + o(d\theta) \, .
+$$
+Ainsi, les déplacements $d\theta$ conduisant aux plus grandes variations de la fonction $L(\theta)$ au voisinage de $\theta$ s'effectuent dans la direction parallèle au vecteur $\nabla L(\theta)$.  
+
+La méthode de gradient est une méthode rudimentaire cherchant à suivre la ligne de plus grande pente afin de minimiser la fonction objectif $L(\theta)$. Il s'agit d'une méthode itérative qui met à jour le paramètre $\theta$ de la manière suivante 
+
+$$
+\theta^{t+1} = \theta^t - \eta \nabla L(\theta^t) \, ,
 $$
 
-où la constante $\eta$ est appelé _taux d'apprentissage_ (learning rate). Cette méthode peut être raffinée lorsque le paramètre $\theta$ est de dimension raisonnable, de l'ordre de quelques dizaines de coefficients. 
+où la constante $\eta$ est appelé _taux d'apprentissage_ (learning rate). Cette méthode peut être raffinée en utilisant les dérivées secondes de la fonction $L(\theta)$, lorsque le paramètre $\theta$ est de dimension raisonnable de l'ordre de quelques dizaines de coefficients. Mais en grande dimension, la méthode du du gradient reste favorisée dans les implémentations logicielles de réseaux neuronaux.
 
 Les méthodes de _gradient stochastique_ sont utilisées en très grande dimension. Elles implémentent l'algorithme suivant
 
 1. Choisir une valeur initiale $\theta$ et une valeur du taux d'apprentissage  $\eta$.
 2. Répéter les étapes suivantes jusqu'à ce qu'un minimum acceptable soit atteint
 - permuter aléatoirement les éléments de l'échantillon d'apprentissage
-- pour tout $i$ de 1 à $n$, mettre à jour les paramètres
+- pour tout $i$ de 1 à $n$, mettre à jour les paramètres de la manière suivante
 $$
-\theta_{t+1} = \theta_{t+1} - \eta  \nabla L(q({\bf x}_i , \theta_t), y_i) 
+\theta^{t+1} = \theta^{t} - \eta  \nabla L(q({\bf x}_i , \theta^t), y_i) 
 $$
+Un tel cycle aléatoire s'appelle une _époque_. 
 
-Un tel cycle aléatoire s'appelle une _époque_. La phase d'initialisation est une phase cruciale dans les applications. Pour la reconnaissance des images, de nombreux réseaux de neurones pré-entrainés existent et atteignent d'excellentes performances de classification une base de données publiques appelée "Imagenet". Les logiciels actuels permettent de récupérer les matrices des coefficients de réseaux pré-entrainés, simplifiant considérablement la phase d'initialisation d'un réseau de neurones destiné à reconnaître des images particulières, proche de celles annotées dans la base. On peut, en quelques heures, entraîner un réseaux de neurones à reconnaître des animaux domestiques à partir de quelques milliers d'images. Construire et entraîner un tel réseau sans cette condition initiale peut nécessiter des ressources considérables.       
+
+La phase d'initialisation est une phase cruciale dans les applications. Pour la reconnaissance des images, de nombreux réseaux de neurones pré-entrainés existent et atteignent d'excellentes performances de classification une base de données publiques appelée "Imagenet". Les logiciels actuels permettent de récupérer les matrices des coefficients de réseaux pré-entrainés, simplifiant considérablement la phase d'initialisation d'un réseau de neurones destiné à reconnaître des images particulières, proche de celles annotées dans la base. On peut, en quelques heures, entraîner un réseaux de neurones à reconnaître des animaux domestiques à partir de quelques milliers d'images. Construire et entraîner un tel réseau sans cette condition initiale peut nécessiter des ressources considérables.       
 
 Un compromis entre l'algorithme de gradient et l'algorithme de gradient stochastique consiste à considérer des paquets ("batch") de données lors de la mise à jour des paramètres. Cette technique est plus rapide que de passer en revue les membres de l'échantillon les uns après les autres comme dans le point 2 de l'algorithme.
 
