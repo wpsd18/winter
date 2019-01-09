@@ -19,7 +19,7 @@ output:
 
 Le dépot comportera en plus du fichier intitulé "Rendu_TP5.html" 
 
-- un "objet" R sauvé sous forme compressée contenant le modèle choisi pour être évalué par l'enseignant sur l'ensemble test. Le fichier compressé devra être sauvé sous le format RDS ou sous le format hdf5. son intitulé devra être personnalisé sous la forme "my_login_bestmodel.RDS" ou "my_login_bestmodel.hdf5".
+- un "objet" R sauvé sous forme compressée contenant le modèle choisi pour être évalué par l'enseignant sur l'ensemble test. Le fichier compressé devra être sauvé sous le format RDS ou sous le format hdf5. Son intitulé devra être personnalisé sous la forme "my_login_bestmodel.RDS" ou "my_login_bestmodel.hdf5".
 
 - Un script R, contenant une fonction permettant d'évaluer le modèle.
  
@@ -44,11 +44,11 @@ Le dépot comportera en plus du fichier intitulé "Rendu_TP5.html"
 
 ```{r}
 # code de mon meilleur modèle
-model <-  ex_deus_machina
+model <-  deus_ex_machina
 ```
 
 
-* Sauver votre meilleur modèle dans un format compressé (RDS ou HDF5 pour keras). Remplacer la chaine de caractère "my_login" par votre propre login ensimag. 
+* Sauver votre meilleur modèle dans un format compressé (RDS ou HDF5 pour keras). Remplacer la chaîne de caractère "my_login" par votre propre login ensimag. 
 
 ```{r}
 # standard r packages: 
@@ -58,10 +58,8 @@ model <-  ex_deus_machina
   # save_model_hdf5(object = model, filepath = "mylogin_model_keras.hdf5")
 ```
 
-* Déposer votre modèle dans TEIDE. 
-
 * Ecrire et appliquer une fonction appelée "prediction_finale" pouvant prendre par défaut en entrée une matrice appelée "x_ultime" de taille 5000 lignes et 2000 colonnes contenant des valeurs binaires et une matrice "y_ultime" de taille 5000 lignes et 2 colonnes contenant des valeurs binaires. Cette fonction devra prédire les classes contenues dans "y_ultime" à partir des données "x_ultime" en chargeant le modèle que vous aurez choisi pour le défi. Elle calculera les taux de classification et la perte log loss pour l'ensemble considéré.
 
-* Joindre un script R contenant la fonction `prediction_finale()` préalablement testée
+* Joindre un script R contenant la fonction `prediction_finale()` préalablement testée par vos soin.
 
-* Ne pas oublier la version htlm de ce compte rendu.
+* Ne pas oublier la version htlm de ce compte rendu. Archiver et déposer l'ensemble dans TEIDE. 

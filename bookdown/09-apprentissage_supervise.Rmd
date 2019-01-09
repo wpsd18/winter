@@ -4,7 +4,7 @@
 
 On considère un vecteur de variables ${\bf x} \in \mathbb{R}^D$ associé à une catégorie $y \in \{1, \dots, K\}$. L'objectif de l'apprentissage supervisé est de construire un modèle de prédiction probabiliste, $q({\bf x}, \theta)$, minimisant une fonction de perte moyenne.
 
-Le modèle étant paramétré par un vecteur de coefficient $\theta$, le problème se résume à minimiser une fonction de $\theta$ 
+Le modèle étant paramétré par un vecteur de coefficient $\theta$, le problème se résume à minimiser la perte exprimée en fonction de $\theta$ 
 
 $$
 \hat \theta = \arg\min_{\theta} L(\theta) \, ,
@@ -25,9 +25,9 @@ $$
    L(\theta) \approx \frac1n \sum_{i = 1}^n L(q({\bf x}_i, \theta), y_i) \, .
 $$
 
-L'ensemble d'apprentissage est utilisé pour calculer $\hat \theta$. Un ensemble de test est aussi utilisé pour évaluer les performances du modèle.
+L'ensemble d'apprentissage est utilisé pour calculer $\hat \theta$. Un ensemble de test est généralement utilisé pour évaluer les performances prédictives du modèle.
 
-Pour simplifier la discussion, nous supposerons que les observations appartiennent à deux catégories $(K=2$), et nous notons les deux classes $y = 0$ ou $y = 1$.
+Pour simplifier la discussion, nous supposerons que les observations appartiennent à deux catégories $(K=2$), et nous notons les deux catégories $y = 0$ et $y = 1$.
 
 
 ## Réseaux de neurones
@@ -39,7 +39,7 @@ Soit ${\bf x} \in \mathbb{R}^D$. On appelle _neurone probabiliste_ un prédicteu
 $$
  q({\bf x}, \theta) =  {\rm sigmoid}( {\bf w}^T {\bf x}  - b ) \, , \quad  {\bf x} \in \mathbb{R}^D,
 $$
-où la fonction ${\rm sigmoid}$ est définie par 
+où la fonction sigmoide (ou ${\rm sigmoid}$) est définie par 
 
 $$
 {\rm sigmoid}(x) = \frac{1}{1 + e^{-x}}\, , \quad  x \in \mathbb{R},
@@ -61,7 +61,7 @@ $$
 $$
 Dans cette notation (abusive), nous n'avons pas augmenté la dimension de ${\bf x}$ à $D+1$ pour bien mettre en évidence que l'espace des observation est resté identique.
 
-Le modèle neuronal précédent et sa version déterministe ([neurone formel](https://fr.wikipedia.org/wiki/Neurone_formel#Historique)) sont connus depuis les années 1950 sous le nom de [perceptron](https://en.wikipedia.org/wiki/Perceptron). L'intérêt pour les réseaux de neurones remonte en effete aux origines de l'informatique. 
+L'intérêt pour les réseaux de neurones remonte aux origines de l'informatique. Le modèle neuronal précédent et sa version déterministe ([neurone formel](https://fr.wikipedia.org/wiki/Neurone_formel#Historique)) sont connus depuis les années 1950 sous le nom de [perceptron](https://en.wikipedia.org/wiki/Perceptron). 
 
 ![Un neurone artificiel est une fonction mathématique qui effectue tout d'abord une combinaison linéaire pondérée des variables d'entrée, puis évalue le résultat par une fonction d'activation généralement probabiliste (sigmoide).](./figures/ArtificialNeuronModel.png)
 
@@ -88,7 +88,7 @@ $$
 ![Parenthèse culturelle: Sur la tombe de Boltzmann, à Vienne, on peut lire la formule $S = k \log W$ exprimant l'entropie $S$ en fonction de la probabilité $W$ ("Wahrscheinlichkeit", probabilité en allemand) et la constante de Boltzmann, $k$.](./figures/Boltzmann.JPG)
 
 
-Supposons les observations générées par la loi de densité $p_0({\bf x})$ si elles appartiennent à la classe $y = 0$ et par la loi $p_1({\bf x})$ si elles appartiennent à la classe $y = 1$ (les valeurs des densités sont strictement positives). 
+Supposons que les observations sont générées selon la loi de densité $p_0({\bf x})$ si elles appartiennent à la classe $y = 0$ et selon la loi $p_1({\bf x})$ si elles appartiennent à la classe $y = 1$ (les valeurs des densités sont strictement positives). 
 
 Dans cette formulation générale, le prédicteur probabiliste optimal est décrit par la probabilité conditionnelle de la classe $(y=1)$ sachant ${\bf x}$
 $$
@@ -131,15 +131,15 @@ $$
 
 La difficulté d'approcher ce prédicteur par une machine provient du fait que les fonctions d'énergie peuvent être complexes et caractérisées par de nombreux paramètres inconnus.  
 
-Pour approcher un prédicteur optimal, l'idée générale est de construire une modèle de prédiction paramétrique permettant d'approcher le mieux possible l'expression apparaissant dans la sigmoide, 
+Pour approcher le prédicteur optimal, l'idée générale est de construire un modèle de prédiction paramétrique permettant d'approcher le mieux possible l'expression apparaissant dans la fonction sigmoide, dont l'inverse est appelée fonction *logit*, 
 
 $$
-{\rm logit ~} q({\bf x}) = h_0({\bf x}) - h_1({\bf x}) - b_{01} \, , \quad {\bf x} \in \mathbb{R}^D.
+{\rm logit ~} (q_{\rm opt}({\bf x}) ) = h_0({\bf x}) - h_1({\bf x}) - b_{01} \, , \quad {\bf x} \in \mathbb{R}^D.
 $$
 
 L'analyse mathématique cherche souvent à répondre à cette question en projetant la fonction  précédente sur des bases fonctionnelles particulières, par exemple des fonctions polynomiales, des fonctions trigonométriques, des splines, etc.
 
-L'intelligence artificielle propose d'approcher le prédicteur optimal par des combinaisons de fonctions neuronales agencées en couches successives, comme dans le cerveau humain. L'idée n'est pas d'utiliser une base fonctionnelle particulière mais d'apprendre une base adaptable au problème considérée, afin d'utiliser les meilleures représentations des variables observées.
+L'intelligence artificielle propose d'approcher le prédicteur optimal par des combinaisons de fonctions neuronales agencées en couches successives, comme dans le cerveau humain. L'idée n'est pas d'utiliser une base fonctionnelle particulière mais d'apprendre une base adaptable au problème considéré, afin d'utiliser les meilleures représentations des variables observées dans chaque problème particulier.
 
 Par exemple, un réseau de neurones possédant une couche cachée s'écrit de la manière suivante
 
@@ -154,7 +154,7 @@ $$
 
 Les notations ${\bf W_0}^T$ et ${\bf W_1}^T$ désignent désormais des matrices de dimensions respectives $D \times L$ et $L\times 1$ et la fonction _sigmoide_ est appliquée à chaque coordonnée des vecteurs. Le paramètre $L$ correspond au nombre de neurones dans la couche cachée.  Le paramètre global $\theta$ est donc de dimension $(D + 2)L + 1$. Ainsi, pour deux dimensions ($D =2$) et 20 neurones, nous aurons 81 paramètres distincts dans le modèle. 
 
-La formule peut se généraliser à plusieurs couches. On parle alors de réseaux multi-couches. On qualifie les réseaux multi-couches de _réseaux profonds_ à partir d'une douzaine de couches.  Par exemple, un réseau de neurones possédant 3 couches cachées s'écrit
+La formule peut se généraliser à l'utilisation de plusieurs couches de neurones. On parle alors de réseaux multi-couches. On qualifie les réseaux multi-couches de _réseaux profonds_ à partir d'une douzaine de couches.  Par exemple, un réseau de neurones possédant 3 couches cachées s'écrit
 
 $$
  q({\bf x}, {\bf \theta}) = {\rm sigmoid}( {\bf W_0}^T {\rm sigmoid}({\bf W_1}^T{\rm sigmoid}({\bf W_2}^T{\rm sigmoid}({\bf W_3}^T{\bf x})))) \, , \quad {\bf x} \in \mathbb{R}^D.
@@ -171,7 +171,7 @@ Elle est parfois remplacée par la fonction _softplus_ définie de la manière s
 $$
 {\rm softplus}(x) = \log(1 + e^{x}), \, \quad x \in \mathbb{R}.
 $$
-Cette dernière correspond à la primitive de la fonction sigmoide.
+Cette dernière correspond à la primitive de la fonction sigmoide. Les fonctions d'activation peuvent être propre à chaque couche et non nécessairement toutes identiques à l'une d'elles. La bibliothèque de programme `keras` permet d'implementer une dizaine de fonctions d'activation différentes. 
 
 
 
@@ -184,7 +184,7 @@ Cette dernière correspond à la primitive de la fonction sigmoide.
 Supposer que la matrice de covariance $C$ est constante ou que les variables observées sont gaussiennes peut être très restrictif pour les applications de l'intelligence artificielle. Il est en effet très simple de trouver un exemple dans lequelle une frontière de decision linéaire serait sous-optimale. Dans ce cas, le prédicteur optimal $q({\bf x})$ ne pourra pas être représenté par un unique neurone probabiliste.
 
 
-Pour illustrer ce cas, considèrons un jeu de données unidimensionel dans lequel la variable $x$ est uniformément répartie dans l'intervalle $(-2,2)$. La variable $x$ est dans la classe 1 (orange) avec la probabilité $\alpha$ et la classe 0 (bleue) avec la probabilité $1 - \alpha$ si elle se trouve dans l'intervalle $(-1,1)$. Si elle se trouve dans l'intervalle complémentaire, la variable $x$ est dans la classe 1 (orange) avec la probabilité $1 - \alpha$ et la classe 0 (bleue) avec la probabilité $\alpha$. Nous choisissons $\alpha \approx 1$. Il faut donc penser la classification comme étant quasi déterministe.  Pour cet exemple, nous souhaitons montrer que deux neurones sont necessaires (et suffisants) pour approcher la perte minimale de manière raisonnable.
+Pour illustrer ce cas, considèrons un jeu de données unidimensionel dans lequel la variable $x$ est uniformément répartie dans l'intervalle $(-2,2)$. La variable $x$ est dans la classe 1 (orange) avec la probabilité $\alpha$ et la classe 0 (bleue) avec la probabilité $1 - \alpha$ si elle se trouve dans l'intervalle $(-1,1)$. Si elle se trouve dans l'intervalle complémentaire, la variable $x$ est dans la classe 1 (orange) avec la probabilité $1 - \alpha$ et la classe 0 (bleue) avec la probabilité $\alpha$. Nous choisissons $\alpha \approx 1$. Il faut donc penser la classification comme étant quasi déterministe.  Pour cet exemple, nous souhaitons montrer que deux neurones sont nécessaires (et suffisants) pour approcher la perte minimale de manière raisonnable.
 
 
 #### Prédicteur optimal 
@@ -207,7 +207,7 @@ Pour illustrer ce cas, considèrons un jeu de données unidimensionel dans leque
   plot(x, y, pch = 19, col = cl)
 ```
 
-En tirant 100 variables selon le modèle probabiliste défini ci-dessus, nous voyons clairement que la frontière optimale est proche des points $x = -1$ et $x = +1$. La séparation des données à l'aide d'un point unique est optimale lorsque l'on classe les points $x < 1$ en orange. Dans ce cas, l'erreur  moyenne de classification (01-loss) est égale à
+En tirant 100 variables selon le modèle probabiliste défini ci-dessus, nous voyons clairement que la frontière optimale est proche des points $x = -1$ et $x = +1$. La séparation des données à l'aide d'un point unique est optimale lorsque l'on classe les points $x < 1$ en orange. Dans ce cas, l'erreur  moyenne de classification (01-loss) est approximativement égale à
 
 ```{r}
 mean((x < 1) & (cl == "blue")) + mean((x > 1) & (cl == "orange")) 
@@ -220,13 +220,13 @@ $$
 p(y \neq c(x)) = \frac14 \int_{-2}^1 p(y=0|x)dx + \frac14 \int_{1}^2 p(y=1|x)dx  \, . 
 $$
 
-Dans la formule de conditionnement, la densité de la variable $x$ apparaît indirectement, puisqu'elle est constante et égale à 1/4. Le calcul des intégrales conduit au résultat suivant pour la valeur $\alpha = 0.95$
+Dans la formule de conditionnement, la densité de la variable $x$ apparaît indirectement, puisqu'elle est constante et égale à 1/4. Pour la valeur $\alpha = 0.95$, le calcul des intégrales conduit au résultat suivant 
 
 $$
 p(y \neq c(x)) =  \frac14 (3 - 2\alpha) \approx  0.275 \, .
 $$
 
-Lorsque l'on classe les points $x \in (-1,+1)$ en orange, l'erreur moyenne de classification  peut aussi être calculée théoriquement et elle est égale à
+Lorsque l'on classe les points $x \in (-1,+1)$ en orange, l'erreur moyenne de classification  peut aussi être calculée théoriquement. Elle est égale à
 
 $$
 p(y \neq c_{\rm orange}(x)) =  (1 - \alpha) \approx  0.05 \, .
@@ -284,14 +284,14 @@ Cette fonction est construite à partir de deux fonctions de décision neuronale
 ```
 
 
-Nous pouvons alors approcher le prédicteur optimal, $q_{\rm opt}(x)$ de la façon suivante
+Nous pouvons alors approcher le prédicteur optimal, $q_{\rm opt}(x)$, de la façon suivante
 
 $$
 q_{\rm opt}(x) \approx {\rm sigmoid}\left( {\rm logit}\left( \frac{2\alpha}{2-\alpha} \right) I_{\epsilon}(x) 
 + {\rm logit}\left(\frac{2(1-\alpha)}{2-\alpha} \right) (1 - I_{\epsilon}(x))  \right) \,.
 $$
 
-En réorganisant les termes, nous obtenons que 
+En réorganisant les termes, nous obtenons 
 
 $$
 q_{\rm opt}(x) \approx {\rm sigmoid}\left(  w_1(\alpha) {\rm sigmoid}\left(\frac{1-x}\epsilon\right) + w_2(\alpha) {\rm sigmoid}\left(\frac{1+x}\epsilon\right)
@@ -321,7 +321,7 @@ Les fonctions indicatrices d'intervalle peuvent être approchées par des foncti
 ### Principe
 
 En général, nous ne connaissons pas le modèle génératif des variables observées et, même lorsque un modèle est supposé les expliquer, la valeur théorique de l'espérance est difficile à calculer. 
-En pratique, la perte moyenne est évaluée de manière empirique à partir d'observations $({\bf x}_i, y_i)$, $i = 1, \dots, n$, réparties dans un échantillon d'apprentissage (ou dans un échantillon de test)
+En pratique, la perte moyenne est évaluée de manière empirique à partir d'observations $({\bf x}_i, y_i)$, $i = 1, \dots, n$, réparties dans un échantillon d'apprentissage (et dans un échantillon de test)
 
 $$
    L(\theta) \approx \frac1n \sum_{i = 1}^n L(q({\bf x}_i, \theta), y_i) \, .
@@ -332,7 +332,7 @@ L'apprentissage est généralement réalisé par une méthode d'optimisation num
 La méthode de prédilection des réseaux de neurones est la méthode du gradient. Il s'agit d'une méthode d'optimisation locale. La méthode du gradient repose sur le calcul des dérivées partielles de la fonction $L(\theta)$
 
 $$
-\nabla L = \left( \frac{\partial L}{\partial \theta_1} , \dots, \frac{\partial L}{\partial \theta_m} \right) \,.
+\nabla L = \left( \frac{\partial L}{\partial \theta_1} , \dots, \frac{\partial L}{\partial \theta_m} \right)^T \,.
 $$
 
 D'après la formule de Taylor (ou d'après la définition de l'application différentielle), la fonction $L(\theta)$ peut être développée localement de la manière suivante
@@ -340,15 +340,22 @@ D'après la formule de Taylor (ou d'après la définition de l'application diff�
 $$
 L(\theta + d\theta) = L(\theta) + {\bf \nabla} L(\theta)^T d\theta + o(d\theta) \, .
 $$
-Ainsi, les déplacements $d\theta$ conduisant aux plus grandes variations de la fonction $L(\theta)$ au voisinage de $\theta$ s'effectuent dans la direction parallèle au vecteur $\nabla L(\theta)$.  
+Ainsi, les déplacements $d\theta$ conduisant aux plus grandes variations de la fonction $L(\theta)$ au voisinage de $\theta$ s'effectuent dans une direction parallèle au vecteur $\nabla L(\theta)$.  
 
-La méthode de gradient est une méthode rudimentaire cherchant à suivre la ligne de plus grande pente afin de minimiser la fonction objectif $L(\theta)$. Il s'agit d'une méthode itérative qui met à jour le paramètre $\theta$ de la manière suivante 
+La méthode de gradient est une méthode rudimentaire cherchant à suivre la ligne de plus grande pente afin de minimiser la fonction de perte, $L(\theta)$. Il s'agit d'une méthode itérative qui met à jour le paramètre $\theta$ de la manière suivante 
 
 $$
 \theta^{t+1} = \theta^t - \eta \nabla L(\theta^t) \, ,
 $$
 
-où la constante $\eta$ est appelé _taux d'apprentissage_ (learning rate). Cette méthode peut être raffinée en utilisant les dérivées secondes de la fonction $L(\theta)$, lorsque le paramètre $\theta$ est de dimension raisonnable de l'ordre de quelques dizaines de coefficients. Mais en grande dimension, la méthode du du gradient reste favorisée dans les implémentations logicielles de réseaux neuronaux.
+où la constante $\eta$ est appelé _taux d'apprentissage_ (learning rate). Lors d'une mise à jour de l'algorithme, la valeur de la fonction $L$ a ainsi tendance à décroitre
+
+$$
+L(\theta^{t+1}) - L(\theta^t) \approx - \eta \| {\bf \nabla} L(\theta) \|_2^2 \,  < 0 \,,
+$$
+et $\theta^t$ converge vers un minimum local de $L(\theta)$.
+
+Cette méthode peut être raffinée en utilisant les dérivées secondes de la fonction $L(\theta)$. Ceci est pertinent lorsque le paramètre $\theta$ est de dimension raisonnable de l'ordre de quelques dizaines de coefficients. En grande dimension, la méthode du du gradient reste favorisée dans les implémentations logicielles des réseaux neuronaux.
 
 Les méthodes de _gradient stochastique_ sont utilisées en très grande dimension. Elles implémentent l'algorithme suivant
 
@@ -362,15 +369,15 @@ $$
 Un tel cycle aléatoire s'appelle une _époque_. 
 
 
-La phase d'initialisation est une phase cruciale dans les applications. Pour la reconnaissance des images, de nombreux réseaux de neurones pré-entrainés existent et atteignent d'excellentes performances de classification une base de données publiques appelée "Imagenet". Les logiciels actuels permettent de récupérer les matrices des coefficients de réseaux pré-entrainés, simplifiant considérablement la phase d'initialisation d'un réseau de neurones destiné à reconnaître des images particulières, proche de celles annotées dans la base. On peut, en quelques heures, entraîner un réseaux de neurones à reconnaître des animaux domestiques à partir de quelques milliers d'images. Construire et entraîner un tel réseau sans cette condition initiale peut nécessiter des ressources considérables.       
 
-Un compromis entre l'algorithme de gradient et l'algorithme de gradient stochastique consiste à considérer des paquets ("batch") de données lors de la mise à jour des paramètres. Cette technique est plus rapide que de passer en revue les membres de l'échantillon les uns après les autres comme dans le point 2 de l'algorithme.
+La phase d'initialisation est une phase cruciale dans les applications. Pour la reconnaissance des images, de nombreux réseaux de neurones pré-entrainés existent et atteignent d'excellentes performances de classification une base de données publiques appelée "Imagenet". Les logiciels actuels permettent de récupérer les matrices de coefficients de réseaux pré-entrainés, simplifiant considérablement la phase d'initialisation d'un réseau de neurones destiné à reconnaître des images particulières, proche de celles annotées dans la base. On peut, en quelques heures, entraîner un réseau de neurones à reconnaître des animaux domestiques à partir de quelques milliers d'images. Construire et entraîner un tel réseau sans cette condition initiale peut nécessiter des ressources considérables.       
 
+Plutôt que de parcourir les données de l'échantillon les unes après les autres (point 2 de l'algorithme), un compromis entre l'algorithme de gradient et l'algorithme de gradient stochastique consiste à considérer des paquets ("batch") de données lors de la mise à jour des paramètres. Cette technique est plus rapide mais un peu moins précise que le gradient stochastique. La taille du batch devient un hyperparamètre supplémentaire sur lequel agir lors de la phase d'apprentissage.   
 L'algorithme de gradient stochastique s'accompagne de conditions concernant le taux d'apprentissage. Ce paramètre  de l'algorithme peut décroître avec le temps. Une condition classique consiste à choisir $\eta_t$ tel que
 $$
 \sum_{t=1}^\infty \eta_t = \infty \quad {\rm et } \quad \sum_{t=1}^\infty \eta_t^2 < \infty.
 $$
-De nombreuses variantes des algorithmes d'optimisation sont disponibles dans les programmes de réseaux de neurones et il est utile de pouvoir en tester plusieurs.
+De nombreuses variantes d'algorithmes d'optimisation sont disponibles dans les programmes de réseaux de neurones. Il est souvent utile de pouvoir en tester plusieurs.
 
 
 ### Retropropagation du gradient
@@ -384,7 +391,7 @@ Pour comprendre l'algorithme sans avoir à détailler des notations malcommodes,
 $$
  q(x,w_0,w_1) = {\rm sigmoid}( w_0{\rm sigmoid}( w_1 x )) \, , \quad x \in \mathbb{R} ,
 $$
-ainsi que l'erreur quadratique associée
+ainsi que l'erreur quadratique associée à ce prédicteur
 
 $$
 \ell(w_0,w_1) = (y - q(x, w_0, w_1))^2 
@@ -396,14 +403,14 @@ $$
 L(w_0,w_1) = \mathbb{E}[(y - q(x, w_0, w_1))^2] .
 $$
 
-Dans ce cas, nous avons $\theta = (w_0,w_1)$ et il n'y a que deux dérivées à calculer pour obtenir le gradient de $L(w_0,w_1)$. Nous pouvons dériver la fonction $\ell(w_0,w_1)$ puis prendre l'espérance de chaque dérivée.
+Dans ce cas, nous avons $\theta = (w_0,w_1)$ et il n'y a que deux dérivées à calculer pour obtenir le gradient de $L(w_0,w_1)$. Nous pouvons dériver la fonction $\ell(w_0,w_1)$ par rapport à chaque variable, puis prendre l'espérance de chaque dérivée.
 
 Pour calculer le gradient de l'erreur  $\ell(w_0,w_1)$, dérivons d'abord par rapport à $w_0$. Nous obtenons le résultat suivant
 
 $$
 \frac{\partial \ell}{\partial w_0} =  - 2 \, {\rm sigmoid} (w_1 x)  \, q(x, w_0, w_1) \, ( 1 - q(x, w_0, w_1)) \,( y - q(x, w_0, w_1) )  \, .
 $$
-Dérivons ensuite $L(\theta)$ par rapport à $w_1$. Nous obtenons le résultat suivant
+Dérivons ensuite  $\ell(w_0,w_1)$ par rapport à $w_1$. Nous obtenons le résultat suivant
 
 $$
 \frac{\partial \ell}{\partial w_1} = (1 - {\rm sigmoid} (w_1 x)) \frac{\partial \ell}{\partial w_0} \, .
@@ -415,7 +422,7 @@ Ainsi, nous voyons que le calcul de la dérivée correspondant à la couche de s
 
 L'utilisation d'un réseau de neurones suppose que l'on a correctement fixé un certain nombre de paramètres du modèle a priori, comme le nombre de couches cachées, le nombre de neurones par couche cachée, le taux d'apprentissage, la taille des paquets pour le "batch", etc.
 
-Ces paramètres sont généralement choisi en évaluant le réseau sur un ensemble test après la phase d'apprentissage. Le jeu de paramètre minimisant la fonction de perte sur l'ensemble test pourra alors être retenu pour effectuer les prédiction pour des données futures. 
+Ces paramètres sont généralement choisi en évaluant le réseau sur un ensemble test après la phase d'apprentissage. Le jeu de paramètres minimisant la fonction de perte sur l'ensemble test pourra alors être retenu pour effectuer les prédictions des classements pour des données futures. 
 
 Afin d'éviter de choisir le nombre de neurones par couche cachée, on introduit souvent un paramètre de régularisation, $\lambda >0$. Il y a de nombreuses possibilités pour introduire des régularisations dans un réseau de neurones. La plupart des logiciels implémente la régularisation _ridge_ dans la fonction de perte pénalisée suivante 
 
@@ -424,10 +431,10 @@ $$
 $$
 
 
-Dans les réseaux profonds, on utilise la chirurgie neuronale (Dropout), consistant à éteindre un pourcentage de neurones aléatoirement. À completer.
+Dans les réseaux profonds, on utilise la chirurgie neuronale (Dropout), consistant à éteindre un pourcentage de neurones aléatoirement. Il s'agit d'une technique de régularisation permettant de réduire l'effet de sur-entrainement dans les réseaux de neurones. La  méthode consiste à supprimer temporairement des neurones cachés. Le réseau neuronal se voit amputé d'une partie de ses neurones pendant une partie de la phase d'entrainement. 
 
 
-## Exemples réels MNIST, IMBD, Imagenet 
+## Exemples réels MNIST, IMDB, Imagenet 
 
 Plusieurs exemples seront étudiées en TDs et en TPs, notamment grâce aux biliothèques R _nnet_, _keras_ et son interface avec le programme de Google _tensorflow_.
 
@@ -440,7 +447,7 @@ Plusieurs exemples seront étudiées en TDs et en TPs, notamment grâce aux bili
 
 * Les réseaux de neurones peuvent séparer des classes de manière non-linéaire. En théorie, il est possible de résoudre tous les problèmes de classification avec des réseaux de neurones (approximation universelle).
 
-* Les réseaux de neurones peuvent être ajustés par un algorithme de gradient stochastique et la méthode de rétropropagation du gradient. Le choix des paramètres liés à la complexité du réseau se fait en évaluant la fonction de perte sur l'ensemble de test.
+* Les réseaux de neurones peuvent être ajustés par un algorithme de gradient stochastique et la méthode de rétropropagation du gradient. Le choix des paramètres liés à la complexité du réseau se fait en évaluant la fonction de perte sur l'ensemble test.
 
 
 
