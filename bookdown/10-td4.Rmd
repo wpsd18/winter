@@ -18,7 +18,7 @@ $$
  
 ### Question 1 
 
-En dimension 2, représenter graphiquement de manière idéalisée la distribution des deux classes. Imaginer une règle simple pour décider quelle serait la classe d'une donnée prise dans un ensemble test.  
+En dimension 2, représenter graphiquement de manière idéalisée la distribution des deux classes en supposant $\Sigma = {\bf Id}$. Imaginer une règle simple pour décider quelle serait la classe d'une donnée prise dans un ensemble test.  
 
 ### Question 2
 

@@ -50,15 +50,46 @@ model <-  deus_ex_machina
 
 * Sauver votre meilleur modèle dans un format compressé (RDS ou HDF5 pour keras). Remplacer la chaîne de caractère "my_login" par votre propre login ensimag. 
 
-```{r}
+```{r eval = FALSE}
 # standard r packages: 
-  # saveRDS(model, file = "mylogin_model.RDS")
+  saveRDS(model, file = "mylogin_model.RDS")
 
 #keras
-  # save_model_hdf5(object = model, filepath = "mylogin_model_keras.hdf5")
+  save_model_hdf5(object = model, filepath = "mylogin_model_keras.hdf5")
 ```
 
-* Ecrire et appliquer une fonction appelée "prediction_finale" pouvant prendre par défaut en entrée une matrice appelée "x_ultime" de taille 5000 lignes et 2000 colonnes contenant des valeurs binaires et une matrice "y_ultime" de taille 5000 lignes et 2 colonnes contenant des valeurs binaires. Cette fonction devra prédire les classes contenues dans "y_ultime" à partir des données "x_ultime" en chargeant le modèle que vous aurez choisi pour le défi. Elle calculera les taux de classification et la perte log loss pour l'ensemble considéré.
+* Ecrire et appliquer une fonction appelée "prediction_finale" pouvant prendre par défaut en entrée une matrice appelée "x_ultime" de taille 5000 lignes et 2000 colonnes contenant des valeurs binaires et une matrice "y_ultime" de taille 5000 lignes et 2 colonnes contenant des valeurs binaires. Cette fonction devra prédire les classes contenues dans "y_ultime" à partir des données "x_ultime" en chargeant le modèle que vous aurez choisi pour le défi. Elle calculera les taux de classification et la perte log loss pour l'ensemble considéré. 
+
+**Exemple :**
+
+
+```{r, eval = FALSE}
+prediction_finale <- function(x_ultime, 
+                              y_ultime,
+                              file_path = "my_login_model_keras.hdf5"){
+  #Remplacer "my_login" par votre propre login ensimag. 
+  
+  require(magrittr) 
+  
+  #tests 
+  if (nrow(x_ultime) != 5000 | ncol(x_ultime) != 2000) 
+    stop("Dimensions de x incorrectes.")
+
+  if (nrow(y_ultime) != 5000 | ncol(xy_ultime) != 2) 
+    stop("Dimensions de y incorrectes.")
+    
+  #if keras
+    require(keras) 
+
+    load_model_hdf5(filepath = file_path)
+    model %>% evaluate(x_ultime, y_ultime)
+}
+```
+
+```{r eval = FALSE}
+ prediction_finale(x_test, y_test)
+```
+
 
 * Joindre un script R contenant la fonction `prediction_finale()` préalablement testée par vos soin.
 
