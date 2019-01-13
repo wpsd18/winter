@@ -13,7 +13,7 @@ output:
 
 * Le compte-rendu doit être complété à partir du texte de l'énoncé. Les codes R doivent être inclus dans le texte du compte-rendu (menu **Insert**) et commentés avec précision. **Les commentaires compteront pour une part importante dans la note**.
 
-* Le compte-rendu doit être déposé **sur TEIDE à la fin de la séance de TP**. Les rendus en retard seront fortement pénalisés. 
+* Le compte-rendu doit être déposé **sur TEIDE à la date indiquée**. Les rendus en retard seront fortement pénalisés. 
 
 * Le compte-rendu doit être déposé **sur TEIDE au format HTML uniquement**. Utiliser la fonction **Preview** ou **knitr** du menu de rstudio pour obtenir le document au format souhaité. **Les fichiers "source" (Rmd) ne seront pas acceptés par les correcteurs**.
 
@@ -36,15 +36,16 @@ Le dépot comportera en plus du fichier intitulé "Rendu_TP5.html"
 
 #### Modèles de prédiction
 
-* \`A l'aide des outils vus dans les séances précédentes, tels que `keras`, `lda`, `nnet`, ou d'autres bibliothèques de programmes que vous pourriez trouver dans R, ajuster des modèles d'apprentissage aux données contenues dans le TP : `x_imbd` et `y_imbd`.
+* \`A l'aide des outils vus dans les séances précédentes, tels que `keras`,  (_lda_, _nnet_, ou d'autres bibliothèques de programmes que vous pourriez trouver dans R), ajuster des modèles d'apprentissage aux données contenues dans le TP : `x_imbd` et `y_imbd`.
 
-* Dans un tableau, décrire les performances des méthodes choisies pour des échantillons d'apprentissage et de test que vous aurez créés vous-mêmes à partir des objets `x_imbd` et `y_imbd`. Les performances seront mesurées par les erreurs de classification et d'entropie (perte log loss).
+* Dans un tableau, décrire les performances de 6 méthodes choisies pour des échantillons d'apprentissage et de test que vous aurez créés vous-mêmes à partir des objets `x_imbd` et `y_imbd`. Les performances seront mesurées par les erreurs de classification et d'entropie (perte log loss).
 
-* Donner le code R correspondant au meilleur modèle que vous avez ajusté (chunck ci-dessous). 
+* Donner le code R correspondant au meilleur modèle que vous avez ajusté (chunck ci-dessous). On considèrera la graine du générateur aléatoire comme un hyperparamètre supplémentaire du modèle. 
 
 ```{r}
 # code de mon meilleur modèle
-model <-  deus_ex_machina
+# Ne pas oublier d'inclure la seed du générateur aléatoire 
+  model <-  deus_ex_machina
 ```
 
 
@@ -75,7 +76,7 @@ prediction_finale <- function(x_ultime,
   if (nrow(x_ultime) != 5000 | ncol(x_ultime) != 2000) 
     stop("Dimensions de x incorrectes.")
 
-  if (nrow(y_ultime) != 5000 | ncol(xy_ultime) != 2) 
+  if (nrow(y_ultime) != 5000 | ncol(y_ultime) != 2) 
     stop("Dimensions de y incorrectes.")
     
   #if keras
