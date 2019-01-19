@@ -430,6 +430,7 @@ $$
 {\rm EQM} \approx  \frac1n \sum_{i=1}^n \sum_{k=1}^K ((y_i)_k - q_k({\bf x}_i))^2 . 
 $$
 
+
 ## Erreur d'apprentissage et erreur de prédiction
 
 L'apprentissage automatique concerne essentiellement des machines ou des prédicteurs probabilistes. La phase d'apprentissage consiste en la minimisation d'un critère de perte à partir d'observations répétées du couple (variables, classe)  $({\bf x}_i, y_i)_{i = 1, \dots, n}$, supposées indépendantes les unes des autres.   
@@ -508,6 +509,60 @@ Il est possible de minimiser cette fonction en utilisant la commande _optim()_ d
 ```
 
  Le calcul théorique de la probabilité $p(y = 1 |x)$ a été effectué dans la section précédente. Il nous indique que la solution optimale est $\theta_1 = - 0.4$ et $\theta_2 = \log(5) = 1.60$. Les valeurs numériques obtenue ci-dessus sont donc proches des valeurs obtenues théoriquement en considérant un échantillon de taille $n = \infty$.
+
+### Fonction de vraisemblance 
+
+Pour un modèle de prédiction paramètrique, la perte moyenne log loss peut être directement reliée à une autre grandeur, dont l'importance sera très grande dans le cours de statistique. Il s'agit de la fonction **log-vraisemblance**. 
+
+Considérons un modèle paramètrique $q({\bf x}, \theta)$. Considérons $n$ d'observations $({\bf x}_i, y_i)$, $i = 1, \dots, n$, indépendantes et toutes générées selon le modèle. L'ensemble d'observations est appelé un **échantillon statistique**. Connaissant $\theta$, la loi générative d'une seule observation $({\bf x}, y)$ est décrite par la formule suivante
+
+$$
+p({\bf x}, y | \theta) = p({\bf x} | y, \theta) p(y) = \left\{ 
+\begin{array}{l}
+q({\bf x}, \theta) p(y = 1) & {\rm si } ~ y = 1 \, , \\ 
+(1 - q({\bf x}, \theta)) p(y = 0) & {\rm si } ~ y = 0 \, . \\ 
+\end{array}
+\right. 
+$$
+
+Supposons que le plan d'expérience soit équilibré, c'est à dire $p(y = 0) = p(y = 1) = 1/2$.  Dans ce cas, nous avons
+
+$$
+p({\bf x}, y | \theta) = p({\bf x} | y, \theta) p(y) = \left\{ 
+\begin{array}{l}
+q({\bf x}, \theta) / 2 & {\rm si } ~ y = 1 \, , \\ 
+(1 - q({\bf x}, \theta)) / 2 & {\rm si } ~ y = 0 \, . \\ 
+\end{array}
+\right. 
+$$
+De manière plus synthétique, nous pouvons alors écrire
+
+$$
+p({\bf x}, y | \theta) = \frac12 q({\bf x}, \theta)^ y  (1 - q({\bf x}, \theta))^{1-y}
+$$
+Par indépendance, la loi de l'échantillon $({\bf x}_i, y_i)$ sera égale à 
+
+$$
+p(({\bf x}_i, y_i)_{i=1\dots,n} | \theta) = (\frac12)^n \prod_{i = 1}^n q({\bf x}_i, \theta)^{y_i}  (1 - q({\bf x}_i, \theta))^{1-y_i}
+$$
+
+Par définition la fonction de vraisemblance ${\cal L}(\theta)$ est égale à 
+ 
+$$
+\theta \mapsto {\cal L}(\theta) = p(({\bf x}_i, y_i)_{i=1\dots,n} | \theta) \, .
+$$
+
+Maximimiser cette fonction revient à chercher le paramètre $\hat \theta$ rendant les données les plus vraisemblables. De manière équivalente, on peut chercher à maximiser son logarithme, appelé log-vraisemblance, 
+
+$$
+ \hat \theta = \arg \max_{\theta} {\cal L}(\theta) = - \sum_{i=1}^n L(q({\bf x}_i, \theta), y_i) - n \log(2) \, .
+$$
+Dans cette formule $L(q({\bf x}), y)$ est la fonction de perte logarithmique. Ainsi nous voyons que maximiser la log-vraisemblance (divisée par $n$) est équivalent à minimiser la fonction de perte logarithmique 
+
+$$
+ \hat \theta = \arg \max_{\theta} {\cal L}(\theta) = \arg \min_{\theta} L(\theta) .
+$$
+Ce principe permet d'interpréter de manière probabiliste les paramètres recherchés en minimimisant la fonction de perte logarithmique. Il s'agit des paramètres pour lesquels la vraisemblance (la loi) des observations atteint une valeur maximale. 
 
 ### Méthodes non-paramétriques (à compléter)
 

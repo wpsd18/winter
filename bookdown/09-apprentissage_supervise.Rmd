@@ -100,7 +100,7 @@ D'après la formule de Bayes, nous avons
 $$
 q_{\rm opt}({\bf x}) = \frac{\pi_1p({\bf x}|y = 1)}{\pi_0p({\bf x}|y = 0) + \pi_1p({\bf x}|y = 1)} =  \frac{\pi_1p_1({\bf x)}}{\pi_0 p_0({\bf x}) + \pi_1 p_1({\bf x})} \, ,
 $$
-où l'on a posé $\pi_1 = p(y = 1)$ et $\pi_0 = p(y = 0)$. En utilisant la représentation de Boltzmann et en simplifiant cette expression, la fonction sigmoide apparaît naturellement de la manière suivante
+où l'on a posé $\pi_1 = p(y = 1)$ et $\pi_0 = p(y = 0)$. En utilisant la représentation de Boltzmann, nous pouvons supposer que $p_0(x) = \exp(-h_0(x))$ et $p_1(x) = \exp(-h_1(x))$. En simplifiant l'expression de $q_{\rm opt}({\bf x})$, la fonction sigmoide apparaît naturellement de la manière suivante
 
 $$
 q_{\rm opt}({\bf x}) = {\rm sigmoid}(h_0({\bf x}) - h_1({\bf x}) - b_{01}) \, ,
@@ -114,7 +114,7 @@ $$
 Par exemple, supposons que les deux lois conditionnelles sont gaussiennes, de même matrice de covariance $C$ et de moyennes respectives $m_0$ et $m_1$. Nous pouvons poser  
 
 $$
-h_i({\bf x}) = h_C({\bf x} - {\bf m}_i) = ({\bf x} - {\bf m}_i)^T C^{-1} ({\bf x} - {\bf m}_i) \, , \quad i = 0,1. 
+ h_i({\bf x}) = h_C({\bf x} - {\bf m}_i) = \frac12 ({\bf x} - {\bf m}_i)^T C^{-1} ({\bf x} - {\bf m}_i) \, , \quad i = 0,1. 
 $$
 
 Dans ce cas, nous verrons en travaux dirigés que la condition de linéarité précédente est vérifiée. En d'autres termes, dans le cas particulier de lois gaussiennes de même covariance, _un unique_ neurone suffit pour construire le prédicteur optimal.
@@ -132,10 +132,30 @@ $$
 En considérant le vecteur $\theta = (\theta_0, \dots, \theta_N)$, nous pouvons définir un prédicteur probabiliste de la manière suivante 
 
 $$
-q(x, \theta)  =  {\rm sigmoid}( \theta_0 + \sum_{j = 1}^N \theta_j x^j )\, .
+q(x, \theta)  =  {\rm sigmoid}( \theta_0 + \sum_{j = 1}^N \theta_j x^j ) = \sigma(\theta_0 + \sum_{j = 1}^N \theta_j x^j)  = \sigma(P_N(x,\theta)) \, .
 $$
 
 La minimisation de la fonction de perte log loss est un moyen d'ajuster le paramètre $\theta$ et construire ainsi un prédicteur quasi optimal si $N$ est bien choisi. Pour réaliser ce programme concrètement, on peut utiliser l'approche empirique, un ensemble d'apprentissage et un ensemble test. 
+
+Pour cela, nous aurons besoin de calculer le gradient de la fonction de perte, $L(y, q(x, \theta))$, que nous choisissons égale à la perte logarithmique (log loss). Ce calcul s'effectue de la manière suivante
+
+$$
+\frac{\partial}{\partial \theta_0} L(y, q(x, \theta)) = 
+\frac{\partial P_N}{\partial \theta_0}
+\frac{\partial \sigma}{\partial P_N}
+\frac{\partial L}{\partial \sigma}
+=  q(x, \theta)  - y  \, , 
+$$
+et, pour tout $i = 1, \dots, N$,
+
+$$
+\frac{\partial}{\partial \theta_i} L(y, q(x, \theta)) = 
+\frac{\partial P_N}{\partial \theta_i}
+\frac{\partial \sigma}{\partial P_N}
+\frac{\partial L}{\partial \sigma}
+=  x^i \frac{\partial}{\partial \theta_0} L(y, q(x, \theta)) \, .
+$$
+Nous obtenons le gradient de manière explicite et nous pourrions nous servir de ces équations pour minimiser numériquement la fonction de perte empirique (fonction `optim` de R par exemple).
 
 Voyons un exemple dans lequel $x$ est tiré selon la loi normale $N(-1, \sigma = 0.7)$ ($\pi_0 = 0.35$) si $y = 0$ et selon la loi normale $N(+1, \sigma = 1)$ ($\pi_1 = 0.65$) si $y = 1$
 
@@ -276,7 +296,7 @@ $$
 \theta = ({\bf W_0}, {\bf W_1}).
 $$
 
-Les notations ${\bf W_0}^T$ et ${\bf W_1}^T$ désignent désormais des matrices de dimensions respectives $D \times L$ et $L\times 1$ et la fonction _sigmoide_ est appliquée à chaque coordonnée des vecteurs. Le paramètre $L$ correspond au nombre de neurones dans la couche cachée.  Le paramètre global $\theta$ est donc de dimension $(D + 2)L + 1$. Ainsi, pour deux dimensions ($D =2$) et 20 neurones, nous aurons 81 paramètres distincts dans le modèle. Les sorties des neurones cachés correspondent aux variables latentes du modèle de prédiction probabiliste ainsi construit.
+Les notations ${\bf W_0}^T$ et ${\bf W_1}^T$ désignent désormais des matrices de dimensions respectives $L\times 1 + 1$ et $D \times L + L$ et la fonction _sigmoide_ est appliquée à chaque coordonnée des vecteurs. Le paramètre $L$ correspond au nombre de neurones dans la couche cachée et il faut inclure les biais.  Le paramètre global $\theta$ est donc de dimension $(D + 2)L + 1$. Ainsi, pour deux dimensions ($D =2$) et 20 neurones, nous aurons 81 paramètres distincts dans le modèle. Les sorties des neurones cachés correspondent aux variables latentes du modèle de prédiction probabiliste ainsi construit.
 
 La formule peut se généraliser à l'utilisation de plusieurs couches de neurones. On parle alors de réseaux multi-couches. On qualifie les réseaux multi-couches de _réseaux profonds_ à partir d'une douzaine de couches.  Par exemple, un réseau de neurones possédant 3 couches cachées s'écrit
 
@@ -356,26 +376,29 @@ $$
 p(y \neq c_{\rm orange}(x)) =  (1 - \alpha) \approx  0.05 \, .
 $$
 
-Pour déterminer le prédicteur probabiliste optimal, il suffit de calculer le rapport des densités de probabilité $p_0(x)/p_1(x)$, car les classes sont équiprobables. Nous avons
+Pour déterminer le prédicteur probabiliste optimal, nous avons 
 
 $$
-p_0(x)/p_1(x) = \left\{ \begin{array}{cl} 2\alpha/(1-\alpha) & {\rm si~} x \in (-1,+1) \\  2(1-\alpha)/\alpha & {\rm sinon.} \end{array} \right. 
+q_{\rm opt}(x) = p(y = 1 | x) = \left\{ \begin{array}{cl} \alpha & {\rm si~} x \in (-1,+1) \\  
+1-\alpha & {\rm sinon.} \end{array} \right.
+$$
+
+
+Pour vérifier ce résultat, nous pouvons calculer le rapport des densités de probabilité $p_0(x)/p_1(x)$, car les classes sont équiprobables. Nous avons
+
+$$
+p_0(x)/p_1(x) = \left\{ \begin{array}{cl} (1-\alpha)/\alpha  & {\rm si~} x \in (-1,+1) \\  \alpha / (1-\alpha) & {\rm sinon.} \end{array} \right. 
 $$
 
 Dans ce cas, nous voyons que la différence des termes d'énergie est proche de l'infini
 
 $$
-h_0(x) - h_1(x) = -\log(p_0(x)/p_1(x)) \approx_{\alpha \to 1} \left\{ \begin{array}{l} +\infty & {\rm si~} x \in (-1,+1) \\  -\infty & {\rm sinon.} \end{array} \right. 
+h_0(x) - h_1(x) = -\log(p_0(x)/p_1(x)) \approx_{\alpha \to 1} \left\{ \begin{array}{l} +\infty & {\rm si~} x \in (-1,+1) \\  -\infty & {\rm sinon.} \end{array} \right.
 $$
-Le prédicteur probabiliste optimal est donné par la formule suivante 
 
-$$
-q_{\rm opt}(x) = \left \{ \begin{array}{l} 2\alpha/(1+\alpha) & {\rm si~} x \in (-1, 1)\\ 
- (1 - \alpha)/(1+\alpha)  & {\rm sinon.}  \\ \end{array} \right.
-$$
 Lorsque $\alpha$ est proche de 1, nous avons bien 
 $$
-q_{\rm opt}(x) \approx \left \{ \begin{array}{l} 1 & {\rm si~} x \in (-1, 1)\\ 
+q_{\rm opt}(x) \approx \left \{ \begin{array}{l} 1 & {\rm si~} x \in (-1, 1), \\ 
 0 & {\rm sinon.}  \\ \end{array} \right.
 $$
 
@@ -475,9 +498,9 @@ $$
 où la constante $\eta$ est appelé _taux d'apprentissage_ (learning rate). Lors d'une mise à jour de l'algorithme, la valeur de la fonction $L$ a ainsi tendance à décroitre
 
 $$
-L(\theta^{t+1}) - L(\theta^t) \approx - \eta \| {\bf \nabla} L(\theta) \|_2^2 \,  < 0 \,,
+L(\theta^{t+1}) - L(\theta^t) \approx - \eta \| {\bf \nabla} L(\theta^t) \|_2^2 \,  < 0 \,,
 $$
-et $\theta^t$ converge vers un minimum local de $L(\theta)$.
+et $\theta^t$ converge vers un minimum local, un point selle, ou un plateau de $L(\theta)$.
 
 Cette méthode peut être raffinée en utilisant les dérivées secondes de la fonction $L(\theta)$. Ceci est pertinent lorsque le paramètre $\theta$ est de dimension raisonnable de l'ordre de quelques dizaines de coefficients. En grande dimension, la méthode du du gradient reste favorisée dans les implémentations logicielles des réseaux neuronaux.
 
@@ -494,7 +517,7 @@ Un tel cycle aléatoire s'appelle une _époque_.
 
 
 
-La phase d'initialisation est une phase cruciale dans les applications. Pour la reconnaissance des images, de nombreux réseaux de neurones pré-entrainés existent et atteignent d'excellentes performances de classification une base de données publiques appelée "Imagenet". Les logiciels actuels permettent de récupérer les matrices de coefficients de réseaux pré-entrainés, simplifiant considérablement la phase d'initialisation d'un réseau de neurones destiné à reconnaître des images particulières, proche de celles annotées dans la base. On peut, en quelques heures, entraîner un réseau de neurones à reconnaître des animaux domestiques à partir de quelques milliers d'images. Construire et entraîner un tel réseau sans cette condition initiale peut nécessiter des ressources considérables.       
+La phase d'initialisation est une phase cruciale dans les applications. Pour la reconnaissance des images, de nombreux réseaux de neurones pré-entrainés existent et atteignent d'excellentes performances de classification une base de données publiques appelée "Imagenet". Les logiciels actuels permettent de récupérer les matrices de coefficients de réseaux pré-entrainés, simplifiant considérablement la phase d'initialisation d'un réseau de neurones destiné à reconnaître des images particulières, proche de celles annotées dans la base. On peut, en quelques heures, re-entraîner un réseau de neurones à partir de projections des données utilisant les valeurs pré-apprises et reconnaître des animaux domestiques à partir de quelques milliers d'images. Construire et entraîner un tel réseau sans modèle pré-entrainé peut nécessiter des ressources considérables.       
 
 Plutôt que de parcourir les données de l'échantillon les unes après les autres (point 2 de l'algorithme), un compromis entre l'algorithme de gradient et l'algorithme de gradient stochastique consiste à considérer des paquets ("batch") de données lors de la mise à jour des paramètres. Cette technique est plus rapide mais un peu moins précise que le gradient stochastique. La taille du batch devient un hyperparamètre supplémentaire sur lequel agir lors de la phase d'apprentissage.   
 L'algorithme de gradient stochastique s'accompagne de conditions concernant le taux d'apprentissage. Ce paramètre  de l'algorithme peut décroître avec le temps. Une condition classique consiste à choisir $\eta_t$ tel que
@@ -571,7 +594,7 @@ Plusieurs exemples seront étudiées en TDs et en TPs, notamment grâce aux bili
 
 * Les réseaux de neurones peuvent séparer des classes de manière non-linéaire. En théorie, il est possible de résoudre tous les problèmes de classification avec des réseaux de neurones (approximation universelle).
 
-* Les réseaux de neurones peuvent être ajustés par un algorithme de gradient stochastique et la méthode de rétropropagation du gradient. Le choix des paramètres liés à la complexité du réseau se fait en évaluant la fonction de perte sur l'ensemble test.
+* Les réseaux de neurones peuvent être ajustés par un algorithme de gradient stochastique et la méthode de rétropropagation du gradient. Le choix des paramètres liés à la complexité du réseau se fait en évaluant la fonction de perte sur l'ensemble test. La fonction de perte logarithmique (log loss) est la plus souvent utilisée et correspond à l'entropie croisée entre le prédicteur optimal et le modèle de prédiction choisi.  
 
 
 

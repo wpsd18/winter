@@ -144,7 +144,7 @@ $$
  q({\bf x}, \theta) = {\rm sigmoid}( {\bf W_0^T}  \, {\rm sigmoid}( {\bf W_1^T} {\bf x}  - {\bf b_1} )  - {\bf b_0}) \, .
 $$
  
-Les matrices ${\bf W_0^T}$ et ${\bf W_1^T}$ sont de dimensions respectives $D \times H$ et $H \times 1$, où $H$ est le nombre de neurones de la couche cachée. Les vecteurs ${\bf b_0}$ et ${\bf b_1}$ sont de dimensions respectives $H$ et $1$. La fonction _sigmoid_ est appliquée à chaque coordonnée des vecteurs.
+Les matrices ${\bf W_1^T}$ et ${\bf W_0^T}$ sont de dimensions respectives $D \times H$ et $H \times 1$, où $H$ est le nombre de neurones de la couche cachée. Les vecteurs ${\bf b_0}$ et ${\bf b_1}$ sont de dimensions respectives $H$ et $1$. La fonction _sigmoid_ est appliquée à chaque coordonnée des vecteurs.
 
 Les coefficients des matrices ${\bf W}$ sont appelés les *poids* (weights) et les coefficients $b$ sont appelés les *seuils* (bias).    
 

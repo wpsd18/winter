@@ -1,22 +1,172 @@
-# Applications de l'apprentissage supervisé
+# Applications de l'apprentissage
 
-Ce cours ne sera pas au programme. À compléter.
+De nombreuses applications de l'apprentissage ont été vues lors des TPs : images, textes, données médicales, etc. Les applications forment le coeur de l'intelligence artificielle et chaque application demande une expertise particulière, à la fois pour représenter et préparer les données, construire les modèles et interpréter les résultats. Les phases de pré-traitement sont souvent les plus importantes dans le temps consacré à une application. Il faut en être conscient, car ces phases étaient pré-digérées dans les TPs.     
 
-## Autres méthodes
-
-### svm
-
-### random forest
-
-### boosting
-
-## Méthodes non-supervisées
-
-### clustering 
-
-### PCA
-
-### factorisation matricielle
+Cette section contient un essai philosophique sans prétention, concernant l'avènement des principes de l'intelligence artificielle neuronale. Certains de ces principes ont été discutés plus sérieusement dans le cours précédent.
 
 
-### challenges en cours 
+**Discours sur les mondes des machines**
+
+*Petite pièce de théâtre à propos du neuro-centrisme. Tous les personnages de cette pièce, dont certains noms ont été empruntés à l'histoire des écoles d'ingénieurs, sont fictifs. Toute ressemblance avec des événements réels ou vécus serait fortuite. Que les grands maîtres me pardonnent, c'est de la pédagogie moderne.*
+
+
+La scène se déroule en 1810 à l’Ensimagnus, une école d’ingénieur créée par l’empereur pour développer le génie militaire de la grande armée et garantir les intérêts privés de la bourgeoisie au pouvoir après la révolution française. De prestigieux professeurs, Messieurs Cauchy, Laplace et Zeus (un peu moins prestigieux que les deux premiers), sont respectivement chargés des chaires de génie des machines, de génie prédictif et des travaux pratiques, disciplines très importantes pour l’espionnage des ennemis. L’élève Francesco Logino (f) est convoqué au rattrapage car il a échoué à l’examen de travaux pratiques de machine universelle. 
+
+**Dans le bureau de Monsieur Cauchy (C)**
+
+f : Bonjour Monsieur 
+
+C : Monsieur le Baron
+
+f : Pardon Monsieur le Baron. Que puis-je faire pour rattraper ma note en génie des machines. C’est très ennuyeux, j’étais malade, je devais m’occuper de ma petite sœur en Italie, et travailler pour rembourser ma dette aux paris hippiques.  Je ferai n’importe quoi pour passer. J’adore les mathématiques depuis que je suis tout petit. Je suis très motivé par la filière « mathématiques, dessins et machines de guerre » de l’école. 
+
+C : Hum, je vois. Vous allez me construire une machine universelle. Pour tout x dans un intervalle I donné, la machine devra calculer de manière optimale la probabilité conditionnelle pour que x soit tiré par l’ennemi. C’est très utile comme boîte noire.  
+
+f : Je dois construire une boîte noire ? Je me permets de vous dire que je n’ai pas échoué à l’épreuve de « design des cercueils pour les campagnes militaires extérieures ». 
+ 
+C : C’est dingue ce que vous êtes stupide. La boîte vous risquez de la voir arriver bientôt. 
+
+f : De combien de temps disposerai-je ? Cela me paraît difficile à réaliser. 
+
+C : Vous avez une heure. La boîte est à déposer dans le site de dépôt de boîte. Les commentaires devront être écrits en caractères calligraphiés et en latin moderne. J’accorde une grande importance aux commentaires. 
+
+f : Puis-je demander de l’aide ? 
+
+C : Logino, vous êtes énervant. Bien entendu, vous êtes autorisés à consulter les ressources de votre choix. Evitez les ouvrages chinois et américains, ils ont cent ans de retard. Allez plutôt voir M. Laplace, le responsable de l’UE de génie prédictif. Et maintenant, laissez-moi, je dois interroger un certain Monsieur Galois. 
+
+
+**Dans le bureau de Monsieur Laplace (L)**
+
+f : Bonjour Monsieur 
+
+L : Monsieur le Marquis
+
+f : Pardon, Monsieur le Marquis.
+
+L : Je plaisantais. D’habitude, on me dit « tu » et on m’appelle par mon prénom, Pierre-Simon. On fait tous comme ça au LGP. C’est chill. 
+
+f : Le LGP ?
+
+L : Le laboratoire de génie prédictif, classé triple A par l'agence d'évaluation de l'excellence du plan de sauvetage de l'empire. Que veux-tu ?
+
+f : J’ai échoué à l’examen de travaux pratiques de  génie des machines. Monsieur le Baron Cauchy, m’a demandé une boîte noire. Pour toute valeur x dans un intervalle I donné, la machine devra calculer de manière optimale la probabilité conditionnelle pour que x soit tiré par l’ennemi. Je ne sais pas comment démarrer. 
+
+C : Ah ce Caucau, toujours le même exo. 
+
+f : Je vous demande pardon ?
+
+L : Non rien, discours intérieur. M. Cauchy a de la suite dans les idées. Joke.
+
+f : Ah 
+
+L : Je te conseille de lire mon *Essai philosophique sur les probabilités*. Tu pourrais y trouver ma formule préférée. Je l’ai appelée *Formule de Bayes*. Certes, Bayes est très anglais et très peu mathématicien, mais je n’aime pas cette guerre permanente que nous menons avec l’Angleterre. Tant de morts pour nommer des gares ou des squares, c’est affreux et ridicule. Peace and love, vive ze perfide Albion, vive ze formule of Bayes.
+
+f : J’ai lu votre essai, mais je n’ai rien compris. Il y a beaucoup de texte quand même. 
+
+L : Hum, oui. 
+
+f : Pouvez vous m’expliquer. Je n’ai qu’une petite heure.
+
+L :  On pose y = 1, si x est tiré par l’ennemi, 0 sinon. Selon ma théorie philosophique, les x sont répartis selon la loi de probabilité p1(x) = exp(-h1(x)) chez les ennemis et les x sont répartis selon la loi p0(x) = exp(-h0(x)) chez les amis. 
+
+f : Ah d’accord, c’est quand même assez philosophique.  
+
+L : Bon, selon cette théorie, nous pouvons calculer la probabilité p(y = 1|x) comme étant égale à la fonction de x définie par sigmoid(h0(x) – h1(x) - b). Il suffit donc d'approcher la grandeur h0(x) – h1(x) – b puis de transformer cette dernière.
+
+f : Je ne suis pas bien avancé. Comme trouver une fonction dont je n’ai aucune idée ? Monsieur Cauchy m’a donné une liste (x_i) de 200 valeurs amies ou ennemies mais je n’ai aucune indication pour trouver ce que peut valoir la grandeur h0(x) – h1(x) – b pour tout x.
+
+L :  Je vois que vous n’avez pas assisté à mes cours d’amphi de génie prédictif. Je vous ai exposé la méthode d’ajustement des pertes de M. Legendre. Révisez donc la méthode des moindres pertes et allez voir mon collègue M. Weierstrass, qui occupe la chaire de génie des polynômes. C’est très utile les polynômes, vous comprendrez en deuxième année. 
+
+
+**Dans le bureau de Monsieur Weierstrass (W)**
+
+f : Bonjour Monsieur 
+
+W : Gut tag, che parle mal votre langue.  
+
+f : Pardon Gut tag, herr Weierstrass. J’ai échoué à l’examen de travaux pratiques de machine universelle. Monsieur le Baron Cauchy, m’a demandé de créer une machine pouvant calculer de manière optimale la probabilité conditionnelle pour x soit tiré par l’ennemi, pour toute valeur x dans un intervalle I donné. 
+W : ach zo.
+
+f : Pierre-Simon m’a dit que je pouvais m’adresser à vous.
+
+W : Qui ça ?
+
+f : Monsieur le Marquis de Laplace, le professeur de génie prédictif, m’a dit que vous pourriez m’aider. Etant donné que vous êtes un expert en polynômes, vous pourriez m’aider à trouver une fonction polynômiale suffisamment proche d’une fonction inconnue de la forme h0(x) – h1(x) – b.
+
+W : Est-ce que cette fonction est régulière, continue, dérivable, etc ?
+
+f : Je pense qu’on peut le supposer puisse qu’on ne sait rien d’elle. On sera honnête sur l’hypothèse faite dans le commentaire en latin. Enfin, cela m'arrangerait bien de supposer ce qui vous convient le mieux.
+
+W : Sehr gut, dans ce cas, il y a mein gross theorem d’approximation. Vous n’avez qu’à supposer que la fonction inconnue h0(x) – h1(x) – b est ein gross polynôme. J’adore les polynômes. Pour cela, construire votre machine avec N fonctions de base. Les fonctions de base seront des monômes de la forme x^k.  
+
+f : Quand même, je me demande. Il faudrait plein de fonctions de base peut être ? Par exemple, sur I = (0,1), les monômes décrivent tous la même forme incurvée. 
+
+W : Mein theorem dit que ca marche en théorie, alors ca marche en pratique. Point barre. Kein discussion.
+
+f : Merci pour votre temps, M. Weierstrass. Je vais appeler ma fonction *un réseau de monômes* en votre honneur.
+ 
+
+**Dans le bureau de Monsieur Cauchy, à nouveau**
+
+f : Monsieur le Baron ?
+
+C : Hmm. Ce Galois m’a épuisé. Quelle théorie débile et compliquée. Aucune application concrête. Que voulez-vous ?
+
+f :  J’ai déposé ma boîte noire enluminée de calligraphies en latin comme vous me l’avez demandé.  Le résultat s’appelle un réseau de monômes. C’est une fonction de la forme q(x) = sigmoide(polynome(N, x)). Je ne sais pas trop comment choisir le degré du polynôme, mais je me suis dit que ça pouvait marcher.  Je l’ai calculée en utilisant la méthode des moindres pertes suggérée par M. Laplace. 
+
+C : D'accord Logino. Je corrigerai votre TP d'ici 2 mois.
+
+f : Pourriez vous me donner un avis maintenant s'il vous plait ? Je dois savoir pour ma chambre…
+
+C : C’est poussif, mais je pense valider votre UE avec la note minimale. Vous payez les frais d’inscription et de toutes façons, il y a des débouchés. On a besoin d’andouilles de votre genre dans le génie militaire pour la campagne de Russie.   
+
+
+**Dans le bureau de Monsieur Laplace pour le final**
+
+f : Monsieur de Laplace ? Heu, Pierre-Simon ? 
+
+l : Yes. Entre. Alors cette boîte noire ? On y voit plus clair ? Tu t’es fait mettre en boîte par le père Cauchy ?
+
+f : Je voulais vous remercier pour votre aide. Peu de professeurs nous sont utiles, c'est pas comme vous.
+
+L : Yep, i know.
+
+f : Ma boîte s’appelle un réseau de monômes. En input, elle prend un vecteur de taille N constitué de N features, x, x^2, …, x^N et elle ajoute un unit de bias. Puis, elle calcule une activation function en ajustant les coefficients aux features. Au final, elle retourne un predict selon la formule de M. Bayes, comme vous l’avez suggéré. 
+
+L : Hola, quel vocabulaire abscons ! Je préfère encore le latin. Yes, mon ami, je reste classique quand il s’agit d'exprimer la mathématique. 
+
+f : J’ajuste la fonction d’activation par la méthode des pertes minimales en l’adaptant un peu. J’ai trouvé plus sympa de maximiser le logarithme des probabilités des 200 observations fournies par M. Cauchy. Je ne sais pas trop comment choisir le degré N, mais je me suis dit que ça pouvait marcher. 
+
+L : Ah oui, c’est vrai que ça peut marcher. Je dirais même que c'est vraisemblable ! Tu verras ceci en cours de génie des principes et méthodes saturniennes déterministes. Je travaille à inventer une discipline pour analyser des données aléatoires. Je l’appelle ‘statistique’ pour qu’on ne soit pas trop tenté de choisir mon UE. Je vais y développer ta méthode. Pour le degré, pourquoi ne pas aussi choisir la valeur qui minimise la perte ?
+
+f : Dans le cours de M. Lagrange, il m’a été dit que je pourrais trouver un polynôme dont la perte sera nulle pour les données de M. Cauchy. La machine ne sera alors pas universelle, car trop spécialisée pour les données de M. Cauchy. 
+
+L : Agis donc avec parcimonie. Essaie d'abord de petites valeurs de N et évalue ta machine sur des données indépendantes de celles qui ont servies à la construire en isolant un sous ensemble de données pour la tester. 
+
+f : J’y avais pas pensé. 
+
+L : Ton réseau de monômes, là, je comprends que c’est M. Weierstrass qui l’a soufflé. Ce type est obsédé par les polynômes. As-tu discuté avec M. Fourier ou M. Hermite ? Pour le coup, tu reviendrais avec un réseau de cosinômes ou de je-ne-sais-quoi. Tu pourrais même lancer un concours de noms rigolos. 
+
+f : C’est peut-être encore mieux, en effet. 
+ 
+L : Ou pas. No free lunch.
+
+f : Mais s’il y a plein de bases de représentation des données possibles, laquelle choisir ?
+
+L : Une idée serait de ne pas utiliser une base préconçue. La base pourrait être inconnue, cachée, et tu pourrais utiliser le principe de moindres pertes ou le principe de maximum de log-probabilité pour construire à la fois la base de représentation et la fonction de prédiction. Evidemment, il faudrait calculer plus. Cela demanderait du temps et des moyens supplémentaires. 
+
+f : Je vais recruter un régiment pour que chaque soldat fasse les calculs sur un petit lot de données en parallèle des autres puis qu'ils se passent les résultats à la fin d'un cycle. Ils sont nombreux à ne plus vouloir aller en Russie ou ailleurs. 
+
+L : Et s'ils font des erreurs ? Certains ont subi des dommages au cerveau et ont perdu des neurones. 
+
+f : Heu, oui presque tous. Ben la machine sera plus robuste aux incertitudes sur la prédiction. Vous auriez un nom pour cette machine ?
+
+L : De la force et pas d'esprit, tu me plaîs fils. Ta machine, appelons là *zéro neurone*. Elle me paraît être d'une intelligence assez artificielle et elle n’a pas d’avenir. 
+
+
+
+
+
+
+
+

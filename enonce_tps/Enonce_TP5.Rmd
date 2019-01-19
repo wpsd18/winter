@@ -36,7 +36,7 @@ Les documents analysés sont des critiques de films écrites par des utilisateur
 
 La base de données comporte 50000 critiques de films. Chaque document est prétraité et représenté sous le format d'un _sac de mots_ ("bag of words") pour en faciliter l'analyse. Un sac de mots peut être vu comme une représentation des termes d'un document partir de leur fréquence d'occurrence.
  
-Dans cette séance de TP, nous téléchargerons un échantillon de la base de données et constituerons un sous-échantillon comportant 10000 documents annotés. Chaque document est associé à une évaluation traduisant une opinion positive (valeur 0) ou négative (valeur 1) des utilisateurs. 
+Dans cette séance de TP, nous téléchargerons un échantillon de la base de données et constituerons un sous-échantillon comportant 10000 documents annotés. Chaque document est associé à une évaluation traduisant une opinion positive (valeur 1) ou négative (valeur 0) des utilisateurs. 
 
 Le but de ce TP est de prédire le mieux possible l'opinion ou le _sentiment_ des utilisateurs à partir des fréquences d'occurrence de certains termes apparaissant dans les textes. Un échantillon de test comportant 5000 critiques indépendantes sera utilisé par l'enseignant pour évaluer la méthode sélectionnée dans le défi final.
 
@@ -67,17 +67,20 @@ L'article "the" se retrouve à la position 85976 dans l'index. L'index n'est don
 
 ```{r}
   o <- as.numeric(index) %>% order()
-  index[o[1:10]] %>% names()
+  index[o[1:20]] %>% names()
 ```
 
-Nous voyons qu'il s'agit d'articles, de prépositions ou de termes non-informatifs, comme par exemple, des éléments extraits des balises html (br). Il sera peut-être préférable de filtrer les termes les plus utilisés. L'entrée 49 correspondant au terme "good", nous nous arrêtons juste avant et nous filtrons les 48 premières entrées. 
+Nous voyons qu'il s'agit d'articles, de prépositions ou de termes non-informatifs, comme par exemple des éléments extraits des balises html (br). Il sera peut-être préférable de filtrer les termes les plus utilisés. L'entrée 49 correspondant au terme "good", nous nous arrêtons juste avant et nous omettons les 48 premières entrées. 
 
-Pour réduire le temps de calcul, nous conservons uniquement les 2000 termes les plus fréquents. Dans la suite, chaque document sera représenté par une suite de fréquences de termes représentés par les codes de l'index. Le jeu de données résultant de cette étape est nommé `ìmbd`.
+Pour réduire le temps de calcul, nous conservons uniquement les 2000 termes les plus fréquents. Dans la suite, chaque document sera représenté par une suite de fréquences de termes représentés par les codes de l'index. Le jeu de données résultant de cette étape est nommé `imbd`.
 
 ```{r}
-  imbd <- keras::dataset_imdb(path = "imdb.npz", 
-                              num_words = 2048, 
-                              skip_top = 48)
+  imbd <-  keras::dataset_imdb(path = "imdb.npz",
+                              num_words = 2048,
+                              skip_top = 49,
+                              oov_char = -2,
+                              start_char = -1,
+                              index_from = 0)
 ```
 
 Les données enregistrées dans l'objet `imbd` se présentent sous la forme de listes de documents (train et test). On utilisera les "double-crochets" ou le symbole dollar pour accéder aux attributs de ces listes.
@@ -87,26 +90,27 @@ Les données enregistrées dans l'objet `imbd` se présentent sous la forme de l
 ```
 
 
-Par exemple le document numéro 13 dans l'ensemble d'apprentissage est lu de la manière suivante. 
+Par exemple le document numéro 12 dans l'ensemble d'apprentissage est lu de la manière suivante. 
 
 ```{r}
-  document13 <- imbd$train$x[[13]]
-  document13
+  document12 <- imbd$train$x[[12]]
+  document12
 ```
 
-Nous voyons que le terme d'indice 2 est très fréquent. Après filtrage, il correspond en fait à la chaîne de caractères **UNK** signifiant unknown. Cette chaîne apparait car nous nous sommes restreint à un dictionnaire de 2000 mots. 
+Nous voyons que le terme d'indice -2 est très fréquent. Après filtrage, il correspond en fait à la chaîne de caractères **UNK** signifiant unknown. Cette chaîne apparait car nous nous sommes restreint à un dictionnaire de 2000 mots. 
 
-Les fréquences des termes apparaissant dans le document 13 peuvent être données par la fonction `table()`. Cette fonction utilise l'ordre alphabétique pour représenter les comptages de chaque terme.  
+Les fréquences des termes apparaissant dans le document 12 peuvent être données par la fonction `table()`. Cette fonction utilise l'ordre alphabétique pour représenter les comptages de chaque terme.  
 
 ```{r}
-  table( sapply(document13[document13 > 3] - 3, FUN = function(x) names(index[index == x]) ))
+  #table( sapply(document13[document13 > 3] - 3, FUN = function(x) names(index[index == x]) ))
+  table( sapply(document12[document12 > 0], FUN = function(x) names(index[index == x])) )
 ```
 
-Le document 13 contient les termes "liked", "love",  mais aussi "annoying" et "scary". Il est associé à une opinion négative (valeur 0). Cela se vérifie en affichant la variable $y$.
+Le document 12 contient les termes "bad", "low", "stupid", "laughable",   mais aussi "well" et "comedy". Il est en fait associé à une opinion négative (valeur 0). Cela se vérifie en affichant la variable $y$.
 
  
 ```{r}
-  imbd$train$y[13]
+  imbd$train$y[12]
 ```
 
 Pour la suite, c'est à vous de jouer. Pour ne pas entrer dans les subtilités du traitement du langage et de du pre-processing avec keras, nous nous appuierons sur un codage simplifié des textes basé sur les fréquences des mots de l'index. 
@@ -172,43 +176,44 @@ x_imbd <- NULL
 
 * Que contient l'objet `x_imbd` ?
 
-* Pour représenter les classes 0 et 1 en format matriciel, on peut utiliser la fonction `to_categoretical()` de `keras`. C'est plus simple.
+* Extraire les opinions correspondant aux données textuelles contenues dans `x_imbd` de la manière suivante.
 
 ```{r}
-  y_imbd <- to_categorical(imbd$train$y[1:5000], 2)
-  y_imbd <- rbind(y_imbd, to_categorical(imbd$test$y[1:5000], 2))
+  y_imbd <- imbd$train$y[1:5000]
+  y_imbd <- c(y_imbd, imbd$test$y[1:5000])
 ```
 
-Et voilà. On est en pleine forme et on dispose d'une base d'apprentissage comportant les fréquences d'apparition des mots de l'index pour 10000 documents (`x_train`) et les opinions des utilisateurs `y_train`. Le TP peut vraiment commencer.
+Et voilà. On est en pleine forme et on dispose d'une base d'apprentissage comportant les fréquences d'apparition des mots de l'index pour 10000 documents (`x_imbd`) et les opinions des utilisateurs `y_imbd`. Le TP peut vraiment commencer.
 
 
 #### Etude d'association
 
 Le but d'une étude d'association est d'identifier les termes les plus associés aux opinions positives ou négatives des utilisateurs. Pour cela, nous evaluons la correlation au carré entre l'occurrence de chaque terme et l'opinion de l'utilisateur (présence d'un 1). Il se peut que certaines valeurs de corrélation ne soient pas calculables à cause d'un écart-type nul. Cela arrive pour la 2000e valeur. Nous l'écarterons donc (il en restera 1999). 
 
-* Calculer le coefficient de corrélation au carré entre les fréquences d'apparition des termes de l'index et opinion des utilsateurs (1999 valeurs).
+* Calculer le coefficient de corrélation au carré entre les fréquences d'apparition des termes de l'index et opinion des utilisateurs (1999 valeurs).
 
 ```{r}
   # comment
   x <- x_imbd[,-2000]
   
   # comment
-  y <- y_imbd[,1]
+  y <- y_imbd
   
   # comment
-  r2 <- trouve_moi^2
+  r <- trouve_moi
+  r2 <- r^2
 ```
 
 
-* Montrer les termes dont la valeur d'association $r^2$ est supérieure à trois pourcent (0.03), puis supérieure à 0.02, et à 0.005. _Note_ : Il faut effectuer un décalage de 45 indices dans l'index pour trouver le codage correct (car il y a 4 termes spéciaux).
+* Montrer les termes dont la valeur d'association $r^2$ est supérieure à 0.03 (trois pour cent), puis supérieure à 0.02, et à 0.005. _Note_ : Il faut effectuer un décalage de 48 indices dans l'index pour trouver le codage correct.
 
 
 ```{r}
   # quelque chose à changer
-  index[o[ which(r2 > 0.02) + 45]] %>% names()
+  index[o[ which(r2 > 0.02) + 48]] %>% names()
 ```
 
-* Dans quelles proportions les termes de valeur d'association $r^2$ supérieure à 0.02 apparaissent-ils dans les documents ? Représenter graphiquement ces proportions  à l'aide d'un diagramme en barre. 
+* Dans quelles proportions les termes de valeur d'association $r^2$ supérieure à 0.02 apparaissent-ils dans les documents ? Représenter graphiquement ces proportions à l'aide d'un diagramme en barre. 
 
 
 ```{r}
@@ -216,7 +221,7 @@ Le but d'une étude d'association est d'identifier les termes les plus associés
   freq <- x[, conditio_logicae ] %>% apply(2, mean) 
 
 # mots dans l'index et barplot
-  names(freq) <-  index[o[which(r2 > 0.02) + 45]] %>% names() 
+  names(freq) <-  index[o[which(r2 > 0.02) + 48]] %>% names() 
   barplot(sort(freq, decreasing = TRUE), col = "lightblue", las = 2)
 ```
 
@@ -238,12 +243,17 @@ Le but d'une étude d'association est d'identifier les termes les plus associés
 ```
 
 
-* *Question subsidiaire*.  Dans quelles proportions les termes de valeur d'association $r = cor(x,y)$ supérieure à 0.1 (resp. inférieure à $-0.1$) apparaissent-ils dans les documents **à connotation positive** (resp. **négative**) ? Représenter graphiquement ces proportions  à l'aide d'un diagramme en barre.
+* Dans quelles proportions les termes de valeur d'association $r = cor(x,y)$ supérieure à 0.1 (resp. inférieure à $-0.1$) apparaissent-ils dans les documents **à connotation positive** (resp. **négative**) ? Représenter graphiquement ces proportions  à l'aide d'un diagramme en barre.
+
+
+```{r}
+ r_plutot_que_r2
+```
 
 #### Modèles d'apprentissage 
 
 
-* \`A l'aide des outils vus dans les séances précédentes, tels que _keras_, (_lda_, _nnet_, ou d'autres bibliothèques de programmes que vous pourriez trouver dans R), ajuster des modèles d'apprentissage aux données contenues dans le TP : "x_imbd" et "y_imbd".
+* \`A l'aide des outils vus dans les séances précédentes, tels que _keras_, (_lda_, _nnet_, ou d'autres bibliothèques de programmes que vous pourriez trouver dans R), ajuster des modèles d'apprentissage aux données contenues dans le TP : **"x_imbd" et "y_imbd"**.
 
 * Dans un tableau, décrire les performances de 6 méthodes choisies pour des échantillons d'apprentissage et de test que vous aurez créés vous-mêmes **à partir de "x_imbd" et "y_imbd"**. Les performances seront mesurées par les erreurs de classification et d'entropie (log loss).
 
@@ -280,7 +290,7 @@ prediction_finale <- function(x_ultime,
   #if keras
     require(keras) 
 
-    load_model_hdf5(filepath = file_path)
+    model <- load_model_hdf5(filepath = file_path)
     model %>% evaluate(x_ultime, y_ultime)
 }
 ```
@@ -315,6 +325,6 @@ prediction_finale <- function(x_ultime,
     proba <- mod_nnet %>% predict(x_ultime)
     acc <- mean(y_ultime[,1] == (proba < 0.5))
     #logloss <- completer
-    return(list(acc = acc,log.loss = logloss))
+    return(list(acc = acc, log.loss = logloss))
 }
 ```

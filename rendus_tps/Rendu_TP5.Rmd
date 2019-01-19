@@ -82,7 +82,7 @@ prediction_finale <- function(x_ultime,
   #if keras
     require(keras) 
 
-    load_model_hdf5(filepath = file_path)
+    model <- load_model_hdf5(filepath = file_path)
     model %>% evaluate(x_ultime, y_ultime)
 }
 ```

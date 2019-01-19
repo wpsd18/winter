@@ -6,6 +6,8 @@
 
 - Friedman, J., Hastie, T., R Tibshirani, R. (2001). [The Elements of Statistical Learning: Data Mining, Inference, and Prediction](https://web.stanford.edu/~hastie/Papers/ESLII.pdf), Springer series in statistics, Springer, New-York, USA. 
 
+- Goodfellow, I., Bengio, Y., Courville, A. (2016). [Deep learning](http://www.deeplearningbook.org), MIT Press, Cambridge, USA.
+
 - Goulet, V. (2016). [Introduction à la
 Programmation en R, Cinquième édition](https://cran.r-project.org/doc/contrib/Goulet_introduction_programmation_R.pdf) . Ecole d'actuariat, Université Laval, Québec, Canada.
 
