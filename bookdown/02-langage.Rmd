@@ -26,7 +26,7 @@ Les manuels de R sont plus austères mais on peut les trouver utiles.
 
 Le langage R est un langage de programmation interprété. Il repose sur l'exécution dynamique du programme par un autre programme (l'interprète écrit en C). À l'origine, R a été développé pour des applications en statistique. Bien qu'il dépasse largement ce cadre, il reste particulièrement intéressant pour la science des données. 
 
-Le langage s'appuie sur la notion de **vecteur**, simplifiant le recours aux structures itératives (boucles for, while, etc.). Il n'y a pas de typage ou de déclaration obligatoire des variables. Le langage permet d'écrire des programmes courts, comportant quelques lignes de code seulement et le temps de développement est réduit.
+Le langage s'appuie sur la notion de **vecteur**, simplifiant le recours aux structures itératives (boucle for, while, etc.). Il n'y a pas de typage ou de déclaration obligatoire des variables. Le langage permet d'écrire des programmes courts, comportant quelques lignes de code seulement et le temps de développement est réduit.
 
 ### Utilisation de R
 
